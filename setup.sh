@@ -18,7 +18,7 @@ function setup_submodules
     for module in libft
     do
         git submodule init ${module}
-        git submodule update --remote ${module}
+        git submodule update --remote ${module} || git submodule update ${module}
     done
 }
 
