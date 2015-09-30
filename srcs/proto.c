@@ -91,7 +91,6 @@ char		**ft_strsplit(char const *s, char c)
     return (split);
 }
 
-
 int ft_strlen(char *str)
 {
     int i;
@@ -136,9 +135,8 @@ char *char_remove(char *str, char c)
                 new_str[i] = str[i];
             i++;
         }
-	free(str);
-	str= NULL;
     }
+
     return (new_str);
 }
 
@@ -152,6 +150,18 @@ int tab_len(char **tab)
         i++;
     }
     return (i);
+}
+
+void tab_free(char **tab)
+{
+   int i;
+
+   i = 0;
+   while (tab[i])
+   {
+	free(tab[i]);
+	i++;
+   }
 }
 
 char **build_opt(char **str)
@@ -170,34 +180,65 @@ char **build_opt(char **str)
     return (opt);
 }
 
+void str_clear(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+	str[i] = '\0';
+    }
+}
+
+void buf_init(char *buf, int len)
+{
+    int i;
+
+    i = 0;
+    while (i < len)
+    {
+	buf[i] = '\0';
+	i++;
+    }
+}
+
 int read_from_stdin(void)
 {
     int ret;
     int ex = -2;
-    char *buf;
+    char buf[4096];
     char *parsed;
     char **splited;
     char **opt;
 
     ret = 0;
     parsed = NULL;
-    buf = NULL;
-    write(1, "$ ", 2);
-    while ( ((buf = (char *)malloc(sizeof(char)* 4096))) && (ret = read(0, buf, 4096) > 0))
+    write(1, "> ", 2);
+    buf_init(buf, 4096);
+    while ((ret = read(0, buf, 4096) > 0))
     {
-        parsed = char_remove(buf, '\n');
-        free(buf);
-	buf = NULL;
-        splited = ft_strsplit(parsed, ' ');
-        opt = build_opt(splited);
-        ex = pass_str_to_exec(splited, opt);
-	if (ex == 0) 
-	    write(1, "$ ", 3);
+	if (buf[0] == '\n' && buf[1] == '\0')
+		write(1, "> ", 2);
 	else
-            return (1);
+	{	
+            parsed = char_remove(buf, '\n');
+	        str_clear(buf);
+            splited = ft_strsplit(parsed, ' ');
+            opt = build_opt(splited);
+            ex = pass_str_to_exec(splited, opt);
+            if (ex == 0) 
+		write(1, "> ", 2);
+	    else
+	    {
+		free(parsed);
+		tab_free(splited);
+		tab_free(opt);
+		return (1);
+	    }
+	}
     }
     return (-1);
-
 }
 
 int pass_str_to_exec(const char **str, char **opt)
@@ -211,7 +252,9 @@ int pass_str_to_exec(const char **str, char **opt)
     if (pid == 0)
     {
         if (opt[0] == NULL)
+	{
             execve(str[0], &str[0], NULL);
+	}
 	else
             execve(str[0], &opt[0], NULL);
 	return (1);
@@ -231,11 +274,6 @@ int pass_str_to_exec(const char **str, char **opt)
 
 int main(void)
 {
-
-
    read_from_stdin();
-
-
-
-
-    return (1);}
+    return (1);
+}
