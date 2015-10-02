@@ -5,104 +5,165 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-static int	ft_nb_string(char const *s, char sep, int len)
+int	ft_strlen(char *s)
 {
-    int		i;
-    int		nb_sep;
+	int i;
 
-    i = 0;
-    nb_sep = 0;
-    while (i < len)
-    {
-        if ((s[i] == sep) && (i != 0))
-        {
-            if (s[i - 1] != sep)
-                nb_sep++;
-        }
-        i++;
-    }
-    if (i != 0)
-        nb_sep++;
-    return (nb_sep);
+	i = 0;
+	while (*s)
+	{
+		i++;
+		s++;
+	}
+	return (i);
 }
 
-static char *ft_strnew_n_to_i_alloc(char const *s, int n, int i)
+char *ft_remove_endline(char *str)
 {
-    char	*str;
-    int		k;
+	char *new_str;
+	int len;
+	int i;
 
-    str = (char *)malloc(sizeof(char) * (size_t)(i - n));
-    k = 0;
-    if (str)
-    {
-        while (n != i)
-        {
-            str[k] = s[n];
-            n++;
-            k++;
-        }
-        str[k] = '\0';
-    }
-    return (str);
+	new_str = NULL;
+	len = ft_strlen(str);
+	i = 0;
+	if (str[len -1] == '\n')
+	{
+		if ((new_str = (char *)malloc(sizeof(char) * len)))
+		{
+			while (i < len -1)
+			{
+				new_str[i] = str[i];
+				i++;
+			}
+			new_str[i] = '\0';
+		}
+		return (new_str);
+	}
+	else
+	{
+		return (str);
+	}
 }
 
-static void	ft_do_split(char const *s, char sep, int len, char **split)
+char *ft_remove_useless(char *str, char c)
 {
-    int		k;
-    int		n;
-    int		i;
+	char *new_str;
+	int len;
+	int s;
+	int e;
+	int i;
 
-    k = 0;
-    n = -1;
-    i = 0;
-    while (i < len)
-    {
-        if (s[i] != sep)
-        {
-            if (n == -1)
-                n = i;
-            if (i == len - 1)
-                split[k] = ft_strnew_n_to_i_alloc(s, n, i + 1);
-        }
-        else if ((i != 0) && (s[i - 1] != sep))
-        {
-            split[k] = ft_strnew_n_to_i_alloc(s, n, i);
-            k++;
-            n = -1;
-        }
-        i++;
-    }
+	new_str = NULL;
+	len = ft_strlen(str);
+	s = 0;
+	e = len;
+	i = 0;
+	while (str[s] == c)
+		s++;
+	if (s == len)
+		return (NULL);
+	while (str[e - 1] == c)
+		e--;
+	e = len - e;
+	len = len - (s + e);	
+	if ((new_str = (char *)malloc(sizeof(char) * (len + 1))))
+	{
+		while (i < len)
+		{
+			new_str[i] = str[i + s];
+			i++;
+		}
+		new_str[i] = '\0';
+	}
+	return (new_str);
 }
 
-char		**ft_strsplit(char const *s, char c)
+int	ft_count_string(char *str, char c)
 {
-    char	**split;
-    int		len;
-
-    len = ft_strlen(s);
-    while ((s[len - 1] == c) && (len >= 0))
-        len--;
-    split = (char **)malloc(sizeof(char *) *
-                            (size_t)ft_nb_string(s, c, len) + 1);
-    if (split == NULL)
-        return (NULL);
-    ft_do_split(s, c, len, split);
-    split[ft_nb_string(s, c, len)] = NULL;
-    return (split);
+	int i;
+	int n;
+	
+	i = 0;
+	n = 0;
+	while (str[i])
+	{
+		if (str[i] == c && str[i - 1] != c)
+			n++;
+		i++;
+	}
+	return (++n);
 }
 
-
-int ft_strlen(char *str)
+char *str_range_dup(char *str, int n)
 {
-    int i;
+	char *new_str;
+	int i;
 
-    i = 0;
-    while (*str)
-    {
-        str++;
-        i++;
-    }
-    return (i);
+	new_str = NULL;
+	i = 0;
+	if ((new_str = (char *)malloc(sizeof(char) * (n +1))))
+	{
+		while (i < n)
+		{
+			new_str[i] = str[i];
+			i++;			
+		}
+		new_str[i] = '\0';		
+	}
+	return (new_str);
+}
+
+char *move_into_substring(char *str, char c, int match)
+{	
+	if (match)
+	{
+		while (*str == c)
+			str++;
+	}
+	else
+	{
+		while (*str && *str != c)
+			str++;
+	}
+	return (str);
+}
+
+int get_next_sep(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
+
+char **ft_lz_strsplit(char *str, char c)
+{
+	char **split;
+	int nb_str;
+	int i;
+	int range;
+
+	split = NULL;
+	nb_str = ft_count_string(str, c);
+	i = 0;
+	range = 0;
+	if ((split = (char **)malloc(sizeof(char *) * (nb_str + 1))))
+	{	
+		while (i < nb_str)
+		{
+			if (i != 0)
+				str = move_into_substring(str, c, 1);
+			range = get_next_sep(str, c);
+			split[i] = str_range_dup(str, range);
+			str = move_into_substring(str, c, 0);
+			i++;
+		}
+		split[nb_str] = NULL;
+	}
+	return (split);	
 }
 
 int ft_strlen_without(char *str, char c)
@@ -136,84 +197,114 @@ char *char_remove(char *str, char c)
                 new_str[i] = str[i];
             i++;
         }
-	free(str);
-	str= NULL;
     }
+
     return (new_str);
 }
 
 int tab_len(char **tab)
 {
+	int i;
+
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			i++;
+		}
+	}
+	return (i);
+}
+
+void tab_free(char **tab)
+{
+   int i;
+
+   i = 0;
+   while (tab[i])
+   {
+	free(tab[i]);
+	i++;
+   }
+}
+
+void str_clear(char *str)
+{
     int i;
 
     i = 0;
-    while (tab[i])
-    {
-        i++;
-    }
-    return (i);
-}
-
-char **build_opt(char **str)
-{
-    char **opt;
-    int i;
-
-    i = 1;
-    opt = (char **)malloc(sizeof(char *) * tab_len(str));
     while (str[i])
     {
-        opt[i] = str[i];
-        i++;
+	str[i] = '\0';
+	i++;
     }
-    opt[i] = NULL;
-    return (opt);
+}
+
+void buf_init(char *buf, int len)
+{
+    int i;
+
+    i = 0;
+    while (i < len)
+    {
+	buf[i] = '\0';
+	i++;
+    }
 }
 
 int read_from_stdin(void)
 {
     int ret;
     int ex = -2;
-    char *buf;
+    char buf[4096];
     char *parsed;
     char **splited;
-    char **opt;
 
     ret = 0;
     parsed = NULL;
-    buf = NULL;
-    write(1, "$ ", 2);
-    while ( ((buf = (char *)malloc(sizeof(char)* 4096))) && (ret = read(0, buf, 4096) > 0))
+    write(1, "> ", 2);
+    buf_init(buf, 4096);
+    while ((ret = read(0, buf, 4096) > 0))
     {
-        parsed = char_remove(buf, '\n');
-        free(buf);
-	buf = NULL;
-        splited = ft_strsplit(parsed, ' ');
-        opt = build_opt(splited);
-        ex = pass_str_to_exec(splited, opt);
-	if (ex == 0) 
-	    write(1, "$ ", 3);
+	if (buf[0] == '\n' && buf[1] == '\0')
+		write(1, "> ", 2);
 	else
-            return (1);
+	{	
+            parsed = ft_remove_endline(buf);
+	        str_clear(buf);
+		parsed = ft_remove_useless(parsed, ' '); 
+		splited = NULL;
+            splited = ft_lz_strsplit(parsed, ' ');
+		free(parsed);
+		parsed = NULL;
+            ex = pass_str_to_exec(splited);
+            if (ex == 0) 
+		write(1, "> ", 2);
+	    else
+	    {
+		tab_free(splited);
+		return (1);
+	    }
+	}
     }
     return (-1);
-
 }
 
-int pass_str_to_exec(const char **str, char **opt)
+int pass_str_to_exec(const char **str)
 {
     int pid;
     int status;
+	char ***ptr;
 
     status = 0;
     pid = -1;
     pid = fork();
+	ptr = NULL;
     if (pid == 0)
     {
-        if (opt[0] == NULL)
-            execve(str[0], &str[0], NULL);
-	else
-            execve(str[0], &opt[0], NULL);
+	ptr = &str[0];
+        execve(str[0], ptr, NULL);
 	return (1);
     }
     else if (pid > 0)
@@ -227,15 +318,8 @@ int pass_str_to_exec(const char **str, char **opt)
     return (-1);
 }
 
-
-
 int main(void)
 {
-
-
    read_from_stdin();
-
-
-
-
-    return (1);}
+    return (1);
+}
