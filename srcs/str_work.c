@@ -63,7 +63,7 @@ char *ft_remove_useless(char *str, char c)
 		e--;
 	e = len - e;
 	len = len - (s + e);	
-	if ((new_str = (char *)malloc(sizeof(char) * len + 1)))
+	if ((new_str = (char *)malloc(sizeof(char) * (len + 1))))
 	{
 		while (i < len)
 		{
@@ -98,7 +98,7 @@ char *str_range_dup(char *str, int n)
 
 	new_str = NULL;
 	i = 0;
-	if ((new_str = (char *)malloc(sizeof(char) * n +1)))
+	if ((new_str = (char *)malloc(sizeof(char) * (n +1))))
 	{
 		while (i < n)
 		{
@@ -204,6 +204,7 @@ int main(void)
 	printf("\ntrim3:[%s]:[%s]\n", trim3, str);
 	free(str);
 
+	/*
 	printf("\nsplit1 nb[%i]:[%s]\n", ft_count_string(split1, ' '), split1);
 	for (int i=0; i < ft_count_string(split1, ' '); i++)
 		puts(ft_lz_strsplit(split1, ' ')[i]);
@@ -215,7 +216,7 @@ int main(void)
 	printf("\nsplit3 nb[%i]:[%s]\n", ft_count_string(split3, ' '), split3);
 	for (int i=0; i < ft_count_string(split3, ' '); i++)
 		puts(ft_lz_strsplit(split3, ' ')[i]);
-
+	*/
 
 	return (0);
 }
