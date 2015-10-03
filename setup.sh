@@ -24,6 +24,7 @@ function setup_submodules
 
 function main
 {
+    uname -a
     # Requirements
     go_to_dirname
     path=$(pwd)
