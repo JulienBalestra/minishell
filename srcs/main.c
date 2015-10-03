@@ -12,37 +12,44 @@
 int read_from_stdin(void)
 {
     int ret;
-    int ex = -2;
-    char buf[4096];
-    char *parsed;
+    int fork_ret;
+    char buf[BUFF_SIZE];
+    char *no_end;
+    char *no_spaces;
     char **splited;
 
     ret = 0;
-    parsed = NULL;
+    fork_ret = -2;
+    no_end = NULL;
+    no_spaces = NULL;
+    splited = NULL;
+
     write(1, "> ", 2);
-    buf_init(buf, 4096);
-    while ((ret = read(0, buf, 4096) > 0))
+    buf_init(buf, BUFF_SIZE);
+    while ((ret = read(0, buf, BUFF_SIZE) > 0))
     {
-	if (buf[0] == '\n' && buf[1] == '\0')
-		write(1, "> ", 2);
-	else
-	{	
-            parsed = ft_remove_endline(buf);
-	        str_clear(buf);
-		parsed = ft_remove_useless(parsed, ' '); 
-		splited = NULL;
-            splited = ft_lz_strsplit(parsed, ' ');
-		free(parsed);
-		parsed = NULL;
-            ex = pass_str_to_exec((const char **) splited);
-            if (ex == 0) 
-		write(1, "> ", 2);
-	    else
-	    {
-		tab_free(splited);
-		return (1);
-	    }
-	}
+        if (is_eof(buf))
+            return (0);
+        else if (is_only_endline(buf) || is_only_spaces(buf))
+            ;
+        else
+        {
+            no_end = ft_remove_endline(buf);
+            no_spaces = ft_remove_useless(no_end, ' ');
+            free(no_end);
+            no_end = NULL;
+            splited = ft_lz_strsplit(no_spaces, ' ');
+            free(no_spaces);
+            no_spaces = NULL;
+            fork_ret = pass_str_to_exec((const char **) splited);
+            tab_free(splited);
+            if (fork_ret != 0)
+            {
+                return (1);
+            }
+        }
+        str_clear(buf);
+        write(1, "> ", 2);
     }
     return (-1);
 }
@@ -51,22 +58,22 @@ int pass_str_to_exec(const char **str)
 {
     int pid;
     int status;
-	char **ptr;
+    char **ptr;
 
     status = 0;
     pid = -1;
     pid = fork();
-	ptr = NULL;
+    ptr = NULL;
     if (pid == 0)
     {
-	ptr = (char **) str;
+        ptr = (char **) str;
         execve(str[0], ptr, NULL);
-	return (1);
+        return (1);
     }
     else if (pid > 0)
     {
         waitpid(-1, &status, 0);
-	return (0);
+        return (0);
     }
     else
         write(2, "error", 5);
@@ -76,6 +83,6 @@ int pass_str_to_exec(const char **str)
 
 int main(void)
 {
-   read_from_stdin();
+    read_from_stdin();
     return (1);
 }
