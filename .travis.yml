@@ -5,3 +5,4 @@ language: c
 
 script:
   - ./setup.sh
+  - ./run_test.sh
