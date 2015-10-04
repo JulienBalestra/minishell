@@ -36,20 +36,16 @@ int read_from_stdin(void)
         {
             no_end = ft_remove_endline(buf);
             no_spaces = ft_remove_useless(no_end, ' ');
-            free(no_end);
-            no_end = NULL;
+            ft_strdel(&no_end);
             splited = ft_lz_strsplit(no_spaces, ' ');
-            free(no_spaces);
-            no_spaces = NULL;
+            ft_strdel(&no_spaces);
             fork_ret = pass_str_to_exec((const char **) splited);
             tab_free(splited);
             if (fork_ret != 0)
-            {
                 return (1);
-            }
         }
-        str_clear(buf);
         write(1, "> ", 2);
+        str_clear(buf);
     }
     return (-1);
 }
