@@ -14,6 +14,8 @@ int is_only_endline(char *buf);
 int is_only_spaces(char *buf);
 int is_eof(char *buf);
 
+char **environ(void);
+
 //main
 int pass_str_to_exec(const char **str);
 
