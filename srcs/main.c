@@ -47,7 +47,7 @@ int read_from_stdin(void)
         write(1, "> ", 2);
         str_clear(buf);
     }
-    return (-1);
+    return (1);
 }
 
 int pass_str_to_exec(const char **str)
@@ -58,8 +58,8 @@ int pass_str_to_exec(const char **str)
 
     status = 0;
     pid = -1;
-    pid = fork();
     ptr = NULL;
+    pid = fork();
     if (pid == 0)
     {
         ptr = (char **) str;
@@ -79,6 +79,9 @@ int pass_str_to_exec(const char **str)
 
 int main(void)
 {
-    read_from_stdin();
-    return (1);
+    int ret;
+
+    ret = 2;
+    ret = read_from_stdin();
+    return (ret);
 }
