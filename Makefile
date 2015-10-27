@@ -18,7 +18,7 @@ SRC_DIR = srcs/
 OBJ_DIR = .objects/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 TARGET = $(NAME).a
-BIN = ft_minishell1
+BIN = ft_minishell
 ENV = $(shell uname -s)
 
 
@@ -31,7 +31,8 @@ CL_WHITE = \033[0m
 SRC =               \
 input_format.c  \
 misc_array.c    \
-misc_string.c
+misc_string.c	\
+misc_prompt.c
 
 
 MAIN = srcs/main.c

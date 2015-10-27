@@ -23,8 +23,7 @@ int read_from_stdin(void)
     no_end = NULL;
     no_spaces = NULL;
     splited = NULL;
-
-    write(1, "> ", 2);
+    display_prompt();
     buf_init(buf, BUFF_SIZE);
     while ((ret = read(0, buf, BUFF_SIZE) > 0))
     {
@@ -44,7 +43,7 @@ int read_from_stdin(void)
             if (fork_ret != 0)
                 return (1);
         }
-        write(1, "> ", 2);
+        display_prompt();
         str_clear(buf);
     }
     return (1);
