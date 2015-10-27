@@ -39,63 +39,63 @@ class TestMinishell(unittest.TestCase):
 
     def test_00_full_bin_ls(self):
         command = ["/bin/ls"]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_01_full_bin_ls_opt(self):
         command = ["/bin/ls", "-l"]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_02_full_bin_ls_opt(self):
         command = ["/bin/ls", "-l", "-a"]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_03_full_bin_ls_opt(self):
         command = ["/bin/ls", "-l", "-a", "-rt"]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_04_empty(self):
         command = [""]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_05_empty(self):
         command = [" "]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_06_empty(self):
         command = [" ", "  "]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_07_with_empty_bin_ls(self):
         command = [" ", "/bin/ls"]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_08_with_empty_bin_ls(self):
         command = ["   ", "/bin/ls", "    "]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
     def test_09_with_empty_bin_ls(self):
         command = ["   ", "/bin/ls", "-l", "    "]
-        real_stdout = self.execute_real_shell(command)[0]
-        my_stdout = self.execute_my_shell(command)[0]
-        self.assertEqual(real_stdout, my_stdout)
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
 
 
 if __name__ == "__main__":
