@@ -12,12 +12,14 @@ class TestMinishell(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         os.chdir(cls.testing_dir)
+        # check if the project is well compiled
+        assert os.path.isfile(cls.minishell) is True
 
     def execute_my_shell(self, command):
         cmd_list = ["/bin/echo"] + command
         p_command = subprocess.Popen(cmd_list,
                                      stdout=subprocess.PIPE)
-        p_minishell = subprocess.Popen([self.minishell],
+        p_minishell = subprocess.Popen([self.minishell],  # here my minishell
                                        stdin=p_command.stdout,
                                        stdout=subprocess.PIPE)
         p_command.stdout.close()
@@ -28,7 +30,7 @@ class TestMinishell(unittest.TestCase):
         cmd_list = ["/bin/echo"] + command
         p_command = subprocess.Popen(cmd_list,
                                      stdout=subprocess.PIPE)
-        p_real_shell = subprocess.Popen(["/bin/bash"],
+        p_real_shell = subprocess.Popen(["/bin/bash"],  # here the real shell
                                         stdin=p_command.stdout,
                                         stdout=subprocess.PIPE)
         p_command.stdout.close()
