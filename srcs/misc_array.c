@@ -20,11 +20,13 @@ void tab_free(char **tab)
     int i;
 
     i = 0;
-    while (tab[i])
+    if (tab)
     {
-        free(tab[i]);
-        i++;
+        while (tab[i]) {
+            free(tab[i]);
+            i++;
+        }
+        free(tab);
+        tab = NULL;
     }
-    free(tab);
-    tab = NULL;
 }
