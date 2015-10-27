@@ -33,7 +33,7 @@ function tear_down
 function run_tests
 {
     export LC_ALL=C
-    nosetests || python $(pwd)/tests/test_*.py
+    python $(pwd)/tests/test_*.py
     if [ $? -ne 0 ]
     then
         exit $?
