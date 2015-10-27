@@ -97,6 +97,30 @@ class TestMinishell(unittest.TestCase):
         my_std = self.execute_my_shell(command)
         self.assertEqual(real_std, my_std)
 
+    def test_10_bin_echo(self):
+        command = ["/bin/echo", "toto"]
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
+
+    def test_11_bin_echo(self):
+        command = ["/bin/echo", "toto", "tata"]
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
+
+    def test_12_bin_echo(self):
+        command = ["   ", "/bin/echo", "  toto  "]
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
+
+    def test_13_bin_echo(self):
+        command = ["/bin/echo"]
+        real_std = self.execute_real_shell(command)
+        my_std = self.execute_my_shell(command)
+        self.assertEqual(real_std, my_std)
+
 
 if __name__ == "__main__":
     unittest.main()
