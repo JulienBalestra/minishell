@@ -13,21 +13,88 @@ class TestMinishell(unittest.TestCase):
     def setUpClass(cls):
         os.chdir(cls.testing_dir)
 
-    def test_00_ls(self):
-        p1 = subprocess.Popen(["/bin/echo", "/bin/ls"],
-                              stdout=subprocess.PIPE
-                              )
+    def execute_my_shell(self, command):
+        cmd_list = ["/bin/echo"] + command
+        p_command = subprocess.Popen(cmd_list,
+                                     stdout=subprocess.PIPE)
+        p_minishell = subprocess.Popen([self.minishell],
+                                       stdin=p_command.stdout,
+                                       stdout=subprocess.PIPE)
+        p_command.stdout.close()
+        stdout, stderr = p_minishell.communicate()
+        return stdout.replace(self.minishell_prompt, ""), stderr
 
-        p2 = subprocess.Popen([self.minishell], stdin=p1.stdout,
-                              stdout=subprocess.PIPE)
+    def execute_real_shell(self, command):
+        cmd_list = ["/bin/echo"] + command
+        p_command = subprocess.Popen(cmd_list,
+                                     stdout=subprocess.PIPE)
+        p_real_shell = subprocess.Popen(["/bin/bash"],
+                                        stdin=p_command.stdout,
+                                        stdout=subprocess.PIPE)
+        p_command.stdout.close()
+        stdout, stderr = p_real_shell.communicate()
+        return stdout, stderr
 
-        p1.stdout.close()  # Allow p1 to receive a SIGPIPE if p2 exits.
-        stdout, stderr = p2.communicate()
+    def test_00_full_bin_ls(self):
+        command = ["/bin/ls"]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
 
-        real_cmd = subprocess.check_output(["/bin/ls"])
+    def test_01_full_bin_ls_opt(self):
+        command = ["/bin/ls", "-l"]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
 
-        my_cmd = stdout.replace(self.minishell_prompt, "")
-        self.assertEqual(real_cmd, my_cmd)
+    def test_02_full_bin_ls_opt(self):
+        command = ["/bin/ls", "-l", "-a"]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_03_full_bin_ls_opt(self):
+        command = ["/bin/ls", "-l", "-a", "-rt"]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_04_empty(self):
+        command = [""]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_05_empty(self):
+        command = [" "]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_06_empty(self):
+        command = [" ", "  "]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_07_with_empty_bin_ls(self):
+        command = [" ", "/bin/ls"]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_08_with_empty_bin_ls(self):
+        command = ["   ", "/bin/ls", "    "]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
+    def test_09_with_empty_bin_ls(self):
+        command = ["   ", "/bin/ls", "-l", "    "]
+        real_stdout = self.execute_real_shell(command)[0]
+        my_stdout = self.execute_my_shell(command)[0]
+        self.assertEqual(real_stdout, my_stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
