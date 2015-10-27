@@ -17,6 +17,7 @@ function run_tests
     export LC_ALL=C
 
     make
+    nosetests
 }
 
 function main
