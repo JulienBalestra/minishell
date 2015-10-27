@@ -26,11 +26,8 @@ class TestMinishell(unittest.TestCase):
 
         real_cmd = subprocess.check_output(["/bin/ls"])
 
-        my_cmd = stdout.replace(self.minishell_prompt, ">")
+        my_cmd = stdout.replace(self.minishell_prompt, "")
         self.assertEqual(real_cmd, my_cmd)
 
-
-
-
-
-
+if __name__ == "__main__":
+    unittest.main()

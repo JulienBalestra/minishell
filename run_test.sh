@@ -12,19 +12,40 @@ function go_to_dirname
     echo "-> Current directory is" $(pwd)
 }
 
+function set_up
+{
+    make
+    if [ $? -ne 0 ]
+    then
+        exit $?
+    fi
+}
+
+function tear_down
+{
+    make fclean
+    if [ $? -ne 0 ]
+    then
+        exit $?
+    fi
+}
+
 function run_tests
 {
     export LC_ALL=C
-
-    make
-    nosetests
+    nosetests || python $(pwd)/tests/test_*.py
+    if [ $? -ne 0 ]
+    then
+        exit $?
+    fi
 }
 
 function main
 {
     go_to_dirname
+    set_up
     run_tests
-    return $?
+    tear_down
 }
 
 main
