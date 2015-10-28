@@ -38,9 +38,9 @@ int read_from_stdin(void)
             ft_strdel(&no_spaces);
             fork_ret = pass_str_to_exec((const char **) splited);
             tab_free(splited);
-            display_prompt();
             if (fork_ret != 0)
                 return (1);
+            display_prompt();
         }
         str_clear(buf);
     }
