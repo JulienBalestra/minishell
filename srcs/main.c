@@ -27,9 +27,7 @@ int read_from_stdin(void)
     buf_init(buf, BUFF_SIZE);
     while ((ret = read(0, buf, BUFF_SIZE) > 0))
     {
-        if (is_eof(buf))
-            return (0);
-        else if (is_only_endline(buf) || is_only_spaces(buf))
+        if (is_only_endline(buf) || is_only_spaces(buf))
             ;
         else
         {
@@ -46,7 +44,8 @@ int read_from_stdin(void)
         display_prompt();
         str_clear(buf);
     }
-    return (1);
+    write(1, "exit\n", 5);
+    return (0);
 }
 
 int pass_str_to_exec(const char **str)
@@ -70,9 +69,7 @@ int pass_str_to_exec(const char **str)
         waitpid(-1, &status, 0);
         return (0);
     }
-    else
-        write(2, "error", 5);
-
+    write(2, "error", 5);
     return (-1);
 }
 
