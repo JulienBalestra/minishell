@@ -1,7 +1,7 @@
 # Minishell
 
 
-[![Build Status](https://travis-ci.org/JulienBalestra/sh1.svg?branch=master)](https://travis-ci.org/julienbalestra/sh1)
+[![Build Status](https://travis-ci.org/JulienBalestra/minishell.svg?branch=master)](https://travis-ci.org/julienbalestra/minishell)
 
 
 Recode of a /bin/bash
