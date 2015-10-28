@@ -38,8 +38,8 @@ int read_from_stdin(void)
             ft_strdel(&no_spaces);
             fork_ret = pass_str_to_exec((const char **) splited);
             tab_free(splited);
-            if (fork_ret != 0)
-                return (1);
+            if (fork_ret != 1)
+                return (fork_ret);
             display_prompt();
         }
         str_clear(buf);
@@ -52,6 +52,7 @@ int pass_str_to_exec(const char **str)
     int pid;
     int status;
     char **ptr;
+    int ret;
 
     status = 0;
     pid = -1;
@@ -60,13 +61,13 @@ int pass_str_to_exec(const char **str)
     if (pid == 0)
     {
         ptr = (char **) str;
-        execve(str[0], ptr, NULL);
-        return (1);
+        ret = execve(str[0], ptr, NULL);
+        return (ret);
     }
     else if (pid > 0)
     {
         waitpid(-1, &status, 0);
-        return (0);
+        return (1);
     }
     write(2, "error", 5);
     return (-1);
