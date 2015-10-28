@@ -29,14 +29,6 @@ char *ft_remove_endline(char *str)
     }
 }
 
-int is_eof(char *buf)
-{
-    if (buf[0] == '\0')
-        return (1);
-    else
-        return (0);
-}
-
 int is_only_endline(char *buf)
 {
     if (buf[0] && buf[1] && buf[0] == '\n' && buf[1] == '\0')

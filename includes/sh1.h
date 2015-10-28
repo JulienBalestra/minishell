@@ -15,7 +15,6 @@ void tab_free(char **tab);
 char *ft_remove_endline(char *str);
 int is_only_endline(char *buf);
 int is_only_spaces(char *buf);
-int is_eof(char *buf);
 
 char **environ(void);
 
