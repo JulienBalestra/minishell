@@ -33,10 +33,10 @@ function tear_down
 function run_tests
 {
     export LC_ALL=C
-    python $(pwd)/tests/test_*.py
+    python -m unittest discover $(pwd)/tests/
     if [ $? -ne 0 ]
     then
-        exit $?
+        exit 2
     fi
 }
 

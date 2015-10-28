@@ -28,7 +28,7 @@ int read_from_stdin(void)
     while ((ret = read(0, buf, BUFF_SIZE) > 0))
     {
         if (is_only_endline(buf) || is_only_spaces(buf))
-            ;
+            display_prompt();
         else
         {
             no_end = ft_remove_endline(buf);
@@ -38,13 +38,12 @@ int read_from_stdin(void)
             ft_strdel(&no_spaces);
             fork_ret = pass_str_to_exec((const char **) splited);
             tab_free(splited);
+            display_prompt();
             if (fork_ret != 0)
                 return (1);
         }
-        display_prompt();
         str_clear(buf);
     }
-    write(1, "exit\n", 5);
     return (0);
 }
 
