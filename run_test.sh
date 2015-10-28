@@ -14,7 +14,7 @@ function go_to_dirname
 
 function set_up
 {
-    make
+    make re
     if [ $? -ne 0 ]
     then
         exit $?
