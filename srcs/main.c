@@ -57,6 +57,8 @@ int pass_str_to_exec(const char **str)
     status = 0;
     pid = -1;
     ptr = NULL;
+    ret = -1;
+
     pid = fork();
     if (pid == 0)
     {
@@ -76,6 +78,7 @@ int pass_str_to_exec(const char **str)
 int main(void)
 {
     int ret;
+    //extern char **environ;
 
     ret = 2;
     ret = read_from_stdin();

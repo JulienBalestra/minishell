@@ -5,7 +5,7 @@ import os
 
 class TestMinishell(unittest.TestCase):
 	context = os.path.split(os.path.dirname(__file__))[0]
-	minishell = "%s/ft_minishell" % context
+	minishell = "%s/minishell" % context
 	testing_dir = "%s/tests/test_resources/" % context
 	minishell_prompt = "minishell> "
 	compiled = False

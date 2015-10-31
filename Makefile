@@ -18,7 +18,7 @@ SRC_DIR = srcs/
 OBJ_DIR = .objects/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 TARGET = $(NAME).a
-BIN = ft_minishell
+BIN = minishell
 ENV = $(shell uname -s)
 
 
@@ -32,6 +32,7 @@ SRC =               \
 input_format.c  \
 misc_array.c    \
 misc_string.c	\
+manage_environ.c \
 misc_prompt.c
 
 
