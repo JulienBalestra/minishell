@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-//copy extern char **environ
+// copy extern char **environ
 
 // remove environ *entry
 
