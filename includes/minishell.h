@@ -1,5 +1,5 @@
-#ifndef SH1_H
-# define SH1_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # define BUFF_SIZE      4096
 

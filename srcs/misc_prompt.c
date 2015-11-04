@@ -1,4 +1,4 @@
-#include "sh1.h"
+#include "minishell.h"
 #include <unistd.h>
 
 void display_prompt(void)

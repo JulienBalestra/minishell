@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 #include "libft.h"
-#include "sh1.h"
+#include "minishell.h"
 
 
 int read_from_stdin(void)
