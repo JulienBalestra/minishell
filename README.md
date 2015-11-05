@@ -10,7 +10,7 @@ Recode of a /bin/bash
 
 
 	./setup.sh
-	./ft_minishell
+	./minishell
 	
 
 # How to test
