@@ -36,6 +36,7 @@ int read_from_stdin(void)
             ft_strdel(&no_end);
             splited = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);
+            make_exploitable(splited);
             fork_ret = pass_str_to_exec((const char **) splited);
             tab_free(splited);
             if (fork_ret != 1)
@@ -78,9 +79,8 @@ int pass_str_to_exec(const char **str)
 int main(void)
 {
     int ret;
-    //extern char **environ;
-
     ret = 2;
+
     ret = read_from_stdin();
     return (ret);
 }

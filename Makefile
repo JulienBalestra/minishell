@@ -32,7 +32,7 @@ SRC =               \
 input_format.c  \
 misc_array.c    \
 misc_string.c	\
-manage_environ.c \
+manage_path.c \
 misc_prompt.c
 
 

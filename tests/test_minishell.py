@@ -111,6 +111,34 @@ class TestMinishell(unittest.TestCase):
 	def test_13_bin_echo(self):
 		command = ["/bin/echo"]
 		self.compare_shells(command)
+		
+	def test_00_echo(self):
+		command = ["echo"]
+		self.compare_shells(command)
+		
+	def test_01_echo(self):
+		command = ["echo", "one"]
+		self.compare_shells(command)	
+		
+	def test_02_echo(self):
+		command = ["echo", "one", "two"]
+		self.compare_shells(command)
+		
+	def test_00_ls(self):
+		command = ["ls"]
+		self.compare_shells(command)		
+		
+	def test_01_ls(self):
+		command = ["ls", "-l"]
+		self.compare_shells(command)		
+		
+	def test_02_ls(self):
+		command = ["ls", "-la"]
+		self.compare_shells(command)		
+		
+	def test_03_ls(self):
+		command = ["ls", "-la", "/"]
+		self.compare_shells(command)
 
 
 if __name__ == "__main__":

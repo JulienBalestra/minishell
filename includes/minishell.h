@@ -22,6 +22,8 @@ int is_only_spaces(char *buf);
 // misc_prompt
 void display_prompt(void);
 
+int     make_exploitable(char **command);
+
 // main
 int pass_str_to_exec(const char **str);
 
