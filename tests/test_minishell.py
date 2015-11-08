@@ -33,7 +33,8 @@ class TestMinishell(unittest.TestCase):
 		cmd_list = ["/bin/echo"] + command
 		p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
 
-		p_minishell = subprocess.Popen([self.minishell], stdin=p_command.stdout, stdout=subprocess.PIPE)
+		p_minishell = subprocess.Popen([self.minishell], stdin=p_command.stdout, stdout=subprocess.PIPE,
+									   stderr=subprocess.PIPE)
 		p_command.stdout.close()
 		stdout, stderr = p_minishell.communicate()
 		return stdout.replace(self.minishell_prompt, ""), stderr
@@ -46,11 +47,12 @@ class TestMinishell(unittest.TestCase):
 		"""
 		cmd_list = ["/bin/echo"] + command
 		p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
-		p_real_shell = subprocess.Popen(["/bin/bash"], stdin=p_command.stdout, stdout=subprocess.PIPE)
+		p_real_shell = subprocess.Popen(["/bin/bash"], stdin=p_command.stdout, stdout=subprocess.PIPE,
+										stderr=subprocess.PIPE)
 		p_command.stdout.close()
 		stdout, stderr = p_real_shell.communicate()
-		return stdout, stderr
-	
+		return stdout, stderr.replace("/bin/bash: line 1: ", "")  # because of bash piping
+
 	def compare_shells(self, command):
 		real_std = self.execute_real_shell(command)
 		my_std = self.execute_my_shell(command)
@@ -111,33 +113,41 @@ class TestMinishell(unittest.TestCase):
 	def test_13_bin_echo(self):
 		command = ["/bin/echo"]
 		self.compare_shells(command)
-		
+
 	def test_00_echo(self):
 		command = ["echo"]
 		self.compare_shells(command)
-		
+
 	def test_01_echo(self):
 		command = ["echo", "one"]
-		self.compare_shells(command)	
-		
+		self.compare_shells(command)
+
 	def test_02_echo(self):
 		command = ["echo", "one", "two"]
 		self.compare_shells(command)
-		
+
 	def test_00_ls(self):
 		command = ["ls"]
-		self.compare_shells(command)		
-		
+		self.compare_shells(command)
+
 	def test_01_ls(self):
 		command = ["ls", "-l"]
-		self.compare_shells(command)		
-		
+		self.compare_shells(command)
+
 	def test_02_ls(self):
 		command = ["ls", "-la"]
-		self.compare_shells(command)		
-		
+		self.compare_shells(command)
+
 	def test_03_ls(self):
 		command = ["ls", "-la", "/"]
+		self.compare_shells(command)
+
+	def test_00_fake_command(self):
+		command = ["a_very_large_fake_binary_name"]
+		self.compare_shells(command)
+
+	def test_01_fake_command(self):
+		command = ["a_very_large_fake_binary_name", "-o", "/"]
 		self.compare_shells(command)
 
 

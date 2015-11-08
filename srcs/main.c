@@ -8,46 +8,6 @@
 #include "libft.h"
 #include "minishell.h"
 
-
-int read_from_stdin(void)
-{
-    int ret;
-    int fork_ret;
-    char buf[BUFF_SIZE];
-    char *no_end;
-    char *no_spaces;
-    char **splited;
-
-    ret = 0;
-    fork_ret = -2;
-    no_end = NULL;
-    no_spaces = NULL;
-    splited = NULL;
-    display_prompt();
-    buf_init(buf, BUFF_SIZE);
-    while ((ret = read(0, buf, BUFF_SIZE) > 0))
-    {
-        if (is_only_endline(buf) || is_only_spaces(buf))
-            display_prompt();
-        else
-        {
-            no_end = ft_remove_endline(buf);
-            no_spaces = ft_remove_useless(no_end, ' ');
-            ft_strdel(&no_end);
-            splited = ft_lz_strsplit(no_spaces, ' ');
-            ft_strdel(&no_spaces);
-            make_exploitable(splited);
-            fork_ret = pass_str_to_exec((const char **) splited);
-            tab_free(splited);
-            if (fork_ret != 1)
-                return (fork_ret);
-            display_prompt();
-        }
-        str_clear(buf);
-    }
-    return (0);
-}
-
 int pass_str_to_exec(const char **str)
 {
     int pid;
@@ -76,10 +36,54 @@ int pass_str_to_exec(const char **str)
     return (-1);
 }
 
+int read_from_stdin(void)
+{
+    int ret;
+    int fork_ret;
+    char buf[BUFF_SIZE];
+    char *no_end;
+    char *no_spaces;
+    char **command;
+
+    ret = 0;
+    fork_ret = -2;
+    no_end = NULL;
+    no_spaces = NULL;
+    command = NULL;
+    display_prompt();
+    buf_init(buf, BUFF_SIZE);
+    while ((ret = read(0, buf, BUFF_SIZE) > 0))
+    {
+        if (is_only_endline(buf) || is_only_spaces(buf))
+            display_prompt();
+        else
+        {
+            no_end = ft_remove_endline(buf);
+            no_spaces = ft_remove_useless(no_end, ' ');
+            ft_strdel(&no_end);
+            command = ft_lz_strsplit(no_spaces, ' ');
+            ft_strdel(&no_spaces);
+            if (make_exploitable(command))
+            {
+                if ((fork_ret = pass_str_to_exec((const char **) command)) && fork_ret != 1)
+                    return (fork_ret);
+            }
+            else
+            {
+                ft_putstr_fd(command[0], 2);
+                ft_putstr_fd(": command not found\n", 2);
+            }
+            tab_free(command);
+            display_prompt();
+        }
+        str_clear(buf);
+    }
+    return (0);
+}
+
 int main(void)
 {
     int ret;
-    ret = 2;
 
     ret = read_from_stdin();
     return (ret);
