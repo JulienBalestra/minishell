@@ -33,6 +33,8 @@ input_format.c  \
 misc_array.c    \
 misc_string.c	\
 manage_path.c \
+build_props.c \
+cleaner.c \
 misc_prompt.c
 
 

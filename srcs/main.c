@@ -1,12 +1,11 @@
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
 #include <sys/wait.h>
-#include <stdlib.h>
 
 #include "libft.h"
 #include "minishell.h"
+
+#include "../includes/minishell.h"
+#include "../libft/includes/libft.h"
 
 int pass_str_to_exec(const char **str)
 {
@@ -36,7 +35,7 @@ int pass_str_to_exec(const char **str)
     return (-1);
 }
 
-int read_from_stdin(void)
+int read_from_stdin(t_sh *shell)
 {
     int ret;
     int fork_ret;
@@ -63,7 +62,8 @@ int read_from_stdin(void)
             ft_strdel(&no_end);
             command = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);
-            if (make_exploitable(command))
+
+            if (make_exploitable(command, shell->last_environ))
             {
                 if ((fork_ret = pass_str_to_exec((const char **) command)) && fork_ret != 1)
                     return (fork_ret);
@@ -84,7 +84,14 @@ int read_from_stdin(void)
 int main(void)
 {
     int ret;
+    t_sh *shell;
 
-    ret = read_from_stdin();
-    return (ret);
+    if ((shell = create_shell_props()))
+    {
+        ret = read_from_stdin(shell);
+        clean_program(shell);
+        return (ret);
+    }
+    // Issue in create_shell_props
+    return (3);
 }
