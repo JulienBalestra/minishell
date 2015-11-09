@@ -12,6 +12,15 @@ function go_to_dirname
     echo "-> Current directory is" $(pwd)
 }
 
+function packages
+{
+    apt-get update -qq || brew update
+    for package in valgrind
+    do
+        apt-get install ${package} || brew install ${package}
+    done
+}
+
 function setup_submodules
 {
     echo "Setup git submodules..."
@@ -28,6 +37,7 @@ function main
     # Requirements
     go_to_dirname
     path=$(pwd)
+    packages
     setup_submodules
     return $?
 }
