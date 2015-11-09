@@ -4,6 +4,8 @@ os:
 
 language: c
 
+sudo: required
+
 script:
   - ./setup.sh
   - ./run_test.sh

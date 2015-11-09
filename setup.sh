@@ -14,7 +14,7 @@ function go_to_dirname
 
 function packages
 {
-    sudo apt-get update -qq || sudo brew update
+    sudo apt-get update -qq || sudo brew update > /dev/null
     for package in valgrind
     do
         sudo apt-get install ${package} || sudo brew install ${package}
