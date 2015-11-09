@@ -21,7 +21,7 @@ class TestMinishell(unittest.TestCase):
 			if subprocess.call(["make", "-C", cls.context, "-j"], stdout=cls.dev_null) == 0:
 				pass
 			elif subprocess.call(["make", "-C", cls.context], stdout=cls.dev_null) == 0:
-				os.write(2, "FAILED TO COMPILE WITH -j")
+				os.write(2, "FAILED TO MAKE WITH -j")
 			else:
 				raise RuntimeError("compilation failed in %s" % cls.context)
 		else:
@@ -35,7 +35,7 @@ class TestMinishell(unittest.TestCase):
 	@classmethod
 	def tearDownClass(cls):
 		if cls.compiled is False:
-			subprocess.call(["make", "fclean", "-C", cls.context])
+			assert subprocess.call(["make", "fclean", "-C", cls.context], stdout=cls.dev_null) == 0
 		if cls.valgrind_binary is False:
 			raise AssertionError("which valgrind")
 		cls.dev_null.close()
