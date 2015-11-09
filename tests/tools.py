@@ -3,7 +3,12 @@ import subprocess
 
 def valgrind_wrapper(program, leaks=False, errors=False, command=None):
 	"""
-	Wrapper of valgrind
+	Valgrind wrapper for unittesting in Python for minishell
+	:param program: the binary to test
+	:param leaks: True or False -> override errors mode if True
+	:param errors: True or False -> useless if leaks is True
+	:param command: the command to run into the minishell like ["ls", "-l"]
+	:return: False if no issue was found else return the summary of issues
 	"""
 	valgrind = "valgrind"
 	if leaks is True:
@@ -23,7 +28,7 @@ def valgrind_wrapper(program, leaks=False, errors=False, command=None):
 
 	if leaks is True:
 		summary = [leak.split("==    ")[1] for leak in stderr.split("\n") if "lost:" in leak]
-		if len(summary) > 0:
+		if len(summary) > 0 and "definitely lost: 0 bytes in 0 blocks" not in summary[0]:
 			return summary
 	elif errors is True:
 		summary = stderr.split("\n")[-2].split("== ")[1]
