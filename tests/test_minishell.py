@@ -25,9 +25,11 @@ class TestMinishell(unittest.TestCase):
 				raise RuntimeError("compilation failed in %s" % cls.context)
 		else:
 			cls.compiled = True
-		if subprocess.call(["valgrind", "--version"]) == 0:
-			cls.valgrind_binary = True
-
+		try:
+			if subprocess.call(["valgrind", "--version"]) == 0:
+				cls.valgrind_binary = True
+		except OSError:
+			pass
 
 	@classmethod
 	def tearDownClass(cls):
