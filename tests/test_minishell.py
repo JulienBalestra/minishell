@@ -2,6 +2,8 @@ import unittest
 import subprocess
 import os
 
+from tools import valgrind_wrapper
+
 
 class TestMinishell(unittest.TestCase):
 	context = os.path.split(os.path.dirname(__file__))[0]
@@ -114,41 +116,46 @@ class TestMinishell(unittest.TestCase):
 		command = ["/bin/echo"]
 		self.compare_shells(command)
 
-	def test_00_echo(self):
+	def test_14_echo(self):
 		command = ["echo"]
 		self.compare_shells(command)
 
-	def test_01_echo(self):
+	def test_15_echo(self):
 		command = ["echo", "one"]
 		self.compare_shells(command)
 
-	def test_02_echo(self):
+	def test_16_echo(self):
 		command = ["echo", "one", "two"]
 		self.compare_shells(command)
 
-	def test_00_ls(self):
+	def test_17_ls(self):
 		command = ["ls"]
 		self.compare_shells(command)
 
-	def test_01_ls(self):
+	def test_18_ls(self):
 		command = ["ls", "-l"]
 		self.compare_shells(command)
 
-	def test_02_ls(self):
+	def test_19_ls(self):
 		command = ["ls", "-la"]
 		self.compare_shells(command)
 
-	def test_03_ls(self):
+	def test_20_ls(self):
 		command = ["ls", "-la", "/"]
 		self.compare_shells(command)
 
-	def test_00_fake_command(self):
+	def test_21_fake_command(self):
 		command = ["a_very_large_fake_binary_name"]
 		self.compare_shells(command)
 
-	def test_01_fake_command(self):
+	def test_22_fake_command(self):
 		command = ["a_very_large_fake_binary_name", "-o", "/"]
 		self.compare_shells(command)
+
+	def test_A_leaks(self):
+		for command in [["ls", "-l"], ["/bin/ls"], ["   "], ["      \n"]]:
+			valgrind_wrapper(self.minishell, leaks=True, command=command)
+			valgrind_wrapper(self.minishell, errors=True, command=command)
 
 
 if __name__ == "__main__":

@@ -40,26 +40,23 @@ int read_from_stdin(t_sh *shell)
     int ret;
     int fork_ret;
     char buf[BUFF_SIZE];
-    char *no_end;
     char *no_spaces;
     char **command;
 
     ret = 0;
     fork_ret = -2;
-    no_end = NULL;
     no_spaces = NULL;
     command = NULL;
-    display_prompt();
+    display_prompt(shell);
     buf_init(buf, BUFF_SIZE);
     while ((ret = read(0, buf, BUFF_SIZE) > 0))
     {
         if (is_only_endline(buf) || is_only_spaces(buf))
-            display_prompt();
+            display_prompt(shell);
         else
         {
-            no_end = ft_remove_endline(buf);
-            no_spaces = ft_remove_useless(no_end, ' ');
-            ft_strdel(&no_end);
+            ft_remove_endline(buf);
+            no_spaces = ft_remove_useless(buf, ' ');
             command = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);
 
@@ -69,12 +66,9 @@ int read_from_stdin(t_sh *shell)
                     return (fork_ret);
             }
             else
-            {
-                ft_putstr_fd(command[0], 2);
-                ft_putstr_fd(": command not found\n", 2);
-            }
+                display_command_not_found(command[0]);
             tab_free(command);
-            display_prompt();
+            display_prompt(shell);
         }
         str_clear(buf);
     }
