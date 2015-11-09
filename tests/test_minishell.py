@@ -36,7 +36,7 @@ class TestMinishell(unittest.TestCase):
 		if cls.compiled is False:
 			subprocess.call(["make", "fclean", "-C", cls.context])
 		if cls.valgrind_binary is False:
-			raise AssertionError("valgrind --version ; test $? == 0")
+			raise AssertionError("which valgrind")
 
 	def execute_my_shell(self, command):
 		"""
