@@ -1,7 +1,8 @@
 import unittest
 import subprocess
+from random import randint
 import os
-from tools import valgrind_wrapper
+from tools import *
 
 
 class TestMinishell(unittest.TestCase):
@@ -9,8 +10,7 @@ class TestMinishell(unittest.TestCase):
 	minishell = "%s/minishell" % context
 	testing_dir = "%s/tests/test_resources/" % context
 	minishell_prompt = "minishell> "
-	compiled = False
-	valgrind_binary = False
+	compiled, valgrind_binary = False, False
 	dev_null = open(os.devnull, 'w')
 
 	@classmethod
@@ -75,9 +75,11 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual(real_std, my_std)
 
 	def valgrind(self, command):
-		if self.valgrind_binary is True:
-			self.assertFalse(valgrind_wrapper(self.minishell, leaks=True, command=command))
-			self.assertFalse(valgrind_wrapper(self.minishell, errors=True, command=command))
+		leaks = QueueProcess(valgrind_wrapper, self.minishell, True, command)
+		errors = QueueProcess(valgrind_wrapper, self.minishell, False, command)
+		leaks.run(), errors.run()
+		if randint(0, 2) == 1:
+			errors.process.join()
 
 	def test_00_full_bin_ls(self):
 		command = ["/bin/ls"]
@@ -180,7 +182,7 @@ class TestMinishell(unittest.TestCase):
 		self.valgrind(command)
 
 	def test_20_ls(self):
-		command = ["ls", "-la", "/"]
+		command = ["ls", "-la", "."]
 		self.compare_shells(command)
 		self.valgrind(command)
 
