@@ -27,7 +27,7 @@ def valgrind_wrapper(program, leaks=False, errors=False, command=None):
 	stdout, stderr = p_minishell.communicate()
 
 	if leaks is True:
-		summary = [leak.split("==")[1] for leak in stderr.split("\n") if "lost:" in leak]
+		summary = [leak.split("==    ")[1] for leak in stderr.split("\n") if "lost:" in leak]
 		if len(summary) > 0 and "definitely lost: 0 bytes in 0 blocks" not in summary:
 			return summary
 	elif errors is True:
