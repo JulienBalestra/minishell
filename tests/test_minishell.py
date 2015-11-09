@@ -11,15 +11,16 @@ class TestMinishell(unittest.TestCase):
 	minishell_prompt = "minishell> "
 	compiled = False
 	valgrind_binary = False
+	dev_null = open(os.devnull, 'w')
 
 	@classmethod
 	def setUpClass(cls):
 		os.chdir(cls.testing_dir)
 		# check if the project is well compiled
 		if os.path.isfile(cls.minishell) is False:
-			if subprocess.call(["make", "-C", cls.context, "-j"]) == 0:
+			if subprocess.call(["make", "-C", cls.context, "-j"], stdout=cls.dev_null) == 0:
 				pass
-			elif subprocess.call(["make", "-C", cls.context]) == 0:
+			elif subprocess.call(["make", "-C", cls.context], stdout=cls.dev_null) == 0:
 				os.write(2, "FAILED TO COMPILE WITH -j")
 			else:
 				raise RuntimeError("compilation failed in %s" % cls.context)
@@ -37,6 +38,7 @@ class TestMinishell(unittest.TestCase):
 			subprocess.call(["make", "fclean", "-C", cls.context])
 		if cls.valgrind_binary is False:
 			raise AssertionError("which valgrind")
+		cls.dev_null.close()
 
 	def execute_my_shell(self, command):
 		"""

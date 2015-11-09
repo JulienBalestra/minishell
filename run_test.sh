@@ -12,24 +12,6 @@ function go_to_dirname
     echo "-> Current directory is" $(pwd)
 }
 
-function set_up
-{
-    make re
-    if [ $? -ne 0 ]
-    then
-        exit $?
-    fi
-}
-
-function tear_down
-{
-    make fclean
-    if [ $? -ne 0 ]
-    then
-        exit $?
-    fi
-}
-
 function run_tests
 {
     export LC_ALL=C
@@ -43,9 +25,7 @@ function run_tests
 function main
 {
     go_to_dirname
-    set_up
     run_tests
-    tear_down
 }
 
 main
