@@ -44,11 +44,16 @@ class TestMinishell(unittest.TestCase):
 				time.sleep(0.1)
 			else:
 				if i > 1:
-					os.write(2, "\n<%s> %s did %d cycles of 0.1s" % (
+					os.write(2, "\n<%s> %s did %d cycles of 0.1s\n" % (
 						cls.tearDownClass.__name__, cls.queue.__name__, i))
 				break
-		assert cls.queue.q.qsize() == 46
+		if cls.queue.q.qsize() != 23:
+			raise AssertionError(cls.queue.q.qsize())
 		assert cls.queue.q.unfinished_tasks == 0
+		if len(cls.queue.errors) != 0:
+			for error in cls.queue.errors:
+				os.write(2, "%s\n" % str(error))
+			raise AssertionError
 
 	def execute_my_shell(self, command):
 		"""
@@ -59,8 +64,8 @@ class TestMinishell(unittest.TestCase):
 		cmd_list = ["/bin/echo"] + command
 		p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
 
-		p_minishell = subprocess.Popen([self.minishell], stdin=p_command.stdout, stdout=subprocess.PIPE,
-									   stderr=subprocess.PIPE)
+		p_minishell = subprocess.Popen(
+			[self.minishell], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		p_command.stdout.close()
 		stdout, stderr = p_minishell.communicate()
 		return stdout.replace(self.minishell_prompt, ""), stderr
@@ -73,8 +78,8 @@ class TestMinishell(unittest.TestCase):
 		"""
 		cmd_list = ["/bin/echo"] + command
 		p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
-		p_real_shell = subprocess.Popen(["/bin/bash"], stdin=p_command.stdout, stdout=subprocess.PIPE,
-										stderr=subprocess.PIPE)
+		p_real_shell = subprocess.Popen(
+			["/bin/bash"], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		p_command.stdout.close()
 		stdout, stderr = p_real_shell.communicate()
 		return stdout, stderr.replace("/bin/bash: line 1: ", "")  # because of bash piping
@@ -85,9 +90,8 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual(real_std, my_std)
 
 	def valgrind(self, command):
-		leaks = QueueProcess(valgrind_wrapper, self.minishell, True, command)
-		errors = QueueProcess(valgrind_wrapper, self.minishell, False, command)
-		leaks.start(), errors.start()
+		leaks = QueueProcess(valgrind_wrapper, self.minishell, command)
+		leaks.start()
 
 	def test_00_full_bin_ls(self):
 		command = ["/bin/ls"]
