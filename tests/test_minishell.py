@@ -1,6 +1,5 @@
 import unittest
-import subprocess
-from random import randint
+import time
 import os
 from tools import *
 
@@ -12,6 +11,7 @@ class TestMinishell(unittest.TestCase):
 	minishell_prompt = "minishell> "
 	compiled, valgrind_binary = False, False
 	dev_null = open(os.devnull, 'w')
+	queue = QueueProcess
 
 	@classmethod
 	def setUpClass(cls):
@@ -39,6 +39,11 @@ class TestMinishell(unittest.TestCase):
 		if cls.valgrind_binary is False:
 			raise AssertionError("which valgrind")
 		cls.dev_null.close()
+		for i in range(0, 50):
+			if cls.queue.q.unfinished_tasks != 0:
+				time.sleep(0.1)
+		assert cls.queue.q.qsize() == 46
+		assert cls.queue.q.unfinished_tasks == 0
 
 	def execute_my_shell(self, command):
 		"""
@@ -77,9 +82,7 @@ class TestMinishell(unittest.TestCase):
 	def valgrind(self, command):
 		leaks = QueueProcess(valgrind_wrapper, self.minishell, True, command)
 		errors = QueueProcess(valgrind_wrapper, self.minishell, False, command)
-		leaks.run(), errors.run()
-		if randint(0, 2) == 1:
-			errors.process.join()
+		leaks.start(), errors.start()
 
 	def test_00_full_bin_ls(self):
 		command = ["/bin/ls"]

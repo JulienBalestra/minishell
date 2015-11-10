@@ -25,7 +25,7 @@ function run_tests
 function main
 {
     go_to_dirname
-    run_tests
+    time run_tests
 }
 
 main
