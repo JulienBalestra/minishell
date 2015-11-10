@@ -38,28 +38,15 @@ class TestMinishell(unittest.TestCase):
 			assert subprocess.call(["make", "fclean", "-C", cls.context]) == 0
 		cls.dev_null.close()
 
-		if cls.queue.q.qsize() != 23:  # static declaration len of (test_methods)
-			raise AssertionError(cls.queue.q.qsize())
-
-		for i in range(1, 600):
-			still_running = cls.queue.q.unfinished_tasks
-			if still_running != 0:
-				time.sleep(0.1)
-			elif still_running == 0:
-				if i > 1:
-					os.write(2, "\n<%s> %s waited %d cycles of 0.1s\n" % (
-						cls.tearDownClass.__name__, cls.queue.__name__, i))
-				break
-			elif i >= 599:
-				raise RuntimeError("%d threads with process still running" % still_running)
-
-		if len(cls.queue.errors) != 0:
-			for error in cls.queue.errors:
-				os.write(2, "%s\n" % str(error))
-			raise AssertionError("Errors in Queue")
-		elif len(cls.queue.success) != cls.queue.q.qsize():
-			raise AssertionError(
-				"len(cls.queue.success) %d != %d cls.queue.q.qsize()" % (cls.queue.success, cls.queue.q.qsize()))
+		assert len(cls.queue.p) == 23
+		raising = False
+		for i, p in enumerate(cls.queue.p):
+			p.process.join()
+			if p.process.exitcode != 0:
+				raising = True
+				os.write(2, "%s\n" % str(p.args))
+		if raising is True:
+			raise AssertionError("Failed in valgrind")
 
 	def execute_my_shell(self, command):
 		"""

@@ -1,6 +1,5 @@
 import subprocess
 from multiprocessing import Process
-import threading
 import Queue
 
 
@@ -30,26 +29,17 @@ def valgrind_wrapper(program, command):
 	return False
 
 
-class QueueProcess(threading.Thread):
+class QueueProcess:
 	q = Queue.Queue()
 	errors = []
 	success = []
+	p = []
 
 	def __init__(self, function, *args):
-		threading.Thread.__init__(self)
 		self.args = args
 		self.function = function
 		self.process = Process(target=self.function, args=self.args)
 
-	def run(self):
-		self.q.put(self)
+	def start(self):
 		self.process.start()
-		self.process.join()
-		if self.process.exitcode != 0:
-			self.errors.append(self.args)
-		else:
-			self.success.append(self.args)
-		self.q.task_done()
-
-	def stop(self):
-		pass
+		self.p.append(self)
