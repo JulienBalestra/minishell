@@ -43,7 +43,7 @@ class TestMinishell(unittest.TestCase):
 			if cls.queue.q.unfinished_tasks != 0:
 				time.sleep(0.1)
 			else:
-				os.write(2, "<%s> %s did %d cycle%s of 0.1s" % (
+				os.write(2, "\n<%s> %s did %d cycle%s of 0.1s\n" % (
 					cls.tearDownClass.__name__, cls.queue.__name__, i, "s" if i > 1 else ""))
 				break
 		assert cls.queue.q.qsize() == 46
