@@ -14,9 +14,11 @@ function go_to_dirname
 
 function packages
 {
+    echo "Updating package source..."
     sudo apt-get update -qq || sudo brew update > /dev/null
     for package in valgrind
     do
+        echo "Installing package named ${package}"
         sudo apt-get install ${package} -y > /dev/null || sudo brew install ${package} > /dev/null
         which ${package}
     done

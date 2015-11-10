@@ -33,6 +33,7 @@ def valgrind_wrapper(program, command):
 class QueueProcess(threading.Thread):
 	q = Queue.Queue()
 	errors = []
+	success = []
 
 	def __init__(self, function, *args):
 		threading.Thread.__init__(self)
@@ -46,4 +47,9 @@ class QueueProcess(threading.Thread):
 		self.process.join()
 		if self.process.exitcode != 0:
 			self.errors.append(self.args)
+		else:
+			self.success.append(self.args)
 		self.q.task_done()
+
+	def stop(self):
+		pass
