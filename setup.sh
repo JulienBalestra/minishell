@@ -17,7 +17,7 @@ function packages
     sudo apt-get update -qq || sudo brew update > /dev/null
     for package in valgrind
     do
-        sudo apt-get install ${package} > /dev/null || sudo brew install ${package} > /dev/null
+        sudo apt-get install ${package} -y > /dev/null || sudo brew install ${package} > /dev/null
         which ${package}
     done
 }
