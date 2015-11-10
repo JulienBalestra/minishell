@@ -39,7 +39,7 @@ class TestMinishell(unittest.TestCase):
 		if cls.valgrind_binary is False:
 			raise AssertionError("which valgrind")
 		cls.dev_null.close()
-		for i in range(0, 50):
+		for i in range(0, 500):
 			if cls.queue.q.unfinished_tasks != 0:
 				time.sleep(0.1)
 		assert cls.queue.q.qsize() == 46
