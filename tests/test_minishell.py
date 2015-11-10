@@ -44,7 +44,7 @@ class TestMinishell(unittest.TestCase):
 				time.sleep(0.1)
 			else:
 				if i > 1:
-					os.write(2, "\n<%s> %s did %d cycles of 0.1s\n" % (
+					os.write(2, "\n<%s> %s waited %d cycles of 0.1s\n" % (
 						cls.tearDownClass.__name__, cls.queue.__name__, i))
 				break
 		if cls.queue.q.qsize() != 23:
