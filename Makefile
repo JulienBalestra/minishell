@@ -35,7 +35,8 @@ misc_string.c	\
 manage_path.c \
 build_props.c \
 cleaner.c \
-misc_prompt.c
+misc_prompt.c \
+update_last_environ.c
 
 
 MAIN = srcs/main.c

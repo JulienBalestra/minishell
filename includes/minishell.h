@@ -26,6 +26,7 @@ typedef struct		s_sh
 // misc_string
 void				str_clear(char *str);
 void				buf_init(char *buf, int len);
+char *triple_join(char *s1, char *s2, char *s3);
 
 // misc_array
 int tab_len(char **tab);
@@ -43,6 +44,7 @@ void display_command_not_found(char *command);
 int     make_exploitable(char **command, char **last_environ);
 int strlen_until_char(char *str, char c);
 
+void override_last_environ(t_sh *shell);
 void clean_program(t_sh *shell);
 // main
 int pass_str_to_exec(const char **str, t_sh *shell);
