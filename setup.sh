@@ -14,6 +14,12 @@ function go_to_dirname
 
 function packages
 {
+    valgrind --version
+    if [ $? -eq 0 ]
+    then
+        echo "valgrind already setup"
+        return 0
+    fi
     echo "Updating package source..."
     sudo apt-get update -qq || sudo brew update > /dev/null
     for package in valgrind
