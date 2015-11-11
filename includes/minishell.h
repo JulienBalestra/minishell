@@ -10,6 +10,7 @@
 typedef struct		s_env
 {
     struct s_env	*next;
+    struct s_env	*prev;
     char			*name;
     char 			*value;
 }					t_env;
@@ -50,6 +51,7 @@ void clean_program(t_sh *shell);
 int pass_str_to_exec(const char **str, t_sh *shell);
 int manage_builtins(char **command, t_sh *shell);
 void builtin_env(char **last_environ);
+void builtin_unsetenv(char **command, t_sh *shell);
 
 t_sh    *create_shell_props(void);
 

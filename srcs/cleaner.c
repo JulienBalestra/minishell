@@ -2,13 +2,14 @@
 #include "minishell.h"
 #include "../includes/minishell.h"
 
-void destroy_link(t_env *link)
+void remove_link(t_env *link)
 {
 	if (link)
 	{
 		free(link->name);
 		link->name = NULL;
 		free(link->value);
+		link->value = NULL;
 		free(link);
 	}
 }
@@ -20,7 +21,7 @@ void delete_list(t_env **env)
 	while (*env)
 	{
 		current = (*env)->next;
-		destroy_link(*env);
+		remove_link(*env);
 		*env = current;
 	}
 }

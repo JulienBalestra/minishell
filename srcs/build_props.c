@@ -15,13 +15,16 @@ t_env *create_env_link(t_env *env, char *environ_entry)
 		link->name = ft_strndup(environ_entry, (size_t) len_until);
 		environ_entry = &environ_entry[len_until + 1];
 		link->value = ft_strdup(environ_entry);
-
+		link->next = NULL;
 		if (env)
-			link->next = env;
-		else
 		{
-			link->next = NULL;
+			link->prev = env;
+			env->next = link;
+			/*link->next = env;
+			env->prev = link;*/
 		}
+		else
+			link->prev = NULL;
 		return (link);
 	}
 	return (NULL);
@@ -37,6 +40,11 @@ t_env *build_env_list(char **environ)
 		env = create_env_link(env, *environ);
 		environ++;
 	}
+	while (env)
+		if (env->prev)
+			env = env->prev;
+		else
+			break ;
 	return (env);
 }
 
