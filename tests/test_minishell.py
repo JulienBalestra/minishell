@@ -35,7 +35,7 @@ class TestMinishell(unittest.TestCase):
 	@classmethod
 	def tearDownClass(cls):
 		if cls.compiled is False:
-			assert subprocess.call(["make", "fclean", "-C", cls.context]) == 0
+			assert subprocess.call(["make", "fclean", "-C", cls.context], stdout=cls.dev_null) == 0
 		cls.dev_null.close()
 
 		assert len(cls.queue.p) == 23
