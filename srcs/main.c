@@ -50,9 +50,9 @@ int read_from_stdin(t_sh *shell)
             command = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);
 
-			// manage builtin
-
-            if (make_exploitable(command, shell->last_environ))
+			if (manage_builtins(command, shell))
+				;
+            else if (make_exploitable(command, shell->last_environ))
             {
                 if ((fork_ret = pass_str_to_exec((const char **) command, shell)) && fork_ret != 1)
                     return (fork_ret);

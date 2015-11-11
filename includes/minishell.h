@@ -48,7 +48,8 @@ void override_last_environ(t_sh *shell);
 void clean_program(t_sh *shell);
 // main
 int pass_str_to_exec(const char **str, t_sh *shell);
-
+int manage_builtins(char **command, t_sh *shell);
+void builtin_env(char **last_environ);
 
 t_sh    *create_shell_props(void);
 

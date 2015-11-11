@@ -32,7 +32,7 @@ class TestMinishell(unittest.TestCase):
 	def tearDownClass(cls):
 		cls.dev_null.close()
 
-		assert len(cls.queue.p) == 23
+		assert len(cls.queue.p) == 27
 		raising = False
 		for i, p in enumerate(cls.queue.p):
 			p.process.join()
@@ -193,6 +193,22 @@ class TestMinishell(unittest.TestCase):
 	def test_22_fake_command(self):
 		command = ["a_very_large_fake_binary_name", "-o", "/"]
 		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_23_env(self):
+		command = ["env"]
+		self.valgrind(command)
+
+	def test_24_env(self):
+		command = ["    env"]
+		self.valgrind(command)
+
+	def test_25_env(self):
+		command = ["env    "]
+		self.valgrind(command)
+
+	def test_26_env(self):
+		command = ["    env    "]
 		self.valgrind(command)
 
 
