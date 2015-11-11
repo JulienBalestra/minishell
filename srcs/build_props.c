@@ -71,6 +71,7 @@ t_sh *create_shell_props(void)
 		shell->last_environ = tab_dup(environ);
 		shell->prompt = ft_strdup(PROMPT);
 		shell->len_prompt = ft_strlen(PROMPT);
+		shell->last_command_ret = 0;
 		return (shell);
 	}
 	return (NULL);

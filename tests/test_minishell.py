@@ -8,23 +8,20 @@ class TestMinishell(unittest.TestCase):
 	minishell = "%s/minishell" % context
 	testing_dir = "%s/tests/test_resources/" % context
 	minishell_prompt = "minishell> "
-	compiled, valgrind_binary = False, False
+	valgrind_binary = False
 	dev_null = open(os.devnull, 'w')
 	queue = QueueProcess
 
 	@classmethod
 	def setUpClass(cls):
 		os.chdir(cls.testing_dir)
-		# check if the project is well compiled
-		if os.path.isfile(cls.minishell) is False:
-			if subprocess.call(["make", "-C", cls.context, "-j"], stdout=cls.dev_null) == 0:
-				pass
-			elif subprocess.call(["make", "-C", cls.context], stdout=cls.dev_null) == 0:
-				os.write(2, "FAILED TO MAKE WITH -j")
-			else:
-				raise RuntimeError("compilation failed in %s" % cls.context)
+		if subprocess.call(["make", "re", "-C", cls.context, "-j"], stdout=cls.dev_null) == 0:
+			pass
+		elif subprocess.call(["make", "-C", cls.context], stdout=cls.dev_null) == 0:
+			os.write(2, "FAILED TO MAKE WITH -j")
 		else:
-			cls.compiled = True
+			raise RuntimeError("compilation failed in %s" % cls.context)
+
 		try:
 			if subprocess.call(["valgrind", "--version"]) == 0:
 				cls.valgrind_binary = True
@@ -33,8 +30,6 @@ class TestMinishell(unittest.TestCase):
 
 	@classmethod
 	def tearDownClass(cls):
-		if cls.compiled is False:
-			assert subprocess.call(["make", "fclean", "-C", cls.context], stdout=cls.dev_null) == 0
 		cls.dev_null.close()
 
 		assert len(cls.queue.p) == 23

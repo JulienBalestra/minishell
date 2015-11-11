@@ -7,24 +7,19 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int pass_str_to_exec(const char **str)
+int pass_str_to_exec(const char **str, t_sh *shell)
 {
     int pid;
     int status;
     char **ptr;
-    int ret;
 
     status = 0;
-    pid = -1;
-    ptr = NULL;
-    ret = -1;
-
     pid = fork();
     if (pid == 0)
     {
         ptr = (char **) str;
-        ret = execve(str[0], ptr, NULL);
-        return (ret);
+        shell->last_command_ret = execve(str[0], ptr, shell->last_environ);
+        return (shell->last_command_ret);
     }
     else if (pid > 0)
     {
@@ -37,19 +32,14 @@ int pass_str_to_exec(const char **str)
 
 int read_from_stdin(t_sh *shell)
 {
-    int ret;
     int fork_ret;
     char buf[BUFF_SIZE];
     char *no_spaces;
     char **command;
 
-    ret = 0;
-    fork_ret = -2;
-    no_spaces = NULL;
-    command = NULL;
     display_prompt(shell);
     buf_init(buf, BUFF_SIZE);
-    while ((ret = read(0, buf, BUFF_SIZE) > 0))
+    while ((read(0, buf, BUFF_SIZE) > 0))
     {
         if (is_only_endline(buf) || is_only_spaces(buf))
             display_prompt(shell);
@@ -62,7 +52,7 @@ int read_from_stdin(t_sh *shell)
 
             if (make_exploitable(command, shell->last_environ))
             {
-                if ((fork_ret = pass_str_to_exec((const char **) command)) && fork_ret != 1)
+                if ((fork_ret = pass_str_to_exec((const char **) command, shell)) && fork_ret != 1)
                     return (fork_ret);
             }
             else

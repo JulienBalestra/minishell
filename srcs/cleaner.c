@@ -23,7 +23,6 @@ void delete_list(t_env **env)
 		destroy_link(*env);
 		*env = current;
 	}
-	current = NULL;
 }
 
 void clean_program(t_sh *shell)

@@ -4,6 +4,7 @@
 # define BUFF_SIZE      4096
 
 # define PROMPT "minishell> "
+# include <string.h>
 
 // data model
 typedef struct		s_env
@@ -18,7 +19,8 @@ typedef struct		s_sh
     t_env			*env;
     char			**last_environ;
 	char			*prompt;
-	int				len_prompt;
+	size_t			len_prompt;
+	int 			last_command_ret;
 }					t_sh;
 
 // misc_string
@@ -43,7 +45,7 @@ int strlen_until_char(char *str, char c);
 
 void clean_program(t_sh *shell);
 // main
-int pass_str_to_exec(const char **str);
+int pass_str_to_exec(const char **str, t_sh *shell);
 
 
 t_sh    *create_shell_props(void);
