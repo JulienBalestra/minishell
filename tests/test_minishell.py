@@ -32,7 +32,7 @@ class TestMinishell(unittest.TestCase):
 	def tearDownClass(cls):
 		cls.dev_null.close()
 
-		assert len(cls.queue.p) == 27
+		assert len(cls.queue.p) == 29
 		raising = False
 		for i, p in enumerate(cls.queue.p):
 			p.process.join()
@@ -209,6 +209,14 @@ class TestMinishell(unittest.TestCase):
 
 	def test_26_env(self):
 		command = ["    env    "]
+		self.valgrind(command)
+
+	def test_27_unsetenv(self):
+		command = ["unsetenv", "_"]
+		self.valgrind(command)
+
+	def test_28_unsetenv(self):
+		command = ["unsetenv", "a_very_large_fake_env_name"]
 		self.valgrind(command)
 
 

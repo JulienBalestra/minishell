@@ -19,12 +19,12 @@ int pass_str_to_exec(const char **str, t_sh *shell)
     {
         ptr = (char **) str;
         shell->last_command_ret = execve(str[0], ptr, shell->last_environ);
-        return (shell->last_command_ret);
+        return (1);
     }
     else if (pid > 0)
     {
         waitpid(-1, &status, 0);
-        return (1);
+        return (0);
     }
     write(2, "error", 5);
     return (-1);
@@ -32,7 +32,6 @@ int pass_str_to_exec(const char **str, t_sh *shell)
 
 int read_from_stdin(t_sh *shell)
 {
-    int fork_ret;
     char buf[BUFF_SIZE];
     char *no_spaces;
     char **command;
@@ -49,13 +48,13 @@ int read_from_stdin(t_sh *shell)
             no_spaces = ft_remove_useless(buf, ' ');
             command = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);
-
+            // manage $?
 			if (manage_builtins(command, shell))
 				;
             else if (make_exploitable(command, shell->last_environ))
             {
-                if ((fork_ret = pass_str_to_exec((const char **) command, shell)) && fork_ret != 1)
-                    return (fork_ret);
+                if (pass_str_to_exec((const char **) command, shell) == 1)
+                    return (1);
             }
             else
                 display_command_not_found(command[0]);
