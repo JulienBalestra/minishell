@@ -36,6 +36,8 @@ manage_path.c \
 build_props.c \
 cleaner.c \
 misc_prompt.c \
+builtin_env.c \
+manage_builtins.c\
 update_last_environ.c
 
 
