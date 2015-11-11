@@ -1,6 +1,5 @@
 import subprocess
 from multiprocessing import Process
-import Queue
 
 
 def valgrind_wrapper(program, command):
@@ -30,9 +29,6 @@ def valgrind_wrapper(program, command):
 
 
 class QueueProcess:
-	q = Queue.Queue()
-	errors = []
-	success = []
 	p = []
 
 	def __init__(self, function, *args):
