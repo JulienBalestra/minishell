@@ -6,7 +6,7 @@
 #include "../libft/includes/libft.h"
 
 
-char  *replace_last_command_return_code(char *dollar_question, t_sh *shell)
+char  *replace_dollar_question(char *dollar_question, t_sh *shell)
 {
 	char *str_ret;
 
@@ -34,10 +34,7 @@ void manage_interpretor(char **command, t_sh *shell)
 		while (command[i])
 		{
 			if (ft_strcmp(command[i], "$?") == 0)
-			{
-
-				command[i] = replace_last_command_return_code(command[i], shell);
-			}
+				command[i] = replace_dollar_question(command[i], shell);
 			i++;
 		}
 	}
