@@ -61,7 +61,8 @@ int read_from_stdin(t_sh *shell)
             else
                 display_command_not_found(command[0]);
             tab_free(command);
-            display_prompt(shell);
+            if (shell->exit == 0)
+            	display_prompt(shell);
         }
         str_clear(buf);
     }
@@ -75,10 +76,10 @@ int main(void)
 
     if ((shell = create_shell_props()))
     {
-        ret = read_from_stdin(shell);
+        read_from_stdin(shell);
+        ret = shell->last_command_ret;
         clean_program(shell);
         return (ret);
     }
-    // Issue in create_shell_props
     return (3);
 }
