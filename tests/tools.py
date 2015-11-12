@@ -1,5 +1,5 @@
 import subprocess
-from multiprocessing import Process
+from multiprocessing import Process, cpu_count
 
 
 def valgrind_wrapper(program, command):
@@ -30,7 +30,7 @@ def valgrind_wrapper(program, command):
 
 class QueueProcess:
 	p = []
-	size = 10
+	size = cpu_count() * 6
 
 	def __init__(self, function, *args):
 		self.args = args
