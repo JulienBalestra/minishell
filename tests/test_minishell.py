@@ -61,6 +61,9 @@ class TestMinishell(unittest.TestCase):
 		stdout, stderr = p_real_shell.communicate()
 		return stdout, stderr.replace("/bin/bash: line 1: ", "")  # because of bash piping
 
+	def compare_returning_code(self, command):
+		print subprocess.call(["/bin/echo"] + command + [self.minishell])
+
 	def compare_shells(self, command):
 		real_std = self.execute_real_shell(command)
 		my_std = self.execute_my_shell(command)
@@ -217,6 +220,21 @@ class TestMinishell(unittest.TestCase):
 	def test_30_ret_last_command(self):
 		command = ["echo", "$?", "$?"]
 		self.assertEqual(('0 0\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_31_exit(self):
+		command = ["exit"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_32_exit(self):
+		command = ["exit", "1"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_33_exit(self):
+		command = ["exit", "2"]
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_99_waiting_process(self):
