@@ -39,6 +39,7 @@ misc_prompt.c \
 builtin_env.c \
 builtin_unsetenv.c \
 manage_builtins.c\
+manage_interpretor.c\
 update_last_environ.c
 
 

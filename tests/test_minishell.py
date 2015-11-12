@@ -32,16 +32,6 @@ class TestMinishell(unittest.TestCase):
 	def tearDownClass(cls):
 		cls.dev_null.close()
 
-		assert len(cls.queue.p) == 29
-		raising = False
-		for i, p in enumerate(cls.queue.p):
-			p.process.join()
-			if p.process.exitcode != 0:
-				raising = True
-				os.write(2, "%s\n" % str(p.args))
-		if raising is True:
-			raise AssertionError("Failed in valgrind")
-
 	def execute_my_shell(self, command):
 		"""
 		Here my minishell
@@ -218,6 +208,24 @@ class TestMinishell(unittest.TestCase):
 	def test_28_unsetenv(self):
 		command = ["unsetenv", "a_very_large_fake_env_name"]
 		self.valgrind(command)
+
+	def test_29_ret_last_command(self):
+		command = ["echo", "$?"]
+		self.assertEqual(('0\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_30_ret_last_command(self):
+		command = ["echo", "$?", "$?"]
+		self.assertEqual(('0 0\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_99_waiting_process(self):
+		raising = []
+		for p in self.queue.p:
+			p.process.join()
+			if p.process.exitcode != 0:
+				raising.append(p.args)
+		self.assertEqual([], raising)
 
 
 if __name__ == "__main__":

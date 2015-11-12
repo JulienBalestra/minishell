@@ -20,8 +20,6 @@ t_env *create_env_link(t_env *env, char *environ_entry)
 		{
 			link->prev = env;
 			env->next = link;
-			/*link->next = env;
-			env->prev = link;*/
 		}
 		else
 			link->prev = NULL;

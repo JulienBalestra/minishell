@@ -18,12 +18,14 @@ int pass_str_to_exec(const char **str, t_sh *shell)
     if (pid == 0)
     {
         ptr = (char **) str;
-        shell->last_command_ret = execve(str[0], ptr, shell->last_environ);
+        execve(str[0], ptr, shell->last_environ);
         return (1);
     }
     else if (pid > 0)
     {
         waitpid(-1, &status, 0);
+		if (WIFEXITED(status))
+			shell->last_command_ret = WEXITSTATUS(status);
         return (0);
     }
     write(2, "error", 5);
@@ -48,7 +50,7 @@ int read_from_stdin(t_sh *shell)
             no_spaces = ft_remove_useless(buf, ' ');
             command = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);
-            // manage $?
+            manage_interpretor(command, shell);
 			if (manage_builtins(command, shell))
 				;
             else if (make_exploitable(command, shell->last_environ))
