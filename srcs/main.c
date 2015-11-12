@@ -63,6 +63,8 @@ int read_from_stdin(t_sh *shell)
             tab_free(command);
             if (shell->exit == 0)
             	display_prompt(shell);
+			else
+				return (0);
         }
         str_clear(buf);
     }

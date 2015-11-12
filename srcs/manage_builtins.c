@@ -16,5 +16,10 @@ int manage_builtins(char **command, t_sh *shell)
 		builtin_unsetenv(command, shell);
 		return (1);
 	}
+	else if (ft_strcmp(command[0], "exit") == 0)
+	{
+		builtin_exit(command, shell);
+		return (1);
+	}
 	return (0);
 }
