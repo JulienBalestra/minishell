@@ -240,7 +240,7 @@ class TestMinishell(unittest.TestCase):
 	def test_34_echo_pid(self):
 		command = ["echo", "$$"]
 		stdout, stderr = self.execute_my_shell(command)
-		int(stdout.replace("\n", "")) # not needed the replace
+		int(stdout.replace("\n", ""))  # not needed the replace
 		self.assertEqual("", stderr)
 		self.valgrind(command)
 
