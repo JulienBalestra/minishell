@@ -237,6 +237,20 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_34_echo_pid(self):
+		command = ["echo", "$$"]
+		stdout, stderr = self.execute_my_shell(command)
+		int(stdout.replace("\n", "")) # not needed the replace
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_35_kill_pid(self):
+		command = ["kill", "$$"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
 	def test_99_waiting_process(self):
 		raising = []
 		for p in self.queue.p:
