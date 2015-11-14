@@ -29,6 +29,7 @@ function testing_osx
         return 0
     fi
     env | sort
+    printf "\n\n"
     setenv TOTO titi
     unsetenv TOTO
     setenv TOTO tata
