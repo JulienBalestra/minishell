@@ -6,12 +6,22 @@
 
 Recode of a /bin/bash
 
-# How to use
+# How to launch
 
 
 	./setup.sh
 	./minishell
-	
+
+
+# Which features are done
+
+* env
+* setenv
+* unsetenv
+* exit
+* $PATH browsing
+* $?
+* $$
 
 # How to test
 
