@@ -53,6 +53,7 @@ int pass_str_to_exec(const char **str, t_sh *shell);
 int manage_builtins(char **command, t_sh *shell);
 void builtin_env(char **last_environ);
 void builtin_unsetenv(char **command, t_sh *shell);
+void builtin_setenv(char **command, t_sh *shell);
 void manage_interpretor(char **command, t_sh *shell);
 void builtin_exit(char **command, t_sh *shell);
 

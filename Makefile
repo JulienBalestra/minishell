@@ -41,7 +41,8 @@ builtin_unsetenv.c \
 manage_builtins.c\
 manage_interpretor.c\
 update_last_environ.c \
-builtin_exit.c
+builtin_exit.c \
+builtin_setenv.c
 
 
 MAIN = srcs/main.c

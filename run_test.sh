@@ -25,7 +25,6 @@ function run_tests
 function main
 {
     go_to_dirname
-    testing_osx
     time run_tests
 }
 
