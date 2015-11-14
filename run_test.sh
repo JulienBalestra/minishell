@@ -22,25 +22,6 @@ function run_tests
     fi
 }
 
-function testing_osx
-{
-    if [ $(uname -s) == "Linux" ]
-    then
-        return 0
-    fi
-    sudo brew install zsh
-    printf "\n\n"
-    zsh
-    printf "\n\n"
-    env | sort
-    printf "\n\n"
-    setenv TOTO titi
-    unsetenv TOTO
-    setenv TOTO tata
-    setenv TOTO tutu
-    env | sort
-}
-
 function main
 {
     go_to_dirname
