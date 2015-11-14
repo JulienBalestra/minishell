@@ -28,6 +28,10 @@ function testing_osx
     then
         return 0
     fi
+    sudo brew install zsh
+    printf "\n\n"
+    zsh
+    printf "\n\n"
     env | sort
     printf "\n\n"
     setenv TOTO titi
