@@ -1,13 +1,23 @@
-#include "minishell.h"
 #include <unistd.h>
-
-#include "../includes/minishell.h"
-#include "../libft/includes/libft.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 
-void change_dir(char *path, t_sh *shell)
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include "minishell.h"
+#include "../includes/minishell.h"
+#include "../libft/includes/libft.h"
+
+void cd_symblink(char *path, t_sh *shell)
+{
+	// TODO
+	(void) path;
+	(void) shell;
+}
+
+void cd_ordinary(char *path, t_sh *shell)
 {
 	int ret;
 	char *buf_wd;
@@ -30,6 +40,32 @@ void change_dir(char *path, t_sh *shell)
 			shell->last_command_ret = 1;
 		}
 		free(buf_wd);
+	}
+}
+
+void change_dir(char *path, t_sh *shell)
+{
+	struct stat *stats;
+
+	if ((stats = (struct stat *) malloc(sizeof(struct stat))))
+	{
+		if (lstat(path, stats) == 0)
+		{
+			cd_ordinary(path, shell); //TODO ->
+			/*
+			if (S_ISLNK(stats->st_mode))
+				cd_symblink(path, shell);
+			else
+				cd_ordinary(path, shell);*/
+		}
+		else
+		{
+			ft_putstr_fd("cd: ", 2);
+			ft_putstr_fd(path, 2);
+			ft_putendl_fd(": No such file or directory", 2);
+			shell->last_command_ret = 1;
+		}
+		free(stats);
 	}
 }
 
