@@ -7,27 +7,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *get_full_path(char *tail_path)
-{
-	char *full_path;
-
-	full_path = NULL;
-	(void) tail_path;
-	return (full_path);
-}
-
 void change_dir(char *path, t_sh *shell)
 {
 	int ret;
 	char *buf_wd;
-	char *oldpwd;
+	char *old_pwd;
 
 	if ((buf_wd = (char *) malloc(sizeof(char) * 2048)))
 	{
-		oldpwd = getcwd(buf_wd, 2048);
+		old_pwd = getcwd(buf_wd, 2048);
 		if ((ret = chdir(path)) == 0)
 		{
-			ft_setenv("OLDPWD", oldpwd, shell);
+			ft_setenv("OLDPWD", old_pwd, shell);
 			shell->last_command_ret = ret;
 			ft_setenv("PWD", getcwd(buf_wd, 2048), shell);
 		}
