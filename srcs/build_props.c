@@ -35,7 +35,8 @@ t_env *build_env_list(char **environ)
 	env = NULL;
 	while (*environ)
 	{
-		env = create_env_link(env, *environ);
+		if (ft_strncmp("OLDPWD", *environ, 6) != 0)
+			env = create_env_link(env, *environ);
 		environ++;
 	}
 	while (env)

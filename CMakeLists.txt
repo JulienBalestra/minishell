@@ -96,6 +96,6 @@ set(SOURCE_FILES
         srcs/builtin_env.c
         srcs/builtin_unsetenv.c
         srcs/manage_interpretor.c
-        srcs/builtin_setenv.c srcs/builtin_getenv.c srcs/builtin_getenv.h)
+        srcs/builtin_setenv.c srcs/builtin_getenv.c srcs/builtin_getenv.h srcs/builtin_cd.c)
 
 add_executable(sh1 ${SOURCE_FILES})

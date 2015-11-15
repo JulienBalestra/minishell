@@ -43,7 +43,8 @@ manage_interpretor.c\
 update_last_environ.c \
 builtin_exit.c \
 builtin_setenv.c \
-builtin_getenv.c
+builtin_getenv.c \
+builtin_cd.c
 
 
 MAIN = srcs/main.c

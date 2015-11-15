@@ -27,7 +27,7 @@ void modify_env_value(t_env *browse, char *value)
 	}
 }
 
-void find_and_modify(char *name, char *value, t_sh *shell)
+void ft_setenv(char *name, char *value, t_sh *shell)
 {
 	t_env *browse;
 
@@ -58,5 +58,5 @@ void builtin_setenv(char **command, t_sh *shell)
 		ft_putendl_fd("setenv: too many arguments", 2);
 		return;
 	}
-	find_and_modify(command[1], command[2], shell);
+	ft_setenv(command[1], command[2], shell);
 }

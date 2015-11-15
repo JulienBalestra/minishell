@@ -31,5 +31,10 @@ int manage_builtins(char **command, t_sh *shell)
 		builtin_getenv(command, shell);
 		return (1);
 	}
+	else if (ft_strcmp(command[0], "cd") == 0)
+	{
+		builtin_cd(command, shell);
+		return (1);
+	}
 	return (0);
 }

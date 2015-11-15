@@ -293,6 +293,41 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual("getenv: too many arguments\n", stderr)
 		self.valgrind(command)
 
+	def test_42_cd(self):
+		command = ["cd"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_43_cd(self):
+		command = ["cd", "~"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_44_cd_oldpwd(self):
+		command = ["cd", "-"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("cd: OLDPWD not set\n", stderr)
+		self.valgrind(command)
+
+	def test_45_cd_tmp(self):
+		command = ["cd", "/tmp"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_46_cd_tmp(self):
+		command = ["cd", "/notherethisdirectory"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("cd: /notherethisdirectory: No such file or directory\n", stderr)
+		self.valgrind(command)
+
 	def test_99_waiting_process(self):
 		raising = []
 		for p in self.queue.p:
