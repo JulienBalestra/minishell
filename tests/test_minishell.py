@@ -272,6 +272,27 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual("setenv: too many arguments\n", stderr)
 		self.valgrind(command)
 
+	def test_39_getenv(self):
+		command = ["getenv", "LC_ALL"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("C\n", stdout)
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_40_getenv(self):
+		command = ["getenv"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_41_getenv(self):
+		command = ["getenv", "_", "my_shell", "too_many"]
+		stdout, stderr = self.execute_my_shell(command)
+		self.assertEqual("", stdout)
+		self.assertEqual("getenv: too many arguments\n", stderr)
+		self.valgrind(command)
+
 	def test_99_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

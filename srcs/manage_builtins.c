@@ -26,5 +26,10 @@ int manage_builtins(char **command, t_sh *shell)
 		builtin_setenv(command, shell);
 		return (1);
 	}
+	else if (ft_strcmp(command[0], "getenv") == 0)
+	{
+		builtin_getenv(command, shell);
+		return (1);
+	}
 	return (0);
 }

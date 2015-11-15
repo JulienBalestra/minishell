@@ -56,6 +56,8 @@ void builtin_unsetenv(char **command, t_sh *shell);
 void builtin_setenv(char **command, t_sh *shell);
 void manage_interpretor(char **command, t_sh *shell);
 void builtin_exit(char **command, t_sh *shell);
+void builtin_getenv(char **command, t_sh *shell);
+char *get_env_value(char *name, t_env *env);
 
 t_sh    *create_shell_props(void);
 

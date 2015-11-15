@@ -88,6 +88,14 @@ set(SOURCE_FILES
         srcs/manage_path.c
         srcs/misc_array.c
         srcs/misc_prompt.c
-        srcs/misc_string.c srcs/build_props.c srcs/cleaner.c srcs/update_last_environ.c srcs/manage_builtins.c srcs/builtin_env.c srcs/builtin_unsetenv.c srcs/manage_interpretor.c srcs/builtin_setenv.c)
+        srcs/misc_string.c
+        srcs/build_props.c
+        srcs/cleaner.c
+        srcs/update_last_environ.c
+        srcs/manage_builtins.c
+        srcs/builtin_env.c
+        srcs/builtin_unsetenv.c
+        srcs/manage_interpretor.c
+        srcs/builtin_setenv.c srcs/builtin_getenv.c srcs/builtin_getenv.h)
 
 add_executable(sh1 ${SOURCE_FILES})
