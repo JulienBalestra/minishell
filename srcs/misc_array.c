@@ -28,6 +28,5 @@ void tab_free(char **tab)
 			i++;
 		}
 		free(tab);
-		//tab = NULL;
 	}
 }

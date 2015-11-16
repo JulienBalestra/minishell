@@ -1,9 +1,10 @@
 #include "libft.h"
+#include "../libft/includes/libft.h"
 #include <stdlib.h>
 
 void ft_remove_endline(char *str)
 {
-	int len;
+	size_t len;
 
 	len = ft_strlen(str);
 	if (str[len - 1] == '\n')
