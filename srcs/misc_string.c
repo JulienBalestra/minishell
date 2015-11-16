@@ -1,6 +1,22 @@
 #include <stdlib.h>
 #include "../libft/includes/libft.h"
 
+static size_t null_strlen(char *s)
+{
+    size_t i;
+
+    i = 0;
+    if (s)
+    {
+        while (*s)
+        {
+            s++;
+            i++;
+        }
+    }
+    return (i);
+}
+
 void str_clear(char *str)
 {
     int i;
@@ -31,7 +47,7 @@ char *triple_join(char *s1, char *s2, char *s3)
     size_t total_len;
     int i;
 
-    total_len = ft_strlen(s1)+ ft_strlen(s2) + ft_strlen(s3) + 1;
+    total_len = null_strlen(s1)+ null_strlen(s2) + null_strlen(s3) + 1;
     i = 0;
     if ((final = (char *)malloc(sizeof(char) * total_len )))
     {
@@ -45,7 +61,7 @@ char *triple_join(char *s1, char *s2, char *s3)
             final[i++] = *s2;
             s2++;
         }
-        while (*s3)
+        while (s3 && *s3)
         {
             final[i++] = *s3;
             s3++;

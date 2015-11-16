@@ -8,7 +8,7 @@ void add_new_env(t_env *env, char *name, char *value)
 {
 	t_env *new;
 
-	if ((new = (t_env *)malloc(sizeof(t_env))))
+	if ((new = (t_env *) malloc(sizeof(t_env))))
 	{
 		new->name = ft_strdup(name);
 		new->value = ft_strdup(value);
@@ -43,7 +43,7 @@ void ft_setenv(char *name, char *value, t_sh *shell)
 		if (browse->next)
 			browse = browse->next;
 		else
-			break ;
+			break;
 	}
 	add_new_env(browse, name, value);
 	override_last_environ(shell);
@@ -51,9 +51,12 @@ void ft_setenv(char *name, char *value, t_sh *shell)
 
 void builtin_setenv(char **command, t_sh *shell)
 {
-	if (tab_len(command) < 3)
+	if (tab_len(command) == 1)
+	{
+		builtin_env(shell->last_environ);
 		return;
-	else if (tab_len(command) != 3)
+	}
+	else if (tab_len(command) > 3)
 	{
 		ft_putendl_fd("setenv: too many arguments", 2);
 		return;
