@@ -53,7 +53,7 @@ void builtin_setenv(char **command, t_sh *shell)
 {
 	if (tab_len(command) == 1)
 	{
-		builtin_env(shell->last_environ);
+		builtin_env(command, shell);
 		return;
 	}
 	else if (tab_len(command) > 3)

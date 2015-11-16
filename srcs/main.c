@@ -7,7 +7,7 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int pass_str_to_exec(const char **str, t_sh *shell)
+int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ)
 {
     int pid;
     int status;
@@ -18,7 +18,9 @@ int pass_str_to_exec(const char **str, t_sh *shell)
     if (pid == 0)
     {
         ptr = (char **) str;
-        execve(str[0], ptr, shell->last_environ);
+		if (mock_environ == NULL)
+			mock_environ = shell->last_environ;
+        execve(str[0], ptr, mock_environ);
         return (1);
     }
     else if (pid > 0)
@@ -56,7 +58,7 @@ int read_from_stdin(t_sh *shell)
 				;
             else if (make_exploitable(command, shell->last_environ))
             {
-                if (pass_str_to_exec((const char **) command, shell) == 1)
+                if (pass_str_to_exec((const char **) command, shell, NULL) == 1)
                     return (1);
             }
             else
