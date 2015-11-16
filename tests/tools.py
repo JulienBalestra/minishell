@@ -30,8 +30,7 @@ def valgrind_wrapper(program, command):
 
 class QueueProcess:
 	p = []
-	cores = cpu_count()
-	size = cores * cores
+	cores = cpu_count() + 1
 
 	def __init__(self, function, *args):
 		self.args = args
@@ -45,6 +44,5 @@ class QueueProcess:
 
 	def manage_queue(self):
 		state = [p for p in self.p if p.process.is_alive()]
-		if len(state) > self.size:
-			for i in range(0, self.cores / 2):
-				state[i].process.join()
+		if len(state) > self.cores:
+			state[0].process.join()

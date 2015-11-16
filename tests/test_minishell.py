@@ -204,6 +204,23 @@ class TestMinishell(unittest.TestCase):
 		command = ["    env    "]
 		self.valgrind(command)
 
+	def test_261_env(self):
+		command = ["env", "ls"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_262_env(self):
+		command = ["env", "-0"]
+		no_endline = self.execute_my_shell(command)[0].split("\n")
+		with_endline = self.execute_my_shell(["env"])[0].split("\n")
+		self.assertGreater(len(with_endline), len(no_endline))
+		self.valgrind(command)
+
+	def test_263_env(self):
+		command = ["env", "--null"]
+		self.assertEqual(self.execute_my_shell(command), self.execute_my_shell(["env", "-0"]))
+		self.valgrind(command)
+
 	def test_27_unsetenv(self):
 		command = ["unsetenv", "_"]
 		self.valgrind(command)
@@ -256,6 +273,11 @@ class TestMinishell(unittest.TestCase):
 		stdout, stderr = self.execute_my_shell(command)
 		self.assertEqual("", stdout)
 		self.assertEqual("", stderr)
+		self.valgrind(command)
+
+	def test_361_setenv(self):
+		command = ["setenv"]
+		self.assertEqual(self.execute_my_shell(command), self.execute_my_shell(["env"]))
 		self.valgrind(command)
 
 	def test_37_setenv(self):
