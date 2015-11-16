@@ -47,6 +47,7 @@ int read_from_stdin(t_sh *shell)
         else
         {
             ft_remove_endline(buf);
+            convert_chars(buf);
             no_spaces = ft_remove_useless(buf, ' ');
             command = ft_lz_strsplit(no_spaces, ' ');
             ft_strdel(&no_spaces);

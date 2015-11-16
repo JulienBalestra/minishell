@@ -60,6 +60,7 @@ void builtin_getenv(char **command, t_sh *shell);
 char *get_env_value(char *name, t_env *env);
 void builtin_cd(char **command, t_sh *shell);
 void ft_setenv(char *name, char *value, t_sh *shell);
+void convert_chars(char *str);
 
 t_sh    *create_shell_props(void);
 
