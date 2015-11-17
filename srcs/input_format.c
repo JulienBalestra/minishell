@@ -1,6 +1,5 @@
 #include "libft.h"
 #include "../libft/includes/libft.h"
-#include <stdlib.h>
 
 void ft_remove_endline(char *str)
 {

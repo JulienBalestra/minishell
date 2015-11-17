@@ -2,8 +2,6 @@
 #include "minishell.h"
 
 #include "../includes/minishell.h"
-#include "../libft/includes/libft.h"
-
 
 static size_t len_env(t_env *env)
 {

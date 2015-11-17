@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include "../libft/includes/libft.h"
 
 static size_t null_strlen(char *s)
 {
