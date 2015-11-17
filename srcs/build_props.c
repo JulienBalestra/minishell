@@ -54,26 +54,6 @@ t_env *build_env_list(char **environ)
 	return (env);
 }
 
-char **tab_dup(char **tab)
-{
-	char **new_tab;
-	char **begin_tab;
-
-	begin_tab = NULL;
-	if ((new_tab = (char **) malloc(sizeof(char *) * (tab_len(tab) + 1))))
-	{
-		begin_tab = new_tab;
-		while (*tab)
-		{
-			*new_tab = strdup(*tab);
-			new_tab++;
-			tab++;
-		}
-		*new_tab = NULL;
-	}
-	return (begin_tab);
-}
-
 t_sh *create_shell_props(void)
 {
 	t_sh *shell;

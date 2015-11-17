@@ -25,16 +25,20 @@ void trivial_env(char **command, t_sh *shell, int mock)
 
 void builtin_env(char **command, t_sh *shell)
 {
+	char **ptr;
+
 	if (tab_len(command) == 1)
 		display_last_environ(shell->last_environ, 1);
 	else if (tab_len(command) == 2 && (ft_strcmp("-0", command[1]) == 0 || ft_strcmp("--null", command[1]) == 0))
 		display_last_environ(shell->last_environ, 0);
 	else if (tab_len(command) == 2 && (ft_strcmp(command[1], "-i") != 0))
 	{
-		trivial_env(&command[1], shell, 0);
+		ptr = &command[1];
+		trivial_env(ptr, shell, 0);
 	}
 	else if (tab_len(command) == 3 && (ft_strcmp(command[1], "-i") == 0))
 	{
-		trivial_env(&command[2], shell, 1);
+		ptr = &command[2];
+		trivial_env(ptr, shell, 1);
 	}
 }
