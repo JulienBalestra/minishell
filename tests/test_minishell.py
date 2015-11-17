@@ -178,6 +178,16 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_201_ls(self):
+		command = ["\tls", " -la", " \t ."]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_202_ls(self):
+		command = ["\t  ls", " -la    ", " \t ."]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_21_fake_command(self):
 		command = ["a_very_large_fake_binary_name"]
 		self.compare_shells(command)
@@ -237,6 +247,11 @@ class TestMinishell(unittest.TestCase):
 	def test_30_ret_last_command(self):
 		command = ["echo", "$?", "$?"]
 		self.assertEqual(('0 0\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_301_ret_last_command(self):
+		command = ["echo", "$?", "$?", "\t$?  "]
+		self.assertEqual(('0 0 0\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_31_exit(self):
