@@ -33,11 +33,18 @@ t_env *build_env_list(char **environ)
 	t_env *env;
 
 	env = NULL;
-	while (*environ)
+	if (tab_len(environ) == 0)
 	{
-		if (ft_strncmp("OLDPWD", *environ, 6) != 0)
-			env = create_env_link(env, *environ);
-		environ++;
+		env = manage_empty_environ();
+	}
+	else
+	{
+		while (*environ)
+		{
+			if (ft_strncmp("OLDPWD", *environ, 6) != 0)
+				env = create_env_link(env, *environ);
+			environ++;
+		}
 	}
 	while (env)
 		if (env->prev)
@@ -75,7 +82,8 @@ t_sh *create_shell_props(void)
 	if ((shell = (t_sh *) malloc(sizeof(t_sh))))
 	{
 		shell->env = build_env_list(environ);
-		shell->last_environ = tab_dup(environ);
+		shell->last_environ = NULL;
+		override_last_environ(shell);
 		shell->prompt = ft_strdup(PROMPT);
 		shell->len_prompt = ft_strlen(PROMPT);
 		shell->last_command_ret = 0;

@@ -44,7 +44,8 @@ update_last_environ.c \
 builtin_exit.c \
 builtin_setenv.c \
 builtin_getenv.c \
-builtin_cd.c
+builtin_cd.c \
+empty_extern_environ.c
 
 
 MAIN = srcs/main.c

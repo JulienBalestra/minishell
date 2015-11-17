@@ -12,25 +12,29 @@ void display_last_environ(char **last_environ, int end_line)
 	}
 }
 
+void trivial_env(char **command, t_sh *shell, int mock)
+{
+	if (make_exploitable(command, shell->last_environ))
+	{
+		if (pass_str_to_exec((const char **) command, shell, NULL, mock) == 1)
+			return;
+	}
+	else
+		display_command_not_found(command[0]);
+}
+
 void builtin_env(char **command, t_sh *shell)
 {
-	char **no_env;
-
 	if (tab_len(command) == 1)
 		display_last_environ(shell->last_environ, 1);
-	else if (tab_len(command) == 2 &&
-			 (ft_strcmp("-0", command[1]) == 0 ||
-			  ft_strcmp("--null", command[1]) == 0))
+	else if (tab_len(command) == 2 && (ft_strcmp("-0", command[1]) == 0 || ft_strcmp("--null", command[1]) == 0))
 		display_last_environ(shell->last_environ, 0);
-	else if (tab_len(command) == 2)
+	else if (tab_len(command) == 2 && (ft_strcmp(command[1], "-i") != 0))
 	{
-		no_env = command;
-		if (make_exploitable(++no_env, shell->last_environ))
-		{
-			if (pass_str_to_exec((const char **) no_env, shell, NULL) == 1)
-				return;
-		}
-		else
-			display_command_not_found(no_env[0]);
+		trivial_env(&command[1], shell, 0);
+	}
+	else if (tab_len(command) == 3 && (ft_strcmp(command[1], "-i") == 0))
+	{
+		trivial_env(&command[2], shell, 1);
 	}
 }

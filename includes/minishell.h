@@ -49,7 +49,7 @@ int strlen_until_char(char *str, char c);
 void override_last_environ(t_sh *shell);
 void clean_program(t_sh *shell);
 // main
-int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ);
+int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int mock);
 int manage_builtins(char **command, t_sh *shell);
 void builtin_env(char **command, t_sh *shell);
 void builtin_unsetenv(char **command, t_sh *shell);
@@ -61,7 +61,9 @@ char *get_env_value(char *name, t_env *env);
 void builtin_cd(char **command, t_sh *shell);
 void ft_setenv(char *name, char *value, t_sh *shell);
 void convert_chars(char *str);
-
+t_env *create_env_link(t_env *env, char *environ_entry);
 t_sh    *create_shell_props(void);
+
+t_env *manage_empty_environ(void);
 
 #endif
