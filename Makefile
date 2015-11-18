@@ -63,7 +63,7 @@ $(NAME): $(OBJ_DIR) $(TARGET)
 
 $(TARGET): $(OBJS)
 	@make -C libft/ -j -s
-	@echo " + sh : Creating  $(CL_GREED)$@$(CL_WHITE) $(shell sleep 0.1)"
+	@echo " + sh : Creating  $(CL_GREED)$@$(CL_WHITE) $(shell sleep 0.01)"
 	@ar -rcv $(TARGET) $(OBJS) > /dev/null
 	@ranlib $(TARGET)
 	@$(CC) $(CFLAGS) srcs/main.c $(TARGET) libft/libft.a -I $(INC_DIR) -I libft/includes  -o $(BIN)

@@ -50,7 +50,7 @@ void find_and_destroy(char *name, t_sh *shell)
 		if (ft_strcmp(name, browse->name) == 0)
 		{
 			remove_env_link(shell, browse);
-			override_last_environ(shell);
+			shell->last_environ = override_last_environ(shell);
 			return;
 		}
 		browse = browse->next;

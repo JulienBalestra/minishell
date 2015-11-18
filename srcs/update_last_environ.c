@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "minishell.h"
 
+#include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
 static size_t len_env(t_env *env)
@@ -16,27 +17,32 @@ static size_t len_env(t_env *env)
 	return (len);
 }
 
-static char **new_last_environ(t_env *env)
+char **build_tab_environ(t_env *env, char *ignore)
 {
 	char **last_environ;
 	int i;
 
 	i = 0;
-	if ((last_environ = (char **) malloc(sizeof(char *) * (len_env(env) + 1))))
+	if (len_env(env) && (last_environ = (char **) malloc(sizeof(char *) * (len_env(env) + 1))))
 	{
 		while (env)
 		{
-			last_environ[i] = triple_join(env->name, "=", env->value);
+			if (ignore && ft_strcmp(ignore, env->name) == 0)
+				;
+			else
+			{
+				last_environ[i] = triple_join(env->name, "=", env->value);
+				i++;
+			}
 			env = env->next;
-			i++;
 		}
 		last_environ[i] = NULL;
 	}
 	return (last_environ);
 }
 
-void override_last_environ(t_sh *shell)
+char **override_last_environ(t_sh *shell)
 {
 	tab_free(shell->last_environ);
-	shell->last_environ = new_last_environ(shell->env);
+	return (build_tab_environ(shell->env, NULL));
 }

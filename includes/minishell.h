@@ -46,7 +46,8 @@ void display_command_not_found(char *command);
 int     make_exploitable(char **command, char **last_environ);
 int strlen_until_char(char *str, char c);
 
-void override_last_environ(t_sh *shell);
+char **override_last_environ(t_sh *shell);
+char **build_tab_environ(t_env *env, char *ignore);
 void clean_program(t_sh *shell);
 // main
 int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int mock);

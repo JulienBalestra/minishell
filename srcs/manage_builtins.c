@@ -8,7 +8,6 @@ int manage_builtins(char **command, t_sh *shell)
 	if (ft_strcmp(command[0], "env") == 0)
 	{
 		builtin_env(command, shell);
-		// TODO -> env args ?
 		return (1);
 	}
 	else if (ft_strcmp(command[0], "unsetenv") == 0)

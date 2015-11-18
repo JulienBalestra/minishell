@@ -63,7 +63,7 @@ t_sh *create_shell_props(void)
 	{
 		shell->env = build_env_list(environ);
 		shell->last_environ = NULL;
-		override_last_environ(shell);
+		shell->last_environ = override_last_environ(shell);
 		shell->prompt = ft_strdup(PROMPT);
 		shell->len_prompt = ft_strlen(PROMPT);
 		shell->last_command_ret = 0;
