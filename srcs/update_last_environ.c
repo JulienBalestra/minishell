@@ -23,7 +23,7 @@ char **build_tab_environ(t_env *env, char *ignore)
 	int i;
 
 	i = 0;
-	if (len_env(env) && (last_environ = (char **) malloc(sizeof(char *) * (len_env(env) + 1))))
+	if ((last_environ = (char **) malloc(sizeof(char *) * (len_env(env) + 1))))
 	{
 		while (env)
 		{
