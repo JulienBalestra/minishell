@@ -34,5 +34,6 @@ void clean_program(t_sh *shell)
 	free(shell->prompt);
 	if (shell->mock)
 		clean_program(shell->mock);
+	tab_free(shell->last_command);
 	free(shell);
 }

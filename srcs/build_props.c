@@ -67,6 +67,7 @@ t_sh *create_shell_from(char **environ_tab)
 		shell->prompt = ft_strdup(PROMPT);
 		shell->len_prompt = ft_strlen(PROMPT);
 		shell->last_command_ret = 0;
+		shell->last_command = NULL;
 		shell->exit = 0;
 		return (shell);
 	}

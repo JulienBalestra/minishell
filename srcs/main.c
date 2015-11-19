@@ -14,6 +14,7 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
     char **ptr;
 
     status = 0;
+    tab_free(shell->last_command);
     pid = fork();
     if (pid == 0)
     {
@@ -27,7 +28,10 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
     {
         waitpid(-1, &status, 0);
 		if (WIFEXITED(status))
-			shell->last_command_ret = WEXITSTATUS(status);
+        {
+            shell->last_command_ret = WEXITSTATUS(status);
+            shell->last_command = NULL;
+        }
         return (0);
     }
     write(2, "error", 5);

@@ -23,6 +23,7 @@ typedef struct		s_sh
 	char			*prompt;
 	size_t			len_prompt;
 	int 			last_command_ret;
+	char 			**last_command;
 	int 			exit;
 }					t_sh;
 
