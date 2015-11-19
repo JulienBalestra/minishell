@@ -439,6 +439,16 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual(('NEW=VALUE\x00NEW_NEW=NEW_VALUE\x00', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
+	def test_78_env_set_ignore(self):
+		command = ["env", "-i", "NEW=VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_79_env_set_ignore(self):
+		command = ["env", "-i", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_99_waiting_process(self):
 		raising = []
 		for p in self.queue.p:
