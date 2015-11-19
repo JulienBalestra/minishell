@@ -32,5 +32,7 @@ void clean_program(t_sh *shell)
 	tab_free(shell->last_environ);
 	free(shell->env);
 	free(shell->prompt);
+	if (shell->mock)
+		clean_program(shell->mock);
 	free(shell);
 }

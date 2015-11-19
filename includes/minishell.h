@@ -18,6 +18,7 @@ typedef struct		s_env
 typedef struct		s_sh
 {
     t_env			*env;
+	struct s_sh		*mock;
     char			**last_environ;
 	char			*prompt;
 	size_t			len_prompt;
@@ -63,6 +64,7 @@ void builtin_cd(char **command, t_sh *shell);
 void ft_setenv(char *name, char *value, t_sh *shell);
 void convert_chars(char *str);
 t_env *create_env_link(t_env *env, char *environ_entry);
+t_sh *create_shell_from(char **environ_tab);
 t_sh    *create_shell_props(void);
 
 t_env *manage_empty_environ(void);

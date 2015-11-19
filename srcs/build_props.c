@@ -54,20 +54,32 @@ t_env *build_env_list(char **environ)
 	return (env);
 }
 
-t_sh *create_shell_props(void)
+t_sh *create_shell_from(char **environ_tab)
 {
 	t_sh *shell;
-	extern char **environ;
 
 	if ((shell = (t_sh *) malloc(sizeof(t_sh))))
 	{
-		shell->env = build_env_list(environ);
+		shell->env = build_env_list(environ_tab);
+		shell->mock = NULL;
 		shell->last_environ = NULL;
 		shell->last_environ = override_last_environ(shell);
 		shell->prompt = ft_strdup(PROMPT);
 		shell->len_prompt = ft_strlen(PROMPT);
 		shell->last_command_ret = 0;
 		shell->exit = 0;
+		return (shell);
+	}
+	return (NULL);
+}
+
+t_sh *create_shell_props(void)
+{
+	t_sh *shell;
+	extern char **environ;
+
+	if ((shell = create_shell_from(environ)))
+	{
 		return (shell);
 	}
 	return (NULL);
