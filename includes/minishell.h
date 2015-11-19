@@ -148,4 +148,6 @@ size_t len_env(t_env *env);
 
 t_env *get_end(t_env *env);
 
+void alter_environ_and_display(char **command, t_sh *shell, int end_lines);
+
 #endif

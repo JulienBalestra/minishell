@@ -32,9 +32,10 @@ void builtin_env(char **command, t_sh *shell)
 		else if (benv->ignore == 1 && benv->cmd == 1)
 			run_under_new_environ(command, shell);
 		else if (benv->cmd == 1)
-		{
 			run_under_alter_environ(command, shell);
-		}
+		else if (benv->cmd == 0)
+			alter_environ_and_display(command, shell, benv->null ? 0 : 1);
+
 		free(benv);
 	}
 }

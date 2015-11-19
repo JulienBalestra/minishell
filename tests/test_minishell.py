@@ -545,6 +545,20 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
+	def test_98_unsetenv_display(self):
+		command = ["env", "-u", "PATH", "-u", "LC_ALL", "PATH=a_very_special_string"]
+		my_std = self.execute_my_shell(command)[0].split("\n")
+		self.assertIn("PATH=a_very_special_string", my_std)
+		self.assertNotIn("LC_ALL", my_std)
+		self.valgrind(command)
+
+	def test_99_unsetenv_display(self):
+		command = ["env", "-u", "PATH", "-u", "LC_ALL", "PATH=", "PATH=a_very_special_string"]
+		my_std = self.execute_my_shell(command)[0].split("\n")
+		self.assertIn("PATH=a_very_special_string", my_std)
+		self.assertNotIn("LC_ALL", my_std)
+		self.valgrind(command)
+
 	def test_Z99Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:
