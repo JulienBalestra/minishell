@@ -31,7 +31,7 @@ void builtin_env(char **command, t_sh *shell)
 			display_only_setenv(command, benv->null ? 0 : 1);
 		else if (benv->ignore == 1 && benv->cmd == 1)
 			run_under_new_environ(command, shell);
-		else if (benv->ignore == 0 && benv->cmd == 1)
+		else if (benv->cmd == 1)
 		{
 			run_under_alter_environ(command, shell);
 		}

@@ -140,4 +140,12 @@ t_env *upsert_link(t_env *env, char *environ_entry);
 
 void run_under_alter_environ(char **command, t_sh *shell);
 
+char **merge_both_environ(char **first, char **unset, char **second);
+
+void destroy_env_link(t_env *env);
+
+size_t len_env(t_env *env);
+
+t_env *get_end(t_env *env);
+
 #endif

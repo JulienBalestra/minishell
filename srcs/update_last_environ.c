@@ -4,7 +4,7 @@
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
-static size_t len_env(t_env *env)
+size_t len_env(t_env *env)
 {
 	size_t len;
 

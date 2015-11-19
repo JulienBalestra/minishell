@@ -14,6 +14,18 @@ t_env *get_start(t_env *env)
 	return (env);
 }
 
+t_env *get_end(t_env *env)
+{
+	while (env)
+	{
+		if (env->next)
+			env = env->next;
+		else
+			break;
+	}
+	return (env);
+}
+
 t_env *get_env_by_value(char *name, t_env *env)
 {
 	env = get_start(env);

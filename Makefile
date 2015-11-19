@@ -51,7 +51,8 @@ parse_env.c \
 env_errors.c \
 display_env.c \
 run_under_env.c \
-manage_link.c
+manage_link.c \
+merge_environ.c
 
 
 MAIN = srcs/main.c

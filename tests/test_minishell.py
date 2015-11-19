@@ -525,6 +525,26 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_94_unsetenv(self):
+		command = ["env", "-u", "PATH", "ls"]
+		self.assertEqual(('', 'env: ls: No such file or directory\n'), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_95_unsetenv(self):
+		command = ["env", "-u", "PATH", "-u", "LC_ALL", "ls"]
+		self.assertEqual(('', 'env: ls: No such file or directory\n'), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_96_unsetenv(self):
+		command = ["env", "-u", "PATH", "-u", "LC_ALL", "/bin/ls"]
+		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_97_unsetenv(self):
+		command = ["env", "-u", "PATH", "-u", "LC_ALL", "PATH=/bin", "/bin/ls"]
+		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
 	def test_Z99Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

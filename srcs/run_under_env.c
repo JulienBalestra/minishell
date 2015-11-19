@@ -7,43 +7,20 @@ char **get_mock_environ(char **command)
 {
 	char **mock;
 	t_env *cenv;
+	int i;
 
 	cenv = NULL;
-	while (*command)
+	i = 0;
+	while (command[i])
 	{
-		if (ft_strchr(*command, '='))
-			cenv = upsert_link(cenv, *command);
-
-		command++;
+		if (ft_strchr(command[i], '='))
+			cenv = upsert_link(cenv, command[i]);
+		i++;
 	}
 	cenv = get_start(cenv);
 	mock = build_tab_environ(cenv);
 	delete_list(&cenv);
 	return (mock);
-}
-
-char **merge_both_environ(char **first, char **second)
-{
-	char **merge;
-	t_env *menv;
-
-	menv = NULL;
-	while (*first)
-	{
-		if (ft_strchr(*first, '='))
-			menv = upsert_link(menv, *first);
-		first++;
-	}
-	while (*second)
-	{
-		if (ft_strchr(*second, '='))
-			menv = upsert_link(menv, *second);
-		second++;
-	}
-	menv = get_start(menv);
-	merge = build_tab_environ(menv);
-	delete_list(&menv);
-	return (merge);
 }
 
 char **get_command(char **command)
@@ -57,7 +34,7 @@ char **get_command(char **command)
 			i++;
 		else if (ft_strcmp(command[i], "-u") == 0 && command[i + 1])
 			i = i+ 2;
-		if (is_setenv(command[i]))
+		else if (is_setenv(command[i]))
 			i++;
 		else
 			break;
@@ -89,7 +66,7 @@ void run_under_alter_environ(char **command, t_sh *shell)
 	char **ptr;
 
 	new = get_mock_environ(command);
-	merge = merge_both_environ(shell->last_environ, new);
+	merge = merge_both_environ(shell->last_environ, command, new);
 	tab_free(new);
 	ptr = get_command(command);
 	if (make_exploitable(ptr, merge))
