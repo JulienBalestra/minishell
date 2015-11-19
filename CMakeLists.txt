@@ -84,7 +84,6 @@ set(SOURCE_FILES
         libft/srcs/ft_toupper.c
         srcs/input_format.c
         srcs/main.c
-        srcs/manage_environ.c
         srcs/manage_path.c
         srcs/misc_array.c
         srcs/misc_prompt.c
@@ -96,6 +95,14 @@ set(SOURCE_FILES
         srcs/builtin_env.c
         srcs/builtin_unsetenv.c
         srcs/manage_interpretor.c
-        srcs/builtin_setenv.c srcs/builtin_getenv.c srcs/builtin_getenv.h srcs/builtin_cd.c)
+        srcs/builtin_setenv.c
+        srcs/builtin_getenv.c
+        srcs/builtin_cd.c
+        srcs/empty_extern_environ.c
+        srcs/builtin_exit.c
+        srcs/misc_parse_env.c
+        srcs/parse_env.c
+
+        srcs/env_errors.c srcs/display_env.c)
 
 add_executable(sh1 ${SOURCE_FILES})

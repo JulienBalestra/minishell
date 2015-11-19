@@ -45,7 +45,11 @@ builtin_exit.c \
 builtin_setenv.c \
 builtin_getenv.c \
 builtin_cd.c \
-empty_extern_environ.c
+empty_extern_environ.c \
+misc_parse_env.c \
+parse_env.c \
+env_errors.c \
+display_env.c
 
 
 MAIN = srcs/main.c

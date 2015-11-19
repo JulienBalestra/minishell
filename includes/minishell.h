@@ -26,6 +26,15 @@ typedef struct		s_sh
 	int 			exit;
 }					t_sh;
 
+typedef struct		s_be
+{
+	int 			ignore;
+	int 			unet;
+	int 			set;
+	int 			null;
+	int 			cmd;
+}					t_be;
+
 // misc_string
 void				str_clear(char *str);
 void				buf_init(char *buf, int len);
@@ -68,5 +77,19 @@ t_sh *create_shell_from(char **environ_tab);
 t_sh    *create_shell_props(void);
 
 t_env *manage_empty_environ(void);
+
+int is_ignore_arg(char *arg);
+int is_null_arg(char *arg);
+int have_unsets(char **command);
+int is_only_env(char **command);
+int have_null(char **command);
+int have_ignore(char **command);
+int have_setenv(char **command);
+int is_setenv(char *arg);
+int have_command(char **command);
+
+int is_builtin_env_errors(t_be *benv);
+void display_environ(char **to_display, int end_line);
+void display_only_setenv(char **command, int end_line);
 
 #endif

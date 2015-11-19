@@ -198,39 +198,6 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
-	def test_23_env(self):
-		command = ["env"]
-		self.valgrind(command)
-
-	def test_24_env(self):
-		command = ["    env"]
-		self.valgrind(command)
-
-	def test_25_env(self):
-		command = ["env    "]
-		self.valgrind(command)
-
-	def test_26_env(self):
-		command = ["    env    "]
-		self.valgrind(command)
-
-	def test_261_env(self):
-		command = ["env", "ls"]
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_262_env(self):
-		command = ["env", "-0"]
-		no_endline = self.execute_my_shell(command)[0].split("\n")
-		with_endline = self.execute_my_shell(["env"])[0].split("\n")
-		self.assertGreater(len(with_endline), len(no_endline))
-		self.valgrind(command)
-
-	def test_263_env(self):
-		command = ["env", "--null"]
-		self.assertEqual(self.execute_my_shell(command), self.execute_my_shell(["env", "-0"]))
-		self.valgrind(command)
-
 	def test_27_unsetenv(self):
 		command = ["unsetenv", "_"]
 		self.valgrind(command)
@@ -363,6 +330,94 @@ class TestMinishell(unittest.TestCase):
 		stdout, stderr = self.execute_my_shell(command)
 		self.assertEqual("", stdout)
 		self.assertEqual("cd: /notherethisdirectory: No such file or directory\n", stderr)
+		self.valgrind(command)
+
+	def test_60_env_only(self):
+		command = ["env"]
+		self.valgrind(command)
+
+	def test_61_env_only(self):
+		command = ["    env"]
+		self.valgrind(command)
+
+	def test_62_env_only(self):
+		command = ["env    "]
+		self.valgrind(command)
+
+	def test_63_env_only(self):
+		command = ["    env    "]
+		self.valgrind(command)
+
+	def test_64_env_no_end_line(self):
+		command = ["env", "-0"]
+		no_endline = self.execute_my_shell(command)[0].split("\n")
+		with_endline = self.execute_my_shell(["env"])[0].split("\n")
+		self.assertGreater(len(with_endline), len(no_endline))
+		self.valgrind(command)
+
+	def test_65_env_no_end_line(self):
+		command = ["env", "--null"]
+		self.assertEqual(self.execute_my_shell(command), self.execute_my_shell(["env", "-0"]))
+		self.valgrind(command)
+
+	def test_66_env_unset(self):
+		command = ["env", "-u"]
+		self.assertEqual(('', "env: option requires an argument -- 'u'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_67_env_unset(self):
+		command = ["env", "-i", "-u"]
+		self.assertEqual(('', "env: option requires an argument -- 'u'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_68_env_unset(self):
+		command = ["env", "-i", "-0", "-u"]
+		self.assertEqual(('', "env: option requires an argument -- 'u'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_69_env_unset(self):
+		command = ["env", "-i", "-0", "-u", "VAR"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_70_env_unset(self):
+		command = ["env", "-i", "-0", "-u", "VAR", "-u", "OTHER_VAR"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_71_env_unset(self):
+		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_72_env_unset_set(self):
+		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR", "NEW=VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_73_env_unset_set(self):
+		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_74_env_unset_set_null(self):
+		command = ["env", "-i", "-0", "-u", "VAR", "-u", "OTHER_VAR", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_75_env_unset_set_null(self):
+		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR", "-0", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_76_env_unset_set_null(self):
+		command = ["env", "-u", "VAR", "-u", "OTHER_VAR", "-0", "-i", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_77_env_unset_set_null(self):
+		command = ["env", "-u", "VAR", "-i", "-u", "OTHER_VAR", "-0", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_99_waiting_process(self):
