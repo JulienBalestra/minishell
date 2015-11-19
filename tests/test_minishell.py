@@ -380,58 +380,63 @@ class TestMinishell(unittest.TestCase):
 	def test_69_env_unset(self):
 		command = ["env", "-i", "-0", "-u", "VAR"]
 		if "linux" in self.platform:
-			command.remove("-0")
-		self.compare_shells(command)
+			self.compare_shells(command)
+		self.assertEqual(('', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_70_env_unset(self):
 		command = ["env", "-i", "-0", "-u", "VAR", "-u", "OTHER_VAR"]
 		if "linux" in self.platform:
-			command.remove("-0")
-		self.compare_shells(command)
+			self.compare_shells(command)
+		self.assertEqual(('', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_71_env_unset(self):
 		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR"]
-		self.compare_shells(command)
+		if "linux" in self.platform:
+			self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_72_env_unset_set(self):
 		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR", "NEW=VALUE"]
-		self.compare_shells(command)
+		if "linux" in self.platform:
+			self.compare_shells(command)
+		self.assertEqual(('NEW=VALUE\n', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_73_env_unset_set(self):
 		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
-		self.compare_shells(command)
+		if "linux" in self.platform:
+			self.compare_shells(command)
+		self.assertEqual(('NEW=VALUE\nNEW_NEW=NEW_VALUE\n', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_74_env_unset_set_null(self):
 		command = ["env", "-i", "-0", "-u", "VAR", "-u", "OTHER_VAR", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
 		if "linux" in self.platform:
-			command.remove("-0")
-		self.compare_shells(command)
+			self.compare_shells(command)
+		self.assertEqual(('NEW=VALUE\x00NEW_NEW=NEW_VALUE\x00', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_75_env_unset_set_null(self):
 		command = ["env", "-i", "-u", "VAR", "-u", "OTHER_VAR", "-0", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
 		if "linux" in self.platform:
-			command.remove("-0")
-		self.compare_shells(command)
+			self.compare_shells(command)
+		self.assertEqual(('NEW=VALUE\x00NEW_NEW=NEW_VALUE\x00', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_76_env_unset_set_null(self):
 		command = ["env", "-u", "VAR", "-u", "OTHER_VAR", "-0", "-i", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
 		if "linux" in self.platform:
-			command.remove("-0")
-		self.compare_shells(command)
+			self.compare_shells(command)
+		self.assertEqual(('NEW=VALUE\x00NEW_NEW=NEW_VALUE\x00', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_77_env_unset_set_null(self):
 		command = ["env", "-u", "VAR", "-i", "-u", "OTHER_VAR", "-0", "NEW=VALUE", "NEW_NEW=NEW_VALUE"]
 		if "linux" in self.platform:
-			command.remove("-0")
-		self.compare_shells(command)
+			self.compare_shells(command)
+		self.assertEqual(('NEW=VALUE\x00NEW_NEW=NEW_VALUE\x00', ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_99_waiting_process(self):
