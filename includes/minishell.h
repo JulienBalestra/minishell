@@ -126,8 +126,6 @@ void display_only_setenv(char **command, int end_line);
 
 int is_benv_do_nothing(t_be *benv);
 
-void run_under_no_environ(char **ptr, t_sh *shell);
-
 void run_under_new_environ(char **command, t_sh *shell);
 
 t_env *get_start(t_env *env);
@@ -139,5 +137,7 @@ void display_not_such(char *who, char *where);
 char **get_mock_environ(char **command);
 
 t_env *upsert_link(t_env *env, char *environ_entry);
+
+void run_under_alter_environ(char **command, t_sh *shell);
 
 #endif

@@ -16,6 +16,7 @@ t_env *get_start(t_env *env)
 
 t_env *get_env_by_value(char *name, t_env *env)
 {
+	env = get_start(env);
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)
@@ -40,7 +41,7 @@ t_env *upsert_link(t_env *env, char *environ_entry)
 		if (link->value)
 			free(link->value);
 		environ_entry = &environ_entry[len_until + 1];
-		link->value =  ft_strdup(environ_entry);
+		link->value = ft_strdup(environ_entry);
 	}
 	else
 		env = create_env_link(env, environ_entry);
