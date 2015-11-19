@@ -15,7 +15,7 @@ Recode of a /bin/bash like
 
 # Which features are done
 
-* env binary as builtin
+* env binary as builtin based on Linux kernel (differ from Darwin: check the testing steps)
 * setenv from csh builtin
 * unsetenv from csh builtin
 * exit
