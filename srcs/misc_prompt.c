@@ -15,3 +15,11 @@ void display_command_not_found(char *command)
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
+
+void display_not_such(char *who, char *where)
+{
+	ft_putstr_fd(who, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(where, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+}

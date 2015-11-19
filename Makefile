@@ -49,7 +49,9 @@ empty_extern_environ.c \
 misc_parse_env.c \
 parse_env.c \
 env_errors.c \
-display_env.c
+display_env.c \
+run_under_env.c \
+manage_link.c
 
 
 MAIN = srcs/main.c

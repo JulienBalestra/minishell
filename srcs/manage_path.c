@@ -23,8 +23,6 @@ char *join_path_to_command(char *command, char *path_value)
     char *cur_path;
     char *cur_full_cmd;
 
-    cur_path = NULL;
-    cur_full_cmd = NULL;
     cur_path_len = -1;
     while (cur_path_len != 0 && path_value)
     {
@@ -49,7 +47,6 @@ int make_full_path(char **command, char *path_value)
 {
     char *full_command;
 
-    full_command = NULL;
     if ((full_command = join_path_to_command(command[0], path_value)))
     {
         free(command[0]);
@@ -63,7 +60,6 @@ static char *get_path_from_environ(char **last_environ)
 {
     char *path_value;
 
-    path_value = NULL;
     while (*last_environ)
     {
         if (ft_strncmp(*last_environ, "PATH=", 5) == 0)
@@ -80,9 +76,11 @@ int     make_exploitable(char **command, char **last_environ)
 {
     char *path_value;
 
-    path_value = NULL;
     if (access(*command, X_OK) == 0)
         return (1);
+
+    if (last_environ == NULL)
+        return (0);
 
     if ((path_value = get_path_from_environ(last_environ)))
         return (make_full_path(command, path_value));

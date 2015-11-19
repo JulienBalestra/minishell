@@ -16,16 +16,22 @@ void display_environ(char **to_display, int end_line)
 
 void display_only_setenv(char **command, int end_line)
 {
-	while (command && *command)
+	char **mock;
+	int i;
+
+	mock = get_mock_environ(command);
+	i = 0;
+	while (mock && mock[i])
 	{
-		if (is_setenv(*command))
+		if (is_setenv(mock[i]))
 		{
-			ft_putstr(*command);
+			ft_putstr(mock[i]);
 			if (end_line)
 				ft_putchar('\n');
 			else
 				ft_putchar('\x00');
 		}
-		command++;
+		i++;
 	}
+	tab_free(mock);
 }

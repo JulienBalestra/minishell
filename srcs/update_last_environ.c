@@ -17,7 +17,7 @@ static size_t len_env(t_env *env)
 	return (len);
 }
 
-char **build_tab_environ(t_env *env, char *ignore)
+char **build_tab_environ(t_env *env)
 {
 	char **last_environ;
 	int i;
@@ -27,13 +27,8 @@ char **build_tab_environ(t_env *env, char *ignore)
 	{
 		while (env)
 		{
-			if (ignore && ft_strcmp(ignore, env->name) == 0)
-				;
-			else
-			{
-				last_environ[i] = triple_join(env->name, "=", env->value);
-				i++;
-			}
+			last_environ[i] = triple_join(env->name, "=", env->value);
+			i++;
 			env = env->next;
 		}
 		last_environ[i] = NULL;
@@ -44,5 +39,5 @@ char **build_tab_environ(t_env *env, char *ignore)
 char **override_last_environ(t_sh *shell)
 {
 	tab_free(shell->last_environ);
-	return (build_tab_environ(shell->env, NULL));
+	return (build_tab_environ(shell->env));
 }

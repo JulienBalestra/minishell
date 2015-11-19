@@ -449,7 +449,59 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
-	def test_99_waiting_process(self):
+	def test_80_run_env(self):
+		command = ["env", "-i", "PATH=", "ls"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_81_run_env(self):
+		command = ["env", "-i", "PATH=/bin", "ls"]
+		self.compare_shells(command)
+		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_82_run_env(self):
+		command = ["env", "-i", "PATH=/bin", "ls", "-l"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_83_run_env(self):
+		command = ["env", "-i", "PATH=/bin", "VAR=VALUE", "ls", "-l"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_84_run_env(self):
+		command = ["env", "-i", "PATH=/bin", "VAR=VALUE", "NEW=", "ls", "-l"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_85_ignore_env_no_dup(self):
+		command = ["env", "-i", "VAR=VALUE", "VAR=VALUE"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_86_ignore_env_no_dup(self):
+		command = ["env", "-i", "VAR=VALUE", "VAR=VALUE", "NEW="]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_87_ignore_env_no_dup(self):
+		command = ["env", "-i", "VAR=VALUE", "VAR=VALUE", "NEW=", "NEW=OK"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_88_ignore_env_no_dup(self):
+		command = ["env", "-i", "NEW=", "NEW=OK", "NEW=", "NEW=OK"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_89_ignore_env_no_dup(self):
+		command = ["env", "-i", "NEW=", "NEW=OK", "NEW=", "NEW=OK", "PATH=/bin", "ls"]
+		self.compare_shells(command)
+		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_Z99Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:
 			p.process.join()

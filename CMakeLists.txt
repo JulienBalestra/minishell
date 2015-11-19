@@ -103,6 +103,6 @@ set(SOURCE_FILES
         srcs/misc_parse_env.c
         srcs/parse_env.c
 
-        srcs/env_errors.c srcs/display_env.c)
+        srcs/env_errors.c srcs/display_env.c srcs/run_under_env.c srcs/manage_link.c)
 
 add_executable(sh1 ${SOURCE_FILES})

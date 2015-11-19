@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int is_builtin_env_errors(t_be *benv)
+int is_benv_errors(t_be *benv)
 {
 	if (benv->unet == -1)
 	{
@@ -13,5 +13,12 @@ int is_builtin_env_errors(t_be *benv)
 		ft_putstr_fd("env: cannot specify --null (-0) with command\n", 2);
 		return (1);
 	}
+	return (0);
+}
+
+int is_benv_do_nothing(t_be *benv)
+{
+	if (benv->ignore == 1 && benv->cmd == 0 && benv->set == 0)
+		return (1);
 	return (0);
 }

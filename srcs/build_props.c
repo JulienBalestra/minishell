@@ -46,12 +46,7 @@ t_env *build_env_list(char **environ)
 			environ++;
 		}
 	}
-	while (env)
-		if (env->prev)
-			env = env->prev;
-		else
-			break ;
-	return (env);
+	return (get_start(env));
 }
 
 t_sh *create_shell_from(char **environ_tab)
