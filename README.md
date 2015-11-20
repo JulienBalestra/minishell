@@ -10,6 +10,7 @@ Recode of a /bin/bash like
 
 
 	./setup.sh
+	make
 	./minishell
 
 
