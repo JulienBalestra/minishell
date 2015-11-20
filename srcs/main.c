@@ -30,7 +30,6 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
 		if (WIFEXITED(status))
         {
             shell->last_command_ret = WEXITSTATUS(status);
-            shell->last_command = NULL;
         }
         return (0);
     }

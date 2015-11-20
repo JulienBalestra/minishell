@@ -61,18 +61,6 @@ char *replace_variable(char *name, t_sh *shell, int var_mode)
 	return (NULL);
 }
 
-int is_var(char *variable)
-{
-	if (variable[0] == '$' && variable[1])
-	{
-		if (variable[1] != '{')
-			return (1);
-		else if (variable[ft_strlen(variable) - 1] == '}')
-			return (2);
-	}
-	return (0);
-}
-
 void manage_interpretor(char **command, t_sh *shell)
 {
 	int i;
@@ -88,8 +76,8 @@ void manage_interpretor(char **command, t_sh *shell)
 				command[i] = replace_dollar_question(command[i], shell);
 			else if (ft_strcmp(command[i], "$$") == 0)
 				command[i] = replace_dollar_dollar(command[i]);
-			else if (is_var(command[i]))
-				command[i] = replace_variable(command[i], shell, is_var(command[i]));
+			else if (is_$var(command[i]))
+				command[i] = replace_variable(command[i], shell, is_$var(command[i]));
 			i++;
 		}
 		replace_null(command, len);

@@ -106,6 +106,6 @@ set(SOURCE_FILES
         srcs/display_env.c
         srcs/run_under_env.c
         srcs/manage_link.c
-        srcs/merge_environ.c)
+        srcs/merge_environ.c srcs/misc_interpretor.c)
 
 add_executable(sh1 ${SOURCE_FILES})

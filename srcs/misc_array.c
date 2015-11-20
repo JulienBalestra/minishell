@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "../libft/includes/libft.h"
 
 int tab_len(char **tab)
 {
@@ -57,4 +58,24 @@ void replace_null(char **command, int original)
 			i++;
 		}
 	}
+}
+
+char **tab_dup(char **tab)
+{
+	char **dup;
+	int i;
+	size_t len;
+
+	len = (size_t) tab_len(tab);
+	i = 0;
+	if ((dup = (char **)malloc(sizeof(char *) * (len + 1))))
+	{
+		while (tab[i])
+		{
+			dup[i] = ft_strdup(tab[i]);
+			i++;
+		}
+		dup[i] = NULL;
+	}
+	return (dup);
 }

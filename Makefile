@@ -52,7 +52,8 @@ env_errors.c \
 display_env.c \
 run_under_env.c \
 manage_link.c \
-merge_environ.c
+merge_environ.c \
+misc_interpretor.c
 
 
 MAIN = srcs/main.c

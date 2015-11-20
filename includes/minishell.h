@@ -152,4 +152,8 @@ void alter_environ_and_display(char **command, t_sh *shell, int end_lines);
 
 void replace_null(char **command, int original);
 
+int is_$var(char *variable);
+
+char **tab_dup(char **tab);
+
 #endif
