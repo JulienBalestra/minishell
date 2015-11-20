@@ -584,6 +584,21 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_105_use_variable(self):
+		command = ["echo", "$NO_REALLY_INSIDE_ENV", "$PATH"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_106_use_variable(self):
+		command = ["echo", "$NO_REALLY_INSIDE_ENV", "$PATH", "$NO_REALLY_INSIDE_ENV"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_107_use_variable(self):
+		command = ["echo", "$NO_REALLY_INSIDE_ENV", "$PATH", "$NO_REALLY_INSIDE_ENV", "${PATH}"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_Z99Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

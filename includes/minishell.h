@@ -150,4 +150,6 @@ t_env *get_end(t_env *env);
 
 void alter_environ_and_display(char **command, t_sh *shell, int end_lines);
 
+void replace_null(char **command, int original);
+
 #endif

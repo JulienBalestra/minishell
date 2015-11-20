@@ -30,7 +30,7 @@ char *replace_dollar_dollar(char *dollar_question)
 
 	if (dollar_question)
 	{
-		if ((str_ret = ft_itoa((int)getpid())))
+		if ((str_ret = ft_itoa((int) getpid())))
 		{
 			free(dollar_question);
 			return (str_ret);
@@ -76,10 +76,12 @@ int is_var(char *variable)
 void manage_interpretor(char **command, t_sh *shell)
 {
 	int i;
+	int len;
 
 	i = 0;
 	if (shell && command)
 	{
+		len = tab_len(command);
 		while (command[i])
 		{
 			if (ft_strcmp(command[i], "$?") == 0)
@@ -90,5 +92,6 @@ void manage_interpretor(char **command, t_sh *shell)
 				command[i] = replace_variable(command[i], shell, is_var(command[i]));
 			i++;
 		}
+		replace_null(command, len);
 	}
 }
