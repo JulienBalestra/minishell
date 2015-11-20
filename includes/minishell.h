@@ -156,4 +156,8 @@ int is_$var(char *variable);
 
 char **tab_dup(char **tab);
 
+int handle_quotes(char *entry);
+
+char *remove_quotes(char *entry);
+
 #endif

@@ -599,7 +599,42 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
-	def test_Z99Z_waiting_process(self):
+	def test_108_no_variable(self):
+		command = ["echo", "$"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_109_variable(self):
+		command = ["echo", "$", "$NO_REALLY_INSIDE_ENV", "$PATH", "$NO_REALLY_INSIDE_ENV", "${PATH}"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_110_quotes(self):
+		command = ["echo", '"$PATH"']
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_111_quotes(self):
+		command = ["echo", "'$PATH'"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_112_quotes(self):
+		command = ["echo", "'$PATH'"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_113_quotes(self):
+		command = ["echo", "'$PATH'", 'testing', "$?"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_114_quotes(self):
+		command = ["echo", "'$PATH'", 'testing', "$?", "${PATH}"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_Z999Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:
 			p.process.join()

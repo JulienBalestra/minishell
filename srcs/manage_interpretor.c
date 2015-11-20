@@ -72,6 +72,14 @@ void manage_interpretor(char **command, t_sh *shell)
 		len = tab_len(command);
 		while (command[i])
 		{
+			if (handle_quotes(command[i]) == 2)
+				command[i] = remove_quotes(command[i]);
+			else if (handle_quotes(command[i]) == 1)
+			{
+				command[i] = remove_quotes(command[i]);
+				i++;
+				continue;
+			}
 			if (ft_strcmp(command[i], "$?") == 0)
 				command[i] = replace_dollar_question(command[i], shell);
 			else if (ft_strcmp(command[i], "$$") == 0)
