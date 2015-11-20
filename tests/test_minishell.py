@@ -559,6 +559,31 @@ class TestMinishell(unittest.TestCase):
 		self.assertNotIn("LC_ALL", my_std)
 		self.valgrind(command)
 
+	def test_100_use_variable(self):
+		command = ["echo", "$PATH"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_101_use_variable(self):
+		command = ["echo", "${PATH}"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_102_use_variable(self):
+		command = ["echo", "${PATH}", "$PATH"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_103_use_variable(self):
+		command = ["echo", "${NO_REALLY_INSIDE_ENV}"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_104_use_variable(self):
+		command = ["echo", "$NO_REALLY_INSIDE_ENV"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_Z99Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

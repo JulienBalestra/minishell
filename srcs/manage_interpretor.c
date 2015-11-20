@@ -41,6 +41,38 @@ char *replace_dollar_dollar(char *dollar_question)
 	return (NULL);
 }
 
+char *replace_variable(char *name, t_sh *shell, int var_mode)
+{
+	char *str_ret;
+	int i;
+
+	i = 1;
+	if (name)
+	{
+		if (var_mode == 2)
+		{
+			name[ft_strlen(name) - 1] = '\0';
+			i++;
+		}
+		str_ret = get_env_value(&name[i], get_start(shell->env));
+		free(name);
+		return (ft_strdup(str_ret));
+	}
+	return (NULL);
+}
+
+int is_var(char *variable)
+{
+	if (variable[0] == '$' && variable[1])
+	{
+		if (variable[1] != '{')
+			return (1);
+		else if (variable[ft_strlen(variable) - 1] == '}')
+			return (2);
+	}
+	return (0);
+}
+
 void manage_interpretor(char **command, t_sh *shell)
 {
 	int i;
@@ -54,6 +86,8 @@ void manage_interpretor(char **command, t_sh *shell)
 				command[i] = replace_dollar_question(command[i], shell);
 			else if (ft_strcmp(command[i], "$$") == 0)
 				command[i] = replace_dollar_dollar(command[i]);
+			else if (is_var(command[i]))
+				command[i] = replace_variable(command[i], shell, is_var(command[i]));
 			i++;
 		}
 	}

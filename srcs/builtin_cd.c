@@ -17,7 +17,7 @@ void cd_symblink(char *path, t_sh *shell)
 	(void) shell;
 }
 
-void cd_ordinary(char *path, t_sh *shell)
+void cd_physical(char *path, t_sh *shell)
 {
 	int ret;
 	char *buf_wd;
@@ -51,12 +51,12 @@ void change_dir(char *path, t_sh *shell)
 	{
 		if (lstat(path, stats) == 0)
 		{
-			cd_ordinary(path, shell); //TODO ->
+			cd_physical(path, shell); //TODO ->
 			/*
 			if (S_ISLNK(stats->st_mode))
 				cd_symblink(path, shell);
 			else
-				cd_ordinary(path, shell);*/
+				cd_physical(path, shell);*/
 		}
 		else
 		{
