@@ -19,11 +19,14 @@ Recode of a /bin/bash like
 * setenv from csh builtin
 * unsetenv from csh builtin
 * exit
-* $PATH browsing
+* PATH browsing
 * $?
 * $$
+* $VAR
+* ${VAR}
 
 # How to test
 
+The following command will install valgrind for leaks and errors utilities (and gdb).
 
 	./setup.sh && ./run_test.sh
