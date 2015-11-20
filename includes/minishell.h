@@ -160,4 +160,12 @@ int handle_quotes(char *entry);
 
 char *remove_quotes(char *entry);
 
+char *transform_dollar_builtin(char *entry, t_sh *shell);
+
+int is_dollar_builtin(char *entry);
+
+char *replace_dollar_dollar(char *dollar_question);
+
+char *replace_dollar_question(char *dollar_question, t_sh *shell);
+
 #endif
