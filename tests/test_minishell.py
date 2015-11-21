@@ -27,6 +27,8 @@ class TestMinishell(unittest.TestCase):
 		try:
 			if subprocess.call(["valgrind", "--version"]) == 0:
 				cls.valgrind_binary = True
+			else:
+				os.write(2, "VALGRIND NOT AVAILABLE")
 		except OSError:
 			pass
 
@@ -72,8 +74,9 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual(real_std, my_std)
 
 	def valgrind(self, command):
-		leaks = QueueProcess(valgrind_wrapper, self.minishell, command)
-		leaks.start()
+		if self.valgrind_binary is True:
+			leaks = QueueProcess(valgrind_wrapper, self.minishell, command)
+			leaks.start()
 
 	def test_00_full_bin_ls(self):
 		command = ["/bin/ls"]
