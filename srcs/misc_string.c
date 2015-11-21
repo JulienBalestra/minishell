@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-static size_t null_strlen(char *s)
+size_t null_strlen(char *s)
 {
 	size_t i;
 

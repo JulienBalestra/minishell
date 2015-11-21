@@ -53,7 +53,8 @@ display_env.c \
 run_under_env.c \
 manage_link.c \
 merge_environ.c \
-misc_interpretor.c
+misc_interpretor.c \
+misc_read.c
 
 
 MAIN = srcs/main.c

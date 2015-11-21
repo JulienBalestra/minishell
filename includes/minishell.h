@@ -168,4 +168,12 @@ char *replace_dollar_dollar(char *dollar_question);
 
 char *replace_dollar_question(char *dollar_question, t_sh *shell);
 
+size_t null_strlen(char *s);
+
+int is_only_one_line(char *buf);
+
+int redisplay_prompt(char *buf);
+
+char **build_command(char *buf, t_sh *shell);
+
 #endif

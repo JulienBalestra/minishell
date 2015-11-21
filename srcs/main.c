@@ -5,7 +5,6 @@
 #include "minishell.h"
 
 #include "../includes/minishell.h"
-#include "../libft/includes/libft.h"
 
 int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
 {
@@ -40,23 +39,17 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
 int read_from_stdin(t_sh *shell)
 {
     char buf[BUFF_SIZE];
-    char *no_spaces;
     char **command;
 
     display_prompt(shell);
     buf_init(buf, BUFF_SIZE);
     while ((read(0, buf, BUFF_SIZE) > 0))
     {
-        if (is_only_endline(buf) || is_only_spaces(buf))
+        if (redisplay_prompt(buf))
             display_prompt(shell);
         else
         {
-            ft_remove_endline(buf);
-            convert_chars(buf);
-            no_spaces = ft_remove_useless(buf, ' ');
-            command = ft_lz_strsplit(no_spaces, ' ');
-            ft_strdel(&no_spaces);
-            manage_interpretor(command, shell);
+            command = build_command(buf, shell);
 			if (manage_builtins(command, shell))
 				;
             else if (make_exploitable(command, shell->last_environ))
@@ -84,10 +77,13 @@ int main(void)
 
     if ((shell = create_shell_props()))
     {
-        read_from_stdin(shell);
-        ret = shell->last_command_ret;
-        clean_program(shell);
-        return (ret);
+        if (read_from_stdin(shell) == 0)
+		{
+			ret = shell->last_command_ret;
+			clean_program(shell);
+			return (ret);
+		}
+		return (2);
     }
     return (3);
 }
