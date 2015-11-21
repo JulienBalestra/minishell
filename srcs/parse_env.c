@@ -30,7 +30,7 @@ int have_ignore(char **command)
 			return (1);
 		else if (is_setenv(command[i]))
 			return (0);
-		else if (ft_strcmp("-u", command[i - 1]) != 0&& is_ignore_arg(command[i]))
+		else if (ft_strcmp("-u", command[i - 1]) != 0 && is_ignore_arg(command[i]))
 			return (1);
 		i++;
 	}

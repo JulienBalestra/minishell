@@ -13,6 +13,7 @@ class TestMinishell(unittest.TestCase):
 	dev_null = open(os.devnull, 'w')
 	queue = QueueProcess
 	linux = True if "linux" in sys.platform else False
+	tail = True if "TRUE" in "%s" % os.getenv("VG_TAIL") else False
 
 	@classmethod
 	def setUpClass(cls):
@@ -75,7 +76,7 @@ class TestMinishell(unittest.TestCase):
 
 	def valgrind(self, command):
 		if self.valgrind_binary is True:
-			leaks = QueueProcess(valgrind_wrapper, False, self.minishell, command)
+			leaks = QueueProcess(valgrind_wrapper, self.tail, self.minishell, command)
 			leaks.start()
 
 	def test_00_full_bin_ls(self):
@@ -634,6 +635,11 @@ class TestMinishell(unittest.TestCase):
 
 	def test_114_quotes(self):
 		command = ["echo", "'$PATH'", 'testing', "$?", "${PATH}"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_115_quotes(self):
+		command = ["echo", "'$PATH'", 'testing', "$?", '"${PATH}"']
 		self.compare_shells(command)
 		self.valgrind(command)
 
