@@ -25,6 +25,7 @@ typedef struct s_sh
 	size_t len_prompt;
 	int last_command_ret;
 	char **last_command;
+	char *buf;
 	int exit;
 } t_sh;
 
@@ -170,10 +171,12 @@ char *replace_dollar_question(char *dollar_question, t_sh *shell);
 
 size_t null_strlen(char *s);
 
-int is_only_one_line(char *buf);
+int is_real_line(char *buf);
 
-int redisplay_prompt(char *buf);
+char **build_command(t_sh *shell);
 
-char **build_command(char *buf, t_sh *shell);
+char *get_line(t_sh *shell);
+
+int existing_line(t_sh *shell);
 
 #endif

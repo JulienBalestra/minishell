@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdlib.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -38,18 +39,15 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
 
 int read_from_stdin(t_sh *shell)
 {
-    char buf[BUFF_SIZE];
     char **command;
 
-    display_prompt(shell);
-    buf_init(buf, BUFF_SIZE);
-    while ((read(0, buf, BUFF_SIZE) > 0))
+    while (42)
     {
-        if (redisplay_prompt(buf))
-            display_prompt(shell);
-        else
+		display_prompt(shell);
+		shell->buf = get_line(shell);
+        if (existing_line(shell))
         {
-            command = build_command(buf, shell);
+            command = build_command(shell);
 			if (manage_builtins(command, shell))
 				;
             else if (make_exploitable(command, shell->last_environ))
@@ -60,14 +58,10 @@ int read_from_stdin(t_sh *shell)
             else
                 display_command_not_found(command[0]);
             tab_free(command);
-            if (shell->exit == 0)
-            	display_prompt(shell);
-			else
-				return (0);
         }
-        str_clear(buf);
+		if (shell->exit == 1)
+			return (0);
     }
-    return (0);
 }
 
 int main(void)

@@ -75,7 +75,7 @@ class TestMinishell(unittest.TestCase):
 
 	def valgrind(self, command):
 		if self.valgrind_binary is True:
-			leaks = QueueProcess(valgrind_wrapper, self.minishell, command)
+			leaks = QueueProcess(valgrind_wrapper, False, self.minishell, command)
 			leaks.start()
 
 	def test_00_full_bin_ls(self):

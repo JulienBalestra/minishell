@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "libft.h"
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
@@ -9,32 +10,6 @@ void ft_remove_endline(char *str)
 	len = ft_strlen(str);
 	if (str[len - 1] == '\n')
 		str[len - 1] = '\0';
-}
-
-int is_only_endline(char *buf)
-{
-	if (buf[0] && buf[1] && buf[0] == '\n' && buf[1] == '\0')
-		return (1);
-	else
-		return (0);
-}
-
-int is_only_one_line(char *buf)
-{
-	size_t len;
-	size_t i;
-
-	i = 0;
-	if ((len = null_strlen(buf)))
-	{
-		while (buf[i] && buf[i] != '\n')
-		{
-			i++;
-		}
-		if (i == len - 1)
-			return (1);
-	}
-	return (0);
 }
 
 int is_only_spaces(char *buf)
@@ -52,17 +27,34 @@ int is_only_spaces(char *buf)
 	return (1);
 }
 
-char **build_command(char *buf, t_sh *shell)
+int existing_line(t_sh *shell)
+{
+	if (shell->buf == NULL)
+	{
+		shell->exit = 1;
+		return (0);
+	}
+	else if (is_only_spaces(shell->buf))
+	{
+		free(shell->buf);
+		shell->buf = NULL;
+		return (0);
+	}
+	return (1);
+}
+
+char **build_command(t_sh *shell)
 {
 	char **command;
 	char *no_spaces;
 
-	ft_remove_endline(buf);
-	convert_chars(buf);
-	no_spaces = ft_remove_useless(buf, ' ');
+	ft_remove_endline(shell->buf);
+	convert_chars(shell->buf);
+	no_spaces = ft_remove_useless(shell->buf, ' ');
 	command = ft_lz_strsplit(no_spaces, ' ');
 	ft_strdel(&no_spaces);
 	manage_interpretor(command, shell);
+	free(shell->buf);
+	shell->buf = NULL;
 	return (command);
-
 }

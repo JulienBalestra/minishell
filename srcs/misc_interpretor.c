@@ -25,9 +25,14 @@ char *remove_quotes(char *entry)
 
 int handle_quotes(char *entry)
 {
-	if (entry[0] == 39 && entry[ft_strlen(entry) - 1] == 39)
+	size_t len;
+
+	len = ft_strlen(entry);
+	if (len == 1)
+		return (0);
+	if (entry[0] == 39 && entry[len - 1] == 39 && len > 2)
 		return (1);
-	if (entry[0] == 34 && entry[ft_strlen(entry) - 1] == 34)
+	if (entry[0] == 34 && entry[len - 1] == 34 && len > 2)
 		return (2);
 	return (0);
 }
