@@ -43,7 +43,7 @@ void cd_physical(char *path, t_sh *shell)
 	}
 }
 
-void change_dir(char *path, t_sh *shell)
+void change_dir(char *path, t_sh *shell, char *original)
 {
 	struct stat *stats;
 
@@ -61,7 +61,10 @@ void change_dir(char *path, t_sh *shell)
 		else
 		{
 			ft_putstr_fd("cd: ", 2);
-			ft_putstr_fd(path, 2);
+			if (path)
+				ft_putstr_fd(path, 2);
+			else
+				ft_putstr_fd(original, 2);
 			ft_putendl_fd(": No such file or directory", 2);
 			shell->last_command_ret = 1;
 		}
@@ -72,7 +75,7 @@ void change_dir(char *path, t_sh *shell)
 void builtin_cd(char **command, t_sh *shell)
 {
 	if (tab_len(command) == 1 || ft_strcmp(command[1], "~") == 0)
-		change_dir(get_env_value("HOME", shell->env), shell);
+		change_dir(get_env_value("HOME", shell->env), shell, "HOME");
 	else if (ft_strcmp(command[1], "-") == 0)
 	{
 		if (get_env_value("OLDPWD", shell->env) == NULL)
@@ -81,11 +84,11 @@ void builtin_cd(char **command, t_sh *shell)
 			shell->last_command_ret = 1;
 			return;
 		}
-		change_dir(get_env_value("OLDPWD", shell->env), shell);
+		change_dir(get_env_value("OLDPWD", shell->env), shell, "OLDPWD");
 		ft_putendl(get_env_value("PWD", shell->env));
 	}
 	else
 	{
-		change_dir(command[1], shell);
+		change_dir(command[1], shell, command[1]);
 	}
 }
