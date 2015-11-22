@@ -74,6 +74,7 @@ void manage_interpretor(char **command, t_sh *shell)
 		len = tab_len(command);
 		while (command[i])
 		{
+			// TODO remove quotes or manage split by quotes or blanks
 			if (handle_quotes(command[i]) == 2)
 			{
 				command[i] = remove_quotes(command[i]);
