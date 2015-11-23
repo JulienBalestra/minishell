@@ -55,7 +55,8 @@ manage_link.c \
 merge_environ.c \
 misc_interpretor.c \
 misc_read.c \
-reader.c
+reader.c \
+cd_goto.c
 
 
 MAIN = srcs/main.c

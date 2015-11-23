@@ -109,6 +109,6 @@ set(SOURCE_FILES
         srcs/merge_environ.c
         srcs/misc_interpretor.c
         srcs/misc_read.c
-        srcs/reader.c)
+        srcs/reader.c srcs/misc_cd.c)
 
 add_executable(sh1 ${SOURCE_FILES})

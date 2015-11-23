@@ -643,6 +643,11 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_116_quotes(self):
+		command = ["echo", "'$PATH'", 'testing', "$?", '\" $PATH\"']
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_Z999Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

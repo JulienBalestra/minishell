@@ -179,4 +179,10 @@ char *get_line(t_sh *shell);
 
 int existing_line(t_sh *shell);
 
+void go_to_old_pwd(t_sh *shell);
+
+void go_to_home_directory(t_sh *shell);
+
+void change_dir(char *path, t_sh *shell);
+
 #endif
