@@ -14,7 +14,7 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
     char **ptr;
 
     status = 0;
-    tab_free(shell->last_command);
+    ft_str2del(shell->last_command);
     pid = fork();
     if (pid == 0)
     {
@@ -57,7 +57,7 @@ int read_from_stdin(t_sh *shell)
             }
             else
                 display_command_not_found(command[0]);
-            tab_free(command);
+            ft_str2del(command);
         }
 		if (shell->exit == 1)
 			return (0);

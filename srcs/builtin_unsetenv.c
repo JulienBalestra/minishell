@@ -59,7 +59,7 @@ void find_and_destroy(char *name, t_sh *shell)
 
 void builtin_unsetenv(char **command, t_sh *shell)
 {
-	if (tab_len(command) == 1)
+	if (ft_str2len(command) == 1)
 		return;
 	command++;
 	while (*command)

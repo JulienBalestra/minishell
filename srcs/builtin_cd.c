@@ -57,7 +57,7 @@ void change_dir(char *path, t_sh *shell)
 
 void builtin_cd(char **command, t_sh *shell)
 {
-	if (tab_len(command) == 1 || ft_strcmp(command[1], "~") == 0)
+	if (ft_str2len(command) == 1 || ft_strcmp(command[1], "~") == 0)
 	{
 		go_to_home_directory(shell);
 	}

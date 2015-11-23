@@ -20,9 +20,9 @@ void builtin_getenv(char **command, t_sh *shell)
 {
 	char *value;
 
-	if (tab_len(command) < 2)
+	if (ft_str2len(command) < 2)
 		return ;
-	else if (tab_len(command) != 2)
+	else if (ft_str2len(command) != 2)
 	{
 		ft_putendl_fd("getenv: too many arguments", 2);
 		return ;

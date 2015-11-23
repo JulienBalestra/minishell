@@ -38,6 +38,6 @@ char **build_tab_environ(t_env *env)
 
 char **override_last_environ(t_sh *shell)
 {
-	tab_free(shell->last_environ);
+	ft_str2del(shell->last_environ);
 	return (build_tab_environ(shell->env));
 }

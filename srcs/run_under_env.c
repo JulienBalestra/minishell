@@ -61,7 +61,7 @@ void run_under_new_environ(char **command, t_sh *shell)
 	}
 	else
 		display_not_such("env", ptr[0]);
-	tab_free(mock);
+	ft_str2del(mock);
 }
 
 void run_under_alter_environ(char **command, t_sh *shell)
@@ -72,7 +72,7 @@ void run_under_alter_environ(char **command, t_sh *shell)
 
 	new = get_mock_environ(command);
 	merge = merge_both_environ(shell->last_environ, command, new);
-	tab_free(new);
+	ft_str2del(new);
 	ptr = get_command(command);
 	if (make_exploitable(ptr, merge))
 	{
@@ -81,7 +81,7 @@ void run_under_alter_environ(char **command, t_sh *shell)
 	}
 	else
 		display_not_such("env", ptr[0]);
-	tab_free(merge);
+	ft_str2del(merge);
 }
 
 void alter_environ_and_display(char **command, t_sh *shell, int end_lines)
@@ -91,7 +91,7 @@ void alter_environ_and_display(char **command, t_sh *shell, int end_lines)
 
 	new = get_mock_environ(command);
 	merge = merge_both_environ(shell->last_environ, command, new);
-	tab_free(new);
+	ft_str2del(new);
 	display_environ(merge, end_lines);
-	tab_free(merge);
+	ft_str2del(merge);
 }

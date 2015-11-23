@@ -33,5 +33,5 @@ void display_only_setenv(char **command, int end_line)
 		}
 		i++;
 	}
-	tab_free(mock);
+	ft_str2del(mock);
 }

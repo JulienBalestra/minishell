@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "minishell.h"
+#include "libft.h"
 #include "../includes/minishell.h"
 
 void remove_link(t_env *link)
@@ -29,12 +30,12 @@ void delete_list(t_env **env)
 void clean_program(t_sh *shell)
 {
 	delete_list(&(shell->env));
-	tab_free(shell->last_environ);
+	ft_str2del(shell->last_environ);
 	free(shell->env);
 	free(shell->prompt);
 	if (shell->mock)
 		clean_program(shell->mock);
-	tab_free(shell->last_command);
+	ft_str2del(shell->last_command);
 	if (shell->buf)
 		free(shell->buf);
 	free(shell);

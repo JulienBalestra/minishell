@@ -45,10 +45,6 @@ void buf_init(char *buf, int len);
 
 char *triple_join(char *s1, char *s2, char *s3);
 
-int tab_len(char **tab);
-
-void tab_free(char **tab);
-
 void ft_remove_endline(char *str);
 
 int is_only_endline(char *buf);
@@ -154,8 +150,6 @@ void alter_environ_and_display(char **command, t_sh *shell, int end_lines);
 void replace_null(char **command, int original);
 
 int is_$var(char *variable);
-
-char **tab_dup(char **tab);
 
 int handle_quotes(char *entry);
 

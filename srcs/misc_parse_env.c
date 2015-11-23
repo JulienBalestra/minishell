@@ -3,7 +3,7 @@
 
 int is_only_env(char **command)
 {
-	if (tab_len(command) == 1)
+	if (ft_str2len(command) == 1)
 		return (1);
 	return (0);
 }

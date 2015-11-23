@@ -51,12 +51,12 @@ void ft_setenv(char *name, char *value, t_sh *shell)
 
 void builtin_setenv(char **command, t_sh *shell)
 {
-	if (tab_len(command) == 1)
+	if (ft_str2len(command) == 1)
 	{
 		builtin_env(command, shell);
 		return;
 	}
-	else if (tab_len(command) > 3)
+	else if (ft_str2len(command) > 3)
 	{
 		ft_putendl_fd("setenv: too many arguments", 2);
 		shell->last_command_ret = 2;

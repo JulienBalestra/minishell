@@ -33,7 +33,7 @@ t_env *build_env_list(char **environ)
 	t_env *env;
 
 	env = NULL;
-	if (tab_len(environ) == 0)
+	if (ft_str2len(environ) == 0)
 	{
 		env = manage_empty_environ();
 	}
