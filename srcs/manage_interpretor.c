@@ -65,7 +65,7 @@ void manage_interpretor(char **command, t_sh *shell)
 {
 	int i;
 	int q;
-	int len;
+	size_t len;
 
 	i = 0;
 	q = 0;

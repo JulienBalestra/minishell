@@ -6,6 +6,7 @@
 #include "minishell.h"
 
 #include "../includes/minishell.h"
+#include "../libft/includes/libft.h"
 
 int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
 {
