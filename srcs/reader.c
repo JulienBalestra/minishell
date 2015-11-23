@@ -6,32 +6,55 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int is_enter(char *buf)
+
+
+char *compile(char *left, char *buf)
 {
-	if (buf && ft_strlen(buf) == 1 && buf[0] == '\n')
-		return (1);
-	return (0);
+	char *tmp;
+
+	tmp = buf;
+	buf = ft_strjoin(left, buf);
+	free(tmp);
+	ft_strdel(&left);
+	return (buf);
+}
+
+void again(char *buf, t_sh *shell)
+{
+	display_prompt(shell);
+	ft_strclr(buf);
+}
+
+char *move_and_clean(char *buf)
+{
+	char *left;
+
+	left = ft_strdup(buf);
+	ft_strclr(buf);
+	return (left);
 }
 
 char *get_line(t_sh *shell)
 {
 	char *buf;
-	ssize_t ret;
+	char *left;
 
-	if ((buf = (char *)malloc(sizeof(char) * BUFF_SIZE)))
+	ssize_t ret;
+	if ((buf = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1))))
 	{
+		left = NULL;
 		buf_init(buf, BUFF_SIZE);
 		while ((ret = read(0, buf, BUFF_SIZE)))
 		{
+			buf[ret] = '\0';
+			if (left && buf[0])
+				buf = compile(left, buf);
 			if (is_real_line(buf))
-			{
 				return (buf);
-			}
             else if (is_enter(buf))
-			{
-				display_prompt(shell);
-				ft_strclr(buf);
-			}
+				again(buf, shell);
+			else
+				left = move_and_clean(buf);
 		}
 		free(buf);
 		shell->exit = 1;

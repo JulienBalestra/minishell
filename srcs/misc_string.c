@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "libft.h"
+#include "../libft/includes/libft.h"
 
 void buf_init(char *buf, int len)
 {

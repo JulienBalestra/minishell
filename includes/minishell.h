@@ -1,13 +1,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define BUFF_SIZE      4096
+# define BUFF_SIZE      128
 
 # define PROMPT "minishell> "
 
 # include <string.h>
 
-// data model
 typedef struct s_env
 {
 	struct s_env *next;
@@ -145,8 +144,6 @@ t_env *get_end(t_env *env);
 
 void alter_environ_and_display(char **command, t_sh *shell, int end_lines);
 
-void replace_null(char **command, int original);
-
 int is_$var(char *variable);
 
 int handle_quotes(char *entry);
@@ -174,5 +171,7 @@ void go_to_old_pwd(t_sh *shell);
 void go_to_home_directory(t_sh *shell);
 
 void change_dir(char *path, t_sh *shell);
+
+int is_enter(char *buf);
 
 #endif
