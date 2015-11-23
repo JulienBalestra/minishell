@@ -30,7 +30,6 @@ CL_WHITE = \033[0m
 
 SRC =               \
 input_format.c  \
-misc_array.c    \
 misc_string.c	\
 manage_path.c \
 build_props.c \

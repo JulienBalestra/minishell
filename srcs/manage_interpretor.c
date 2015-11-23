@@ -89,6 +89,6 @@ void manage_interpretor(char **command, t_sh *shell)
 			i++;
 			q = 0;
 		}
-		replace_null(command, len);
+		ft_str2defrag(command, len);
 	}
 }
