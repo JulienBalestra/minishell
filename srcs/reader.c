@@ -30,7 +30,7 @@ char *get_line(t_sh *shell)
             else if (is_enter(buf))
 			{
 				display_prompt(shell);
-				str_clear(buf);
+				ft_strclr(buf);
 			}
 		}
 		free(buf);

@@ -7,7 +7,7 @@ int is_real_line(char *buf)
 	size_t i;
 
 	i = 0;
-	if ((len = null_strlen(buf)))
+	if ((len = ft_nstrlen(buf)))
 	{
 		while (buf[i] && buf[i] != '\n')
 		{

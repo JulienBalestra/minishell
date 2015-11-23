@@ -1,32 +1,5 @@
 #include <stdlib.h>
-
-size_t null_strlen(char *s)
-{
-	size_t i;
-
-	i = 0;
-	if (s)
-	{
-		while (*s)
-		{
-			s++;
-			i++;
-		}
-	}
-	return (i);
-}
-
-void str_clear(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		str[i] = '\0';
-		i++;
-	}
-}
+#include "libft.h"
 
 void buf_init(char *buf, int len)
 {
@@ -46,7 +19,7 @@ char *triple_join(char *s1, char *s2, char *s3)
 	size_t total_len;
 	int i;
 
-	total_len = null_strlen(s1) + null_strlen(s2) + null_strlen(s3) + 1;
+	total_len = ft_nstrlen(s1) + ft_nstrlen(s2) + ft_nstrlen(s3) + 1;
 	i = 0;
 	if ((final = (char *) malloc(sizeof(char) * total_len)))
 	{

@@ -39,8 +39,6 @@ typedef struct s_be
 } t_be;
 
 
-void str_clear(char *str);
-
 void buf_init(char *buf, int len);
 
 char *triple_join(char *s1, char *s2, char *s3);
@@ -162,8 +160,6 @@ int is_dollar_builtin(char *entry);
 char *replace_dollar_dollar(char *dollar_question);
 
 char *replace_dollar_question(char *dollar_question, t_sh *shell);
-
-size_t null_strlen(char *s);
 
 int is_real_line(char *buf);
 
