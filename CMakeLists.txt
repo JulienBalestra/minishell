@@ -82,10 +82,10 @@ set(SOURCE_FILES
         libft/srcs/ft_strtrim.c
         libft/srcs/ft_tolower.c
         libft/srcs/ft_toupper.c
+
         srcs/input_format.c
         srcs/main.c
         srcs/manage_path.c
-        srcs/misc_array.c
         srcs/misc_prompt.c
         srcs/misc_string.c
         srcs/build_props.c
@@ -109,6 +109,7 @@ set(SOURCE_FILES
         srcs/merge_environ.c
         srcs/misc_interpretor.c
         srcs/misc_read.c
-        srcs/reader.c srcs/misc_cd.c)
+        srcs/reader.c
+        srcs/cd_goto.c)
 
 add_executable(sh1 ${SOURCE_FILES})
