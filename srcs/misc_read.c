@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
