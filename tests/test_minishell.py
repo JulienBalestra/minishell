@@ -613,6 +613,41 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_110_multi_run(self):
+		command = ["echo", "toto", ";", "echo", "tata"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_111_multi_run(self):
+		command = ["echo", "toto", ";", "echo", "tata", ";", "ls"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_112_multi_run(self):
+		command = ["echo", "toto", ";"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_113_multi_run(self):
+		command = ["echo", "toto", ";", "echo", "titi", ";"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_114_multi_run(self):
+		command = ["env", "PATH=/tmp", "ls", ";", "echo", "titi", ";"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_115_multi_run(self):
+		command = ["env", "PATH=/tmp", "ls", ";", "echo", "titi", ";", "exit"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_116_multi_run(self):
+		command = ["env", "PATH=/tmp", "ls", ";", "echo", "titi", ";", "exit", ";"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_Z999Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

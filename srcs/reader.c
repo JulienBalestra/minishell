@@ -6,8 +6,6 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-
-
 char *compile(char *left, char *buf)
 {
 	char *tmp;

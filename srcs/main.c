@@ -40,25 +40,35 @@ int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int moc
 
 int read_from_stdin(t_sh *shell)
 {
-    char **command;
+    char ***command;
+	int i;
 
     while (42)
     {
 		display_prompt(shell);
 		shell->buf = get_line(shell);
-        if (existing_line(shell))
+		// TODO echo toto ;; echo toto => bash: syntax error near unexpected token `;;'
+        // TODO ;echo toto => bash: syntax error near unexpected token `;'
+        if (existing_line(shell)) // && correct_syntax
         {
             command = build_command(shell);
-			if (manage_builtins(command, shell))
-				;
-            else if (make_exploitable(command, shell->last_environ))
+			i = 0;
+            while (shell->exit == 0 && command[i])
             {
-                if (pass_str_to_exec((const char **) command, shell, NULL, 0) == 1)
-                    return (1);
+                if (manage_builtins(command[i], shell));
+                else if (make_exploitable(command[i], shell->last_environ))
+                {
+                    if (pass_str_to_exec((const char **) command[i], shell, NULL, 0) == 1)
+                        return (1);
+                }
+                else
+                    display_command_not_found(command[i][0]);
+                ft_str2del(command[i]);
+                i++;
             }
-            else
-                display_command_not_found(command[0]);
-            ft_str2del(command);
+            // TODO exit ; echo toto => leaks
+            if (command)
+                free(command);
         }
 		if (shell->exit == 1)
 			return (0);

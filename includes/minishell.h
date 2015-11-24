@@ -155,7 +155,7 @@ char *replace_dollar_question(char *dollar_question, t_sh *shell);
 
 int is_real_line(char *buf);
 
-char **build_command(t_sh *shell);
+char ***build_command(t_sh *shell);
 
 char *get_line(t_sh *shell);
 

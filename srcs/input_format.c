@@ -43,17 +43,47 @@ int existing_line(t_sh *shell)
 	return (1);
 }
 
-char **build_command(t_sh *shell)
+char ***command_from_cli(char **cli, t_sh *shell)
 {
-	char **command;
+	int i;
+	size_t len;
+	char ***command;
 	char *no_spaces;
+
+	i = 0;
+	len = ft_str2len(cli);
+	if ((command = (char ***)malloc(sizeof(char **) * (len + 1) )))
+	{
+		while (cli[i])
+		{
+			no_spaces = ft_remove_useless(cli[i], ' ');
+			command[i] = ft_lz_strsplit(no_spaces, ' ');
+			ft_strdel(&no_spaces);
+			ft_strdel(&cli[i]);
+			manage_interpretor(command[i], shell);
+			i++;
+		}
+		free(cli);
+		command[i] = NULL;
+	}
+	return (command);
+}
+
+char ***build_command(t_sh *shell)
+{
+	char ***command;
+	char **cli;
+	char *spaces;
+	char *semi;
 
 	ft_remove_endline(shell->buf);
 	convert_chars(shell->buf);
-	no_spaces = ft_remove_useless(shell->buf, ' ');
-	command = ft_lz_strsplit(no_spaces, ' ');
-	ft_strdel(&no_spaces);
-	manage_interpretor(command, shell);
+	spaces = ft_remove_useless(shell->buf, ' ');
+	semi = ft_remove_useless(spaces, ';');
+	ft_strdel(&spaces);
+	cli = ft_lz_strsplit(semi, ';');
+	ft_strdel(&semi);
+	command = command_from_cli(cli, shell);
 	free(shell->buf);
 	shell->buf = NULL;
 	return (command);
