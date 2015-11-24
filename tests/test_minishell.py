@@ -613,41 +613,6 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
-	def test_110_quotes(self):
-		command = ["echo", '"$PATH"']
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_111_quotes(self):
-		command = ["echo", "'$PATH'"]
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_112_quotes(self):
-		command = ["echo", "'$PATH'"]
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_113_quotes(self):
-		command = ["echo", "'$PATH'", 'testing', "$?"]
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_114_quotes(self):
-		command = ["echo", "'$PATH'", 'testing', "$?", "${PATH}"]
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_115_quotes(self):
-		command = ["echo", "'$PATH'", 'testing', "$?", '"${PATH}"']
-		self.compare_shells(command)
-		self.valgrind(command)
-
-	def test_116_quotes(self):
-		command = ["echo", "'$PATH'", 'testing', "$?", '\" $PATH\"']
-		#self.compare_shells(command) - > TODO AST for split by ', "
-		self.valgrind(command)
-
 	def test_Z999Z_waiting_process(self):
 		raising = []
 		for p in self.queue.p:

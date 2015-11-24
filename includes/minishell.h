@@ -37,7 +37,6 @@ typedef struct s_be
 	int cmd;
 } t_be;
 
-
 void buf_init(char *buf, int len);
 
 char *triple_join(char *s1, char *s2, char *s3);
@@ -145,10 +144,6 @@ t_env *get_end(t_env *env);
 void alter_environ_and_display(char **command, t_sh *shell, int end_lines);
 
 int is_$var(char *variable);
-
-int handle_quotes(char *entry);
-
-char *remove_quotes(char *entry);
 
 char *transform_dollar_builtin(char *entry, t_sh *shell);
 

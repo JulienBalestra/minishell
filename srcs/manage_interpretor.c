@@ -64,30 +64,19 @@ char *replace_variable(char *name, t_sh *shell, int var_mode)
 void manage_interpretor(char **command, t_sh *shell)
 {
 	int i;
-	int q;
 	size_t len;
 
 	i = 0;
-	q = 0;
 	if (shell && command)
 	{
 		len = ft_str2len(command);
 		while (command[i])
 		{
-			// TODO remove quotes or manage split by quotes or blanks
-			if (handle_quotes(command[i]) == 2)
-			{
-				command[i] = remove_quotes(command[i]);
-				q = 1;
-			}
-			if (q == 0 && handle_quotes(command[i]) == 1)
-				command[i] = remove_quotes(command[i]);
-			else if (is_dollar_builtin(command[i]))
+			if (is_dollar_builtin(command[i]))
 				command[i] = transform_dollar_builtin(command[i], shell);
 			else if (is_$var(command[i]))
 				command[i] = replace_variable(command[i], shell, is_$var(command[i]));
 			i++;
-			q = 0;
 		}
 		ft_str2defrag(command, len);
 	}
