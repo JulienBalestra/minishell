@@ -56,7 +56,7 @@ char *get_line(t_sh *shell)
 			else
 				left = move_and_clean(buf);
 		}
-		if (left && left[0])
+		if (left)
 			free(left);
 		free(buf);
 		shell->exit = 1;
