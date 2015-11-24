@@ -38,8 +38,8 @@ char *get_line(t_sh *shell)
 {
 	char *buf;
 	char *left;
-
 	ssize_t ret;
+
 	if ((buf = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1))))
 	{
 		left = NULL;
@@ -56,6 +56,8 @@ char *get_line(t_sh *shell)
 			else
 				left = move_and_clean(buf);
 		}
+		if (left && left[0])
+			free(left);
 		free(buf);
 		shell->exit = 1;
 	}
