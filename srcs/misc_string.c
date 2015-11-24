@@ -53,3 +53,39 @@ void convert_chars(char *str)
 		str++;
 	}
 }
+
+static int	ft_converter(const char *nptr, int sign)
+{
+	int		result;
+
+	result = 0;
+	while (*nptr != '\0' && *nptr > 47 && *nptr < 58)
+	{
+		result = result * 10 + *nptr - 48;
+		nptr++;
+	}
+	if (sign < 0)
+		result = -result;
+	if (*nptr)
+		return (result + 1);
+	return (result);
+}
+
+int			cust_atoi(const char *nptr)
+{
+	int		sign;
+
+	sign = 0;
+	while (*nptr != '\0' && sign == 0 &&
+		   (*nptr == ' ' || *nptr == '\t' || *nptr == '\n' || *nptr == '\r'
+			|| *nptr == '\f' || *nptr == '\v'
+			|| *nptr == '+' || *nptr == '-'))
+	{
+		if (*nptr == '+')
+			sign++;
+		else if (*nptr == '-')
+			sign--;
+		nptr++;
+	}
+	return (ft_converter(nptr, sign));
+}

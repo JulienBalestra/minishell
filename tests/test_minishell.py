@@ -232,6 +232,26 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_310_exit(self):
+		command = ["exit", "0t"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_311_exit(self):
+		command = ["exit", "1t"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_312_exit(self):
+		command = ["exit", "1", "0"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_313_exit(self):
+		command = ["exit", "titi", "0"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_32_exit(self):
 		command = ["exit", "1"]
 		self.compare_shells(command)
@@ -645,6 +665,41 @@ class TestMinishell(unittest.TestCase):
 
 	def test_116_multi_run(self):
 		command = ["env", "PATH=/tmp", "ls", ";", "echo", "titi", ";", "exit", ";"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_117_multi_run(self):
+		command = ["env", "PATH=/tmp", "ls", ";", ";", "echo", "titi", ";", "exit", ";"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_118_multi_run(self):
+		command = [";", "ls"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_119_multi_run(self):
+		command = ["ls", ";", "ls", ";", ";"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_120_multi_run(self):
+		command = ["ls", ";", "ls", ";;"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_121_multi_run(self):
+		command = ["ls", ";", "ls", " ; ;  "]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_122_multi_run(self):
+		command = ["    ls    ", "   ;    ", "ls", " ; ;  "]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_123_multi_run(self):
+		command = ["exit", "env", "PATH=/tmp", "ls", ";", "echo", "titi", ";", "exit", ";"]
 		self.compare_shells(command)
 		self.valgrind(command)
 

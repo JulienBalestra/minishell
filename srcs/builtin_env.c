@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "../includes/minishell.h"
-#include "../libft/includes/libft.h"
 
 t_be *build_builtin_env(char **command)
 {

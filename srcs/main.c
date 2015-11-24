@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <sys/wait.h>
-#include <stdlib.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -45,17 +44,15 @@ int read_from_stdin(t_sh *shell)
 
     while (42)
     {
-		display_prompt(shell);
 		shell->buf = get_line(shell);
-		// TODO echo toto ;; echo toto => bash: syntax error near unexpected token `;;'
-        // TODO ;echo toto => bash: syntax error near unexpected token `;'
-        if (existing_line(shell)) // && correct_syntax
+        if (existing_line(shell) && correct_syntax(shell))
         {
             command = build_command(shell);
 			i = 0;
-            while (shell->exit == 0 && command[i])
+            while (shell->exit == 0 && command && command[i])
             {
-                if (manage_builtins(command[i], shell));
+                if (manage_builtins(command[i], shell))
+					;
                 else if (make_exploitable(command[i], shell->last_environ))
                 {
                     if (pass_str_to_exec((const char **) command[i], shell, NULL, 0) == 1)
@@ -63,12 +60,9 @@ int read_from_stdin(t_sh *shell)
                 }
                 else
                     display_command_not_found(command[i][0]);
-                ft_str2del(command[i]);
                 i++;
             }
-            // TODO exit ; echo toto => leaks
-            if (command)
-                free(command);
+            ft_str3del(command);
         }
 		if (shell->exit == 1)
 			return (0);

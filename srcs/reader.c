@@ -41,6 +41,7 @@ char *get_line(t_sh *shell)
 	if ((buf = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1))))
 	{
 		left = NULL;
+		display_prompt(shell);
 		buf_init(buf, BUFF_SIZE);
 		while ((ret = read(0, buf, BUFF_SIZE)))
 		{

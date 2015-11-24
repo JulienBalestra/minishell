@@ -110,6 +110,7 @@ set(SOURCE_FILES
         srcs/misc_interpretor.c
         srcs/misc_read.c
         srcs/reader.c
+        srcs/syntax.c
         srcs/cd_goto.c)
 
 add_executable(sh1 ${SOURCE_FILES})
