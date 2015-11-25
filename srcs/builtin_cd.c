@@ -114,7 +114,7 @@ void ensure_pwd(t_sh *shell)
 void builtin_cd(char **command, t_sh *shell)
 {
 	ensure_pwd(shell);
-	if (ft_str2len(command) == 1 || ft_strcmp(command[1], "~") == 0)
+	if (ft_str2len(command) == 1 || ft_strcmp(command[1], "~") == 0) //TODO replace by HOME
 	{
 		go_to_home_directory(shell);
 	}
