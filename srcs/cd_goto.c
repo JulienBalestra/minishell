@@ -6,7 +6,7 @@ void go_to_home_directory(t_sh *shell)
 {
 	if (get_env_value("HOME", shell->env))
 	{
-		change_dir(get_env_value("HOME", shell->env), shell);
+		change_dir(get_env_value("HOME", shell->env), shell, 0);
 	}
 	else
 	{
@@ -19,8 +19,9 @@ void go_to_old_pwd(t_sh *shell)
 {
 	if (get_env_value("OLDPWD", shell->env))
 	{
-		change_dir(get_env_value("OLDPWD", shell->env), shell);
-		ft_putendl(get_env_value("PWD", shell->env));
+		change_dir(get_env_value("OLDPWD", shell->env), shell, 0);
+		if (shell->last_command_ret == 0)
+			ft_putendl(get_env_value("PWD", shell->env));
 	}
 	else
 	{

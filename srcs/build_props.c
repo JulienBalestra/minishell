@@ -56,6 +56,7 @@ t_sh *create_shell_from(char **environ_tab)
 	if ((shell = (t_sh *) malloc(sizeof(t_sh))))
 	{
 		shell->env = build_env_list(environ_tab);
+		ensure_pwd(shell);
 		shell->mock = NULL;
 		shell->last_environ = NULL;
 		shell->last_environ = override_last_environ(shell);
