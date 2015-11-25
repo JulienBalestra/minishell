@@ -16,6 +16,12 @@ void display_command_not_found(char *command)
 	ft_putstr_fd(": command not found\n", 2);
 }
 
+void display_permission_denied(const char *command)
+{
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": Permission denied\n", 2);
+}
+
 void display_not_such(char *who, char *where)
 {
 	ft_putstr_fd(who, 2);

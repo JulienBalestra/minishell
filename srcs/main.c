@@ -7,34 +7,48 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
+int is_exec(const char *command)
 {
-    int pid;
-    int status;
-    char **ptr;
-
-    status = 0;
-    ft_str2del(shell->last_command);
-    pid = fork();
-    if (pid == 0)
+    if (access(command, X_OK) == 0)
     {
-        ptr = (char **) str;
-		if (mock == 0)
-			mock_environ = shell->last_environ;
-        execve(str[0], ptr, mock_environ);
         return (1);
     }
-    else if (pid > 0)
-    {
-        waitpid(-1, &status, 0);
+    display_permission_denied(command);
+    return (0);
+}
+
+int do_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
+{
+	int status;
+	char **ptr;
+	int pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		ptr = (char **) str;
+		if (mock == 0)
+			mock_environ = shell->last_environ;
+		execve(str[0], ptr, mock_environ);
+		return (1);
+	}
+	else if (pid > 0)
+	{
+		waitpid(-1, &status, 0);
 		if (WIFEXITED(status))
-        {
-            shell->last_command_ret = WEXITSTATUS(status);
-        }
+			shell->last_command_ret = WEXITSTATUS(status);
+		return (0);
+	}
+	write(2, "error", 5);
+	return (-1);
+}
+
+int do_fork(const char **str, t_sh *shell, char **mock_environ, int mock)
+{
+    if (is_exec(str[0]) == 0)
         return (0);
-    }
-    write(2, "error", 5);
-    return (-1);
+    ft_str2del(shell->last_command);
+	return (do_exec(str, shell, mock_environ, mock));
 }
 
 int read_from_stdin(t_sh *shell)
@@ -52,10 +66,10 @@ int read_from_stdin(t_sh *shell)
             while (shell->exit == 0 && command && command[i])
             {
                 if (manage_builtins(command[i], shell))
-					;
+					(void) i;
                 else if (make_exploitable(command[i], shell->last_environ))
                 {
-                    if (pass_str_to_exec((const char **) command[i], shell, NULL, 0) == 1)
+                    if (do_fork((const char **) command[i], shell, NULL, 0) == 1)
                         return (1);
                 }
                 else

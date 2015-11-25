@@ -56,7 +56,7 @@ void run_under_new_environ(char **command, t_sh *shell)
 	ptr = get_command(command);
 	if (make_exploitable(ptr, mock))
 	{
-		if (pass_str_to_exec((const char **) ptr, shell, mock, 1) == 1)
+		if (do_fork((const char **) ptr, shell, mock, 1) == 1)
 			return;
 	}
 	else
@@ -76,7 +76,7 @@ void run_under_alter_environ(char **command, t_sh *shell)
 	ptr = get_command(command);
 	if (make_exploitable(ptr, merge))
 	{
-		if (pass_str_to_exec((const char **) ptr, shell, merge, 1) == 1)
+		if (do_fork((const char **) ptr, shell, merge, 1) == 1)
 			return;
 	}
 	else

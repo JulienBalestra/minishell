@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define BUFF_SIZE      128
+//# define PROMPT "\033[0;34m\033[1mminishell\033[0m> "
 # define PROMPT "minishell> "
 
 # include <string.h>
@@ -47,7 +48,7 @@ int		strlen_until_char(char *str, char c);
 char	**override_last_environ(t_sh *shell);
 char	**build_tab_environ(t_env *env);
 void	clean_program(t_sh *shell);
-int		pass_str_to_exec(const char **str, t_sh *shell, char **mock_environ, int mock);
+int		do_fork(const char **str, t_sh *shell, char **mock_environ, int mock);
 int		manage_builtins(char **command, t_sh *shell);
 void	builtin_env(char **command, t_sh *shell);
 void	builtin_unsetenv(char **command, t_sh *shell);
@@ -99,10 +100,13 @@ char	*get_line(t_sh *shell);
 int		existing_line(t_sh *shell);
 void	go_to_old_pwd(t_sh *shell);
 void	go_to_home_directory(t_sh *shell);
-void	change_dir(char *path, t_sh *shell);
+void	change_dir(char *path, t_sh *shell, int p);
 int		is_enter(char *buf);
 int		cust_atoi(const char *nptr);
 int		correct_syntax(t_sh *shell);
 void	ft_str3del(char ***str);
+void	display_permission_denied(const char *command);
+
+void	ensure_pwd(t_sh *shell);
 
 #endif

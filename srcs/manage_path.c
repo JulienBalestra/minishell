@@ -20,7 +20,6 @@ char *join_path_to_command(char *command, char *path_value)
 {
     int cur_path_len;
     char *tmp_cur_path;
-    char *cur_path;
     char *cur_full_cmd;
 
     cur_path_len = -1;
@@ -28,17 +27,15 @@ char *join_path_to_command(char *command, char *path_value)
     {
         cur_path_len = strlen_until_char(path_value, ':');
         tmp_cur_path = ft_strndup(path_value, (size_t) cur_path_len);
-        cur_path = ft_strjoin(tmp_cur_path, "/"); // leaks
-        free(tmp_cur_path);
-        cur_full_cmd = ft_strjoin(cur_path, command);
-        free(cur_path);
-        if (access(cur_full_cmd, X_OK) == 0)
+		cur_full_cmd = triple_join(tmp_cur_path, "/", command);
+		free(tmp_cur_path);
+        if (access(cur_full_cmd, F_OK) == 0)
             return (cur_full_cmd);
         free(cur_full_cmd);
         if (path_value[cur_path_len] != '\0')
             path_value = &path_value[cur_path_len + 1];
         else
-            cur_path_len = 0;
+			return (NULL);
     }
     return (NULL);
 }
@@ -76,7 +73,7 @@ int     make_exploitable(char **command, char **last_environ)
 {
     char *path_value;
 
-    if (access(*command, X_OK) == 0)
+    if (access(*command, F_OK) == 0)
         return (1);
 
     if (last_environ == NULL)
