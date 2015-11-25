@@ -51,6 +51,8 @@ int is_exploitable(char *str)
 	int i;
 
 	i = 0;
+	if (! str)
+		return (0);
 	while (str[i])
 	{
 		if (i == 0 && str[i] == ';')
