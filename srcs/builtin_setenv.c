@@ -37,7 +37,7 @@ void ft_setenv(char *name, char *value, t_sh *shell)
 		if (ft_strcmp(name, browse->name) == 0)
 		{
 			modify_env_value(browse, value);
-			shell->last_environ = override_last_environ(shell);
+			shell->l_env = override_last_environ(shell);
 			return;
 		}
 		if (browse->next)
@@ -46,7 +46,7 @@ void ft_setenv(char *name, char *value, t_sh *shell)
 			break;
 	}
 	add_new_env(browse, name, value);
-	shell->last_environ = override_last_environ(shell);
+	shell->l_env = override_last_environ(shell);
 }
 
 void builtin_setenv(char **command, t_sh *shell)
@@ -59,7 +59,7 @@ void builtin_setenv(char **command, t_sh *shell)
 	else if (ft_str2len(command) > 3)
 	{
 		ft_putendl_fd("setenv: too many arguments", 2);
-		shell->last_command_ret = 2;
+		shell->l_ret = 2;
 		return;
 	}
 	ft_setenv(command[1], command[2], shell);

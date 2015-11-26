@@ -84,7 +84,7 @@ int correct_syntax(t_sh *shell)
 	{
 		ft_putendl_fd("syntax error near unexpected token `;'", 2);
 		ft_strdel(&shell->buf);
-		shell->last_command_ret = 2;
+		shell->l_ret = 2;
 	}
 	return (ret);
 }

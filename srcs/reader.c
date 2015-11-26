@@ -47,10 +47,10 @@ char *get_line(t_sh *shell)
 	ssize_t ret;
 
 	display_prompt(shell);
-	buf = ft_strnew(BUFF_SIZE);
+	buf = ft_strnew(READ);
 	left = NULL;
 	signal(SIGINT, signal_callback_handler);
-	while ((ret = read(0, buf, BUFF_SIZE)))
+	while ((ret = read(0, buf, READ)))
 	{
 		buf[ret] = '\0';
 		if (left && buf[0])

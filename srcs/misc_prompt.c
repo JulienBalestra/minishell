@@ -7,7 +7,7 @@
 
 void display_prompt(t_sh *shell)
 {
-	write(1, shell->prompt, shell->len_prompt);
+	write(1, shell->ps1, shell->len_ps1);
 }
 
 void display_command_not_found(char *command)
@@ -20,6 +20,12 @@ void display_permission_denied(const char *command)
 {
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(": Permission denied\n", 2);
+}
+
+void display_is_directory(const char *command)
+{
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": Is a directory\n", 2);
 }
 
 void display_not_such(char *who, char *where)

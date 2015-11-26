@@ -25,7 +25,7 @@ void cd_symblink(char *path, t_sh *shell)
 		if ((ret = chdir(path)) == 0)
 		{
 			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->last_command_ret = ret;
+			shell->l_ret = ret;
 			ft_setenv("PWD", path, shell);
 		}
 	}
@@ -34,7 +34,7 @@ void cd_symblink(char *path, t_sh *shell)
 		if ((ret = chdir(path)) == 0)
 		{
 			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->last_command_ret = ret;
+			shell->l_ret = ret;
 			ft_setenv("PWD", full, shell);
 		}
 		free(full);
@@ -44,7 +44,7 @@ void cd_symblink(char *path, t_sh *shell)
 		if ((ret = chdir(path)) == 0)
 		{
 			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->last_command_ret = ret;
+			shell->l_ret = ret;
 			wd = triple_join(old_pwd, "/", path);
 			ft_setenv("PWD", wd, shell);
 			free(wd);
@@ -58,14 +58,14 @@ void cd_physical(char *path, t_sh *shell)
 	char *buf_wd;
 	char *old_pwd;
 
-	if ((buf_wd = (char *) malloc(sizeof(char) * 2048)))
+	if ((buf_wd = (char *) malloc(sizeof(char) * CWD)))
 	{
 		old_pwd = get_env_value("PWD", shell->env);
 		if ((ret = chdir(path)) == 0)
 		{
 			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->last_command_ret = ret;
-			ft_setenv("PWD", getcwd(buf_wd, 2048), shell);
+			shell->l_ret = ret;
+			ft_setenv("PWD", getcwd(buf_wd, CWD), shell);
 		}
 		else
 		{
@@ -104,30 +104,41 @@ void ensure_pwd(t_sh *shell)
 	{
 		return;
 	}
-	if ((buf_wd = (char *) malloc(sizeof(char) * 2048)))
+	if ((buf_wd = (char *) malloc(sizeof(char) * CWD)))
 	{
-		ft_setenv("PWD", getcwd(buf_wd, 2048), shell);
+		ft_setenv("PWD", getcwd(buf_wd, CWD), shell);
 		free(buf_wd);
 	}
 }
 
 void builtin_cd(char **command, t_sh *shell)
 {
+	char *ready;
+
 	ensure_pwd(shell);
-	if (ft_str2len(command) == 1 || ft_strcmp(command[1], "~") == 0) //TODO replace by HOME
+	transform_tilde(command, shell);
+	if (is_goto_home(command))
 	{
 		go_to_home_directory(shell);
 	}
 	else if (ft_strcmp(command[1], "-") == 0)
 	{
-		go_to_old_pwd(shell); // <TODO cd -P -> != <cd ->
+		go_to_old_pwd(shell);
 	}
-	else if (ft_strcmp(command[1], "-P") != 0)
+	else if (ft_strcmp(command[1], "-P") == 0)
 	{
-		change_dir(command[1], shell, 0);
+		change_dir(command[2], shell, 1); // <TODO cd -P -> != <cd ->
+	}
+	else if (ft_strcmp(command[1], "-L") == 0)
+	{
+		ready = remove_duplicate_slash(command[2]);
+		change_dir(ready, shell, 0);
+		free(ready);
 	}
 	else
 	{
-		change_dir(command[1], shell, 1);
+		ready = remove_duplicate_slash(command[1]);
+		change_dir(ready, shell, 0);
+		free(ready);
 	}
 }

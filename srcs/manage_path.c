@@ -6,7 +6,7 @@
 #include "../includes/minishell.h"
 
 
-int strlen_until_char(char *str, char c)
+int len_to_char(char *str, char c)
 {
     int i;
 
@@ -25,7 +25,7 @@ char *join_path_to_command(char *command, char *path_value)
     cur_path_len = -1;
     while (cur_path_len != 0 && path_value)
     {
-        cur_path_len = strlen_until_char(path_value, ':');
+        cur_path_len = len_to_char(path_value, ':');
         tmp_cur_path = ft_strndup(path_value, (size_t) cur_path_len);
 		cur_full_cmd = triple_join(tmp_cur_path, "/", command);
 		free(tmp_cur_path);

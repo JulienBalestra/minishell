@@ -21,7 +21,7 @@ void builtin_env(char **command, t_sh *shell)
 	t_be *benv;
 
 	if (is_only_env(command))
-		display_environ(shell->last_environ, 1);
+		display_environ(shell->l_env, 1);
 	else if ((benv = build_builtin_env(command)))
 	{
 		if (is_benv_errors(benv) || is_benv_do_nothing(benv))

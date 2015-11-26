@@ -13,7 +13,7 @@ char *replace_dollar_question(char *dollar_question, t_sh *shell)
 
 	if (dollar_question)
 	{
-		if ((str_ret = ft_itoa(shell->last_command_ret)))
+		if ((str_ret = ft_itoa(shell->l_ret)))
 		{
 			free(dollar_question);
 			return (str_ret);

@@ -358,6 +358,94 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual("cd: /notherethisdirectory: No such file or directory\n", stderr)
 		self.valgrind(command)
 
+	def test_47_cd_oldpwd(self):
+		command = ["cd", "/", ";", "cd", "/tmp", ";", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_48_cd_oldpwd(self):
+		command = ["cd", "/", ";", "cd", "/tmp", ";", "cd", "-", ";", "cd", "-", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_49_cd_slashs(self):
+		command = ["cd", "///"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_50_cd_slashs(self):
+		command = ["cd", "/", ";", "cd", "///tmp/", ";", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_51_cd_slashs(self):
+		command = ["cd", "%s" % self.testing_dir.replace("/", "//"), ";", "cd", "///tmp/", ";", "cd", "-"]
+		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
+		self.valgrind(command)
+
+	def test_52_cd_slashs(self):
+		command = ["cd", "%s" % self.testing_dir.replace("/", "//////"), ";", "cd", "///tmp/", ";", "cd", "-"]
+		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
+		self.valgrind(command)
+
+	def test_53_cd_slashs(self):
+		command = ["cd", "%s/" % self.testing_dir, ";", "cd", "///tmp/", ";", "cd", "-"]
+		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
+		self.valgrind(command)
+
+	def test_54_cd_slashs(self):
+		command = ["cd", "/tmp//", ";", "pwd"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_55_cd_slashs(self):
+		command = ["  cd   /tmp//  ; echo $PWD"]
+		self.assertEqual(("/tmp\n", ""), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_55_cd_slashs_b(self):
+		command = ["  cd ", "/tmp//", " ;", " echo $PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_56_cd_no_exec(self):
+		command = ["  ", "/tmp//"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_100_cd_home(self):
+		command = ["unsetenv HOME ; cd ~ ; echo $HOME ;"]
+		self.assertEqual(('\n', 'cd: HOME not set\n'), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_101_cd_home(self):
+		command = ["cd", "~/..", ";", "pwd ;"]
+		self.compare_shells(command)
+		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_102_cd_home(self):
+		command = ["cd", "~/../", ";", "pwd ;"]
+		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_103_cd_home(self):
+		command = ["cd", "~/..////", ";", "pwd ;"]
+		self.compare_shells(command)
+		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_104_cd_home(self):
+		command = ["cd", "~/..////", ";", "pwd ;"]
+		self.compare_shells(command)
+		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_105_cd_home(self):
+		command = ["cd", "~~"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_60_env_only(self):
 		command = ["env"]
 		self.valgrind(command)
@@ -701,6 +789,51 @@ class TestMinishell(unittest.TestCase):
 	def test_123_multi_run(self):
 		command = ["exit", "env", "PATH=/tmp", "ls", ";", "echo", "titi", ";", "exit", ";"]
 		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_124_solo(self):
+		command = [";"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_125_solo(self):
+		command = [";;"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_126_solo(self):
+		command = [";;;"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_127_solo(self):
+		command = [";", ";"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_128_solo(self):
+		command = [";", ";", ";"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_129_solo(self):
+		command = ["   ; "]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_130_solo(self):
+		command = ["   ;   ;"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_131_solo(self):
+		command = [" \t  ; ", ";"]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
+		self.valgrind(command)
+
+	def test_132_solo(self):
+		command = ["   ; ; "]
+		self.assertEqual(('', "syntax error near unexpected token `;'\n"), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_Z999Z_waiting_process(self):

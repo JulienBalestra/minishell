@@ -11,7 +11,7 @@ t_env *create_env_link(t_env *env, char *environ_entry)
 
 	if ((link = (t_env *) malloc(sizeof(t_env))))
 	{
-		len_until = strlen_until_char(environ_entry, '=');
+		len_until = len_to_char(environ_entry, '=');
 		link->name = ft_strndup(environ_entry, (size_t) len_until);
 		environ_entry = &environ_entry[len_until + 1];
 		link->value = ft_strdup(environ_entry);
@@ -58,12 +58,12 @@ t_sh *create_shell_from(char **environ_tab)
 		shell->env = build_env_list(environ_tab);
 		ensure_pwd(shell);
 		shell->mock = NULL;
-		shell->last_environ = NULL;
-		shell->last_environ = override_last_environ(shell);
-		shell->prompt = ft_strdup(PROMPT);
-		shell->len_prompt = ft_strlen(PROMPT);
-		shell->last_command_ret = 0;
-		shell->last_command = NULL;
+		shell->l_env = NULL;
+		shell->l_env = override_last_environ(shell);
+		shell->ps1 = ft_strdup(PROMPT);
+		shell->len_ps1 = ft_strlen(PROMPT);
+		shell->l_ret = 0;
+		shell->l_cmd = NULL;
 		shell->buf = NULL;
 		shell->exit = 0;
 		return (shell);

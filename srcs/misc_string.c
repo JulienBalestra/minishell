@@ -2,16 +2,22 @@
 #include "libft.h"
 #include "../libft/includes/libft.h"
 
-void buf_init(char *buf, int len)
+int is_tilde_transform(char *str, char c)
 {
 	int i;
+	int n;
 
 	i = 0;
-	while (i < len)
+	n = 0;
+	if (str[i] != '~')
+		return (0);
+	while (str[i])
 	{
-		buf[i] = '\0';
+		if (str[i] == c)
+			n++;
 		i++;
 	}
+	return (n == 1 ? 1 : 0);
 }
 
 char *triple_join(char *s1, char *s2, char *s3)

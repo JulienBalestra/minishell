@@ -44,14 +44,14 @@ void ft_str3del(char ***str)
 void clean_program(t_sh *shell)
 {
 	delete_list(&(shell->env));
-	ft_str2del(shell->last_environ);
+	ft_str2del(shell->l_env);
 	free(shell->env);
-	free(shell->prompt);
+	free(shell->ps1);
 	if (shell->mock)
 	{
 		clean_program(shell->mock);
 	}
-	ft_str2del(shell->last_command);
+	ft_str2del(shell->l_cmd);
 	if (shell->buf)
 	{
 		free(shell->buf);

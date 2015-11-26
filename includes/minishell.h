@@ -1,7 +1,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define BUFF_SIZE      128
-//# define PROMPT "\033[0;34m\033[1mminishell\033[0m> "
+# define READ      128
+# define CWD       2048
+
 # define PROMPT "minishell> "
 
 # include <string.h>
@@ -18,11 +19,11 @@ typedef struct s_sh
 {
 	t_env *env;
 	struct s_sh *mock;
-	char **last_environ;
-	char *prompt;
-	size_t len_prompt;
-	int last_command_ret;
-	char **last_command;
+	char **l_env;
+	char *ps1;
+	size_t len_ps1;
+	int l_ret;
+	char **l_cmd;
 	char *buf;
 	int exit;
 } t_sh;
@@ -36,7 +37,6 @@ typedef struct s_be
 	int cmd;
 } t_be;
 
-void	buf_init(char *buf, int len);
 char	*triple_join(char *s1, char *s2, char *s3);
 void	ft_remove_endchar(char *str, char c);
 int		is_only_endline(char *buf);
@@ -44,7 +44,7 @@ int		is_only_spaces(char *buf);
 void	display_prompt(t_sh *shell);
 void	display_command_not_found(char *command);
 int		make_exploitable(char **command, char **last_environ);
-int		strlen_until_char(char *str, char c);
+int		len_to_char(char *str, char c);
 char	**override_last_environ(t_sh *shell);
 char	**build_tab_environ(t_env *env);
 void	clean_program(t_sh *shell);
@@ -107,6 +107,11 @@ int		correct_syntax(t_sh *shell);
 void	ft_str3del(char ***str);
 void	display_permission_denied(const char *command);
 
+int		is_goto_home(char **command);
 void	ensure_pwd(t_sh *shell);
+char	*remove_duplicate_slash(char *path);
+void	display_is_directory(const char *command);
+void	transform_tilde(char **command, t_sh *shell);
+int		is_tilde_transform(char *str, char c);
 
 #endif

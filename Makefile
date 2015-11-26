@@ -56,7 +56,9 @@ misc_interpretor.c \
 misc_read.c \
 reader.c \
 cd_goto.c \
-syntax.c
+syntax.c \
+misc_cd.c \
+manage_fork.c
 
 
 MAIN = srcs/main.c

@@ -10,7 +10,7 @@ void process_return_code(char **command, t_sh *shell)
 	ret = cust_atoi(command[1]);
 	if (ret == ft_atoi(command[1]))
 	{
-		shell->last_command_ret = ret;
+		shell->l_ret = ret;
 		if (ft_str2len(command) > 2)
 		{
 			ft_putendl_fd("exit: too many arguments", 2);
@@ -21,7 +21,7 @@ void process_return_code(char **command, t_sh *shell)
 		ft_putstr_fd("exit: ", 2);
 		ft_putstr_fd(command[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		shell->last_command_ret = 2;
+		shell->l_ret = 2;
 	}
 }
 

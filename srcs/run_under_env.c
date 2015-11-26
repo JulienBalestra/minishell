@@ -71,7 +71,7 @@ void run_under_alter_environ(char **command, t_sh *shell)
 	char **ptr;
 
 	new = get_mock_environ(command);
-	merge = merge_both_environ(shell->last_environ, command, new);
+	merge = merge_both_environ(shell->l_env, command, new);
 	ft_str2del(new);
 	ptr = get_command(command);
 	if (make_exploitable(ptr, merge))
@@ -90,7 +90,7 @@ void alter_environ_and_display(char **command, t_sh *shell, int end_lines)
 	char **merge;
 
 	new = get_mock_environ(command);
-	merge = merge_both_environ(shell->last_environ, command, new);
+	merge = merge_both_environ(shell->l_env, command, new);
 	ft_str2del(new);
 	display_environ(merge, end_lines);
 	ft_str2del(merge);

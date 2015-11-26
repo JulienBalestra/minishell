@@ -46,7 +46,7 @@ t_env *upsert_link(t_env *env, char *environ_entry)
 	int len_until;
 	char *name;
 
-	len_until = strlen_until_char(environ_entry, '=');
+	len_until = len_to_char(environ_entry, '=');
 	name = ft_strndup(environ_entry, (size_t) len_until);
 	if ((link = get_env_by_value(name, env)))
 	{
