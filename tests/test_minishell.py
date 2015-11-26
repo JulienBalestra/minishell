@@ -421,7 +421,8 @@ class TestMinishell(unittest.TestCase):
 	def test_101_cd_home(self):
 		command = ["cd", "~/..", ";", "pwd ;"]
 		self.compare_shells(command)
-		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		if self.linux:
+			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_102_cd_home(self):
@@ -432,13 +433,15 @@ class TestMinishell(unittest.TestCase):
 	def test_103_cd_home(self):
 		command = ["cd", "~/..////", ";", "pwd ;"]
 		self.compare_shells(command)
-		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		if self.linux:
+			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_104_cd_home(self):
 		command = ["cd", "~/..////", ";", "pwd ;"]
 		self.compare_shells(command)
-		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		if self.linux:
+			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_105_cd_home(self):
