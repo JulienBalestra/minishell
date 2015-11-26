@@ -365,7 +365,8 @@ class TestMinishell(unittest.TestCase):
 
 	def test_48_cd_oldpwd(self):
 		command = ["cd", "/", ";", "cd", "/tmp", ";", "cd", "-", ";", "cd", "-", "cd", "-"]
-		self.compare_shells(command)
+		if self.linux:
+			self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_49_cd_slashs(self):
