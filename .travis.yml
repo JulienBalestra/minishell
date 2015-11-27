@@ -6,6 +6,14 @@ language: c
 
 sudo: required
 
+before_install:
+  - brew update
+  - apt-get update
+
+install:
+  - apt-get install valgrind
+  - brew install valgrind
+
 script:
   - ./setup.sh
   - ./run_test.sh
