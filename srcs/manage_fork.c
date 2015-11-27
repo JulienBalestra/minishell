@@ -15,7 +15,7 @@ int is_exec(const char *command)
 	{
 		if (command && (st = (struct stat *) malloc(sizeof(struct stat))))
 		{
-			if (lstat(command, st) == 0)
+			if (stat(command, st) == 0)
 			{
 				if (S_ISDIR(st->st_mode))
 				{

@@ -114,4 +114,6 @@ void	display_is_directory(const char *command);
 void	transform_tilde(char **command, t_sh *shell);
 int		is_tilde_transform(char *str, char c);
 
+char	*troncate_dots(char *path);
+
 #endif

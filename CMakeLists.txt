@@ -113,6 +113,7 @@ set(SOURCE_FILES
         srcs/syntax.c
         srcs/cd_goto.c
         srcs/misc_cd.c
-        srcs/manage_fork.c)
+        srcs/manage_fork.c
+        srcs/format_path.c)
 
 add_executable(sh1 ${SOURCE_FILES})

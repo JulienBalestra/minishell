@@ -15,10 +15,12 @@ void cd_symblink(char *path, t_sh *shell)
 
 	old_pwd = get_env_value("PWD", shell->env);
 	full = NULL;
-	if (ft_strstr(path, ".."))
+	// TODO if parent is LINK and command .. : troncate
+	// TODO maybe create a struct entry ?
+	if (ft_strstr(path, "..") || ft_strstr(path, "./"))
 	{
 		full = triple_join(old_pwd, "/", path);
-		//TODO manage .. case defrag when ..
+		full = troncate_dots(full);
 	}
 	if (path[0] == '/' && ! full)
 	{
@@ -137,6 +139,7 @@ void builtin_cd(char **command, t_sh *shell)
 	}
 	else
 	{
+		// TODO only remove duplicate slashs if is an symblink
 		ready = remove_duplicate_slash(command[1]);
 		change_dir(ready, shell, 0);
 		free(ready);

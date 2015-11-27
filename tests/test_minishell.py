@@ -8,6 +8,7 @@ class TestMinishell(unittest.TestCase):
 	context = os.path.split(os.path.dirname(__file__))[0]
 	minishell = "%s/minishell" % context
 	testing_dir = "%s/tests/test_resources/" % context
+	dotdot = "%sdotdot" % testing_dir
 	minishell_prompt = "minishell> "
 	valgrind_binary = False
 	dev_null = open(os.devnull, 'w')
@@ -28,10 +29,8 @@ class TestMinishell(unittest.TestCase):
 		try:
 			if subprocess.call(["valgrind", "--version"]) == 0:
 				cls.valgrind_binary = True
-			else:
-				os.write(2, "VALGRIND NOT AVAILABLE")
 		except OSError:
-			pass
+			os.write(2, "VALGRIND NOT AVAILABLE")
 
 	@classmethod
 	def tearDownClass(cls):
@@ -460,6 +459,57 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_110_cd_symb(self):
+		command = ["cd", "dotdot", ";", "ls"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_111_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "cd", "..", ";", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_112_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "ls", ";", "cd", "..", ";", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_113_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "cd", "dotdot", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_114_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "cd", "dotdot", ";", "echo", "$PWD", "cd", "-", ";", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_115_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "cd", "dotdot", ";", "echo", "$PWD", ";", "cd", "-", ";", "cd", "-"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_116_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "ls", ";", "cd", "..", ";", "cd", "-", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_117_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "ls", ";", "cd", "./../", ";", "cd", "-", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_118_cd_symb(self):
+		command = ["cd", "%s" % self.dotdot, ";", "ls", ";", "cd", "..", ";", "cd", "dotdot", ";", "echo", "$PWD"]
+		# self.compare_shells(command) TODO
+		self.valgrind(command)
+
+	def test_119_cd_symb(self):
+		command = ["cd", "%s" % self.testing_dir, ";", "ls", ";",
+				   "cd", "./dotdot", ";", "cd", "dotdot", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
 	def test_60_env_only(self):
 		command = ["env"]
 		self.valgrind(command)
@@ -583,7 +633,7 @@ class TestMinishell(unittest.TestCase):
 	def test_81_run_env(self):
 		command = ["env", "-i", "PATH=/bin", "ls"]
 		self.compare_shells(command)
-		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_82_run_env(self):
@@ -624,13 +674,13 @@ class TestMinishell(unittest.TestCase):
 	def test_89_ignore_env_no_dup(self):
 		command = ["env", "-i", "NEW=", "NEW=OK", "NEW=", "NEW=OK", "PATH=/bin", "ls"]
 		self.compare_shells(command)
-		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_90_env(self):
 		command = ["env", "ls"]
 		self.compare_shells(command)
-		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_91_env(self):
@@ -647,7 +697,7 @@ class TestMinishell(unittest.TestCase):
 
 	def test_93_env(self):
 		command = ["env", "PATH=", "PATH=/bin", "ls"]
-		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
 		self.compare_shells(command)
 		self.valgrind(command)
 
@@ -663,12 +713,12 @@ class TestMinishell(unittest.TestCase):
 
 	def test_96_unsetenv(self):
 		command = ["env", "-u", "PATH", "-u", "LC_ALL", "/bin/ls"]
-		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_97_unsetenv(self):
 		command = ["env", "-u", "PATH", "-u", "LC_ALL", "PATH=/bin", "/bin/ls"]
-		self.assertEqual(('file00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_98_unsetenv_display(self):

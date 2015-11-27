@@ -58,7 +58,8 @@ reader.c \
 cd_goto.c \
 syntax.c \
 misc_cd.c \
-manage_fork.c
+manage_fork.c \
+format_path.c
 
 
 MAIN = srcs/main.c
