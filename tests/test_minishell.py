@@ -345,7 +345,7 @@ class TestMinishell(unittest.TestCase):
 		self.valgrind(command)
 
 	def test_45_cd_tmp(self):
-		command = ["cd", "/tmp"]
+		command = ["cd", "/bin"]
 		stdout, stderr = self.execute_my_shell(command)
 		self.assertEqual("", stdout)
 		self.assertEqual("", stderr)
@@ -359,12 +359,12 @@ class TestMinishell(unittest.TestCase):
 		self.valgrind(command)
 
 	def test_47_cd_oldpwd(self):
-		command = ["cd", "/", ";", "cd", "/tmp", ";", "cd", "-"]
+		command = ["cd", "/", ";", "cd", "/bin", ";", "cd", "-"]
 		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_48_cd_oldpwd(self):
-		command = ["cd", "/", ";", "cd", "/tmp", ";", "cd", "-", ";", "cd", "-", "cd", "-"]
+		command = ["cd", "/", ";", "cd", "/bin", ";", "cd", "-", ";", "cd", "-", "cd", "-"]
 		if self.linux:
 			self.compare_shells(command)
 		self.valgrind(command)
@@ -375,43 +375,48 @@ class TestMinishell(unittest.TestCase):
 		self.valgrind(command)
 
 	def test_50_cd_slashs(self):
-		command = ["cd", "/", ";", "cd", "///tmp/", ";", "cd", "-"]
+		command = ["cd", "/", ";", "cd", "///bin/", ";", "cd", "-"]
 		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_51_cd_slashs(self):
-		command = ["cd", "%s" % self.testing_dir.replace("/", "//"), ";", "cd", "///tmp/", ";", "cd", "-"]
+		command = ["cd", "%s" % self.testing_dir.replace("/", "//"), ";", "cd", "///bin/", ";", "cd", "-"]
 		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
 		self.valgrind(command)
 
 	def test_52_cd_slashs(self):
-		command = ["cd", "%s" % self.testing_dir.replace("/", "//////"), ";", "cd", "///tmp/", ";", "cd", "-"]
+		command = ["cd", "%s" % self.testing_dir.replace("/", "//////"), ";", "cd", "///bin/", ";", "cd", "-"]
 		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
 		self.valgrind(command)
 
 	def test_53_cd_slashs(self):
-		command = ["cd", "%s/" % self.testing_dir, ";", "cd", "///tmp/", ";", "cd", "-"]
+		command = ["cd", "%s/" % self.testing_dir, ";", "cd", "///bin/", ";", "cd", "-"]
 		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
 		self.valgrind(command)
 
 	def test_54_cd_slashs(self):
-		command = ["cd", "/tmp//", ";", "pwd"]
+		command = ["cd", "/bin//", ";", "pwd"]
 		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_55_cd_slashs(self):
-		command = ["  cd   /tmp//  ; echo $PWD"]
-		self.assertEqual(("/tmp\n", ""), self.execute_my_shell(command))
+		command = ["  cd   /bin//  ; echo $PWD"]
+		self.assertEqual(("/bin\n", ""), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_55_cd_slashs_b(self):
-		command = ["  cd ", "/tmp//", " ;", " echo $PWD"]
+		command = ["  cd ", "/bin//", " ;", " echo $PWD"]
 		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_56_cd_no_exec(self):
-		command = ["  ", "/tmp//"]
-		self.compare_shells(command)
+		command = ["  ", "/bin//"]
+		if self.linux:
+			self.compare_shells(command)
+		else:
+			real = self.execute_real_shell(command)
+			my = self.execute_my_shell(command)
+			self.assertEqual((real[0], real[1].replace(": is a directory", ": Is a directory")), my)
 		self.valgrind(command)
 
 	def test_100_cd_home(self):
@@ -424,11 +429,14 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		if self.linux:
 			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_102_cd_home(self):
 		command = ["cd", "~/../", ";", "pwd ;"]
-		self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		if self.linux:
+			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_103_cd_home(self):
@@ -436,6 +444,7 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		if self.linux:
 			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_104_cd_home(self):
@@ -443,6 +452,7 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		if self.linux:
 			self.assertEqual(('/home\n', ''), self.execute_my_shell(command))
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_105_cd_home(self):
