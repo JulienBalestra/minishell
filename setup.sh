@@ -37,8 +37,8 @@ function setup_submodules
     do
         git submodule init ${module}
         git submodule update --remote ${module} || git submodule update ${module}
-        ./${module}/setup.sh
-        ./${module}/run_test.sh
+        #./${module}/setup.sh
+        #./${module}/run_test.sh
     done
 }
 
