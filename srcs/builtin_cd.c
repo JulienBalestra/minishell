@@ -71,7 +71,7 @@ void cd_physical(char *path, t_sh *shell)
 		}
 		else
 		{
-			display_not_such("cd", path);
+			display_not_such("cd", path); // TODO Maybe here to get the access rights
 		}
 		free(buf_wd);
 	}
@@ -80,15 +80,20 @@ void cd_physical(char *path, t_sh *shell)
 void change_dir(char *path, t_sh *shell, int p)
 {
 	struct stat *st;
+	char *ready;
 
 	if (path && (st = (struct stat *) malloc(sizeof(struct stat))))
 	{
-		if (ft_strlen(path) > 2)
-			ft_remove_endchar(path, '/');
 		if (lstat(path, st) == 0)
 		{
 			if (S_ISLNK(st->st_mode) && p == 0)
-				cd_symblink(path, shell);
+			{
+				if (ft_strlen(path) > 2)
+					ft_remove_endchar(path, '/');
+				ready = remove_duplicate_slash(path);
+				cd_symblink(ready, shell);
+				ft_strdel(&ready);
+			}
 			else
 				cd_physical(path, shell);
 		}
@@ -115,8 +120,6 @@ void ensure_pwd(t_sh *shell)
 
 void builtin_cd(char **command, t_sh *shell)
 {
-	char *ready;
-
 	ensure_pwd(shell);
 	transform_tilde(command, shell);
 	if (is_goto_home(command))
@@ -133,15 +136,10 @@ void builtin_cd(char **command, t_sh *shell)
 	}
 	else if (ft_strcmp(command[1], "-L") == 0)
 	{
-		ready = remove_duplicate_slash(command[2]);
-		change_dir(ready, shell, 0);
-		free(ready);
+		change_dir(command[2], shell, 0);
 	}
 	else
 	{
-		// TODO only remove duplicate slashs if is an symblink
-		ready = remove_duplicate_slash(command[1]);
-		change_dir(ready, shell, 0);
-		free(ready);
+		change_dir(command[1], shell, 0);
 	}
 }
