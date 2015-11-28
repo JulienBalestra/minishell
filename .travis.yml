@@ -8,10 +8,10 @@ sudo: required
 
 before_install:
   - sudo brew update || sudo apt-get update
-
-install:
   -  sudo brew install valgrind || sudo apt-get install valgrind
 
-script:
+install:
   - ./setup.sh
+
+script:
   - ./run_test.sh
