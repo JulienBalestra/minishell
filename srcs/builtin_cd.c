@@ -84,6 +84,7 @@ void change_dir(char *path, t_sh *shell, int p)
 
 	if (path && (st = (struct stat *) malloc(sizeof(struct stat))))
 	{
+		path = create_chdir_path(path, shell);
 		if (lstat(path, st) == 0)
 		{
 			if (S_ISLNK(st->st_mode) && p == 0)
@@ -100,6 +101,7 @@ void change_dir(char *path, t_sh *shell, int p)
 		else
 			display_not_such("cd", path); // TODO manage access rights
 		free(st);
+		ft_strdel(&path);
 	}
 }
 

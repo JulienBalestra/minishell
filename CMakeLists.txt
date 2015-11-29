@@ -114,6 +114,6 @@ set(SOURCE_FILES
         srcs/cd_goto.c
         srcs/misc_cd.c
         srcs/manage_fork.c
-        srcs/format_path.c srcs/cd_opt.c srcs/misc_prompt2.c srcs/cd_is_valid.c srcs/misc_cd2.c)
+        srcs/format_path.c srcs/cd_opt.c srcs/misc_prompt2.c srcs/cd_is_valid.c srcs/misc_cd2.c srcs/chdir_var.c)
 
 add_executable(sh1 ${SOURCE_FILES})

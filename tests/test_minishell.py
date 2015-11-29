@@ -581,6 +581,20 @@ class TestMinishell(unittest.TestCase):
 		self.assertEqual(("0\n%s\n" % self.testing_dir[:-1], ""), my)
 		self.valgrind(command)
 
+	def test_132_cd_chdir(self):
+		command = ["setenv", "CHDIR", "%s" % self.testing_dir, ";",
+				   "echo", "$CHDIR", ";", "cd", "/tmp", ";", "cd", "dotdot", ";", "ls"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(("%s\ndotdot\nfile00\nfile01\n" % self.testing_dir, ""), my)
+		self.valgrind(command)
+
+	def test_133_cd_chdir(self):
+		command = ["setenv", "CHDIR", "/:%s" % self.testing_dir, ";",
+				   "echo", "$CHDIR", ";", "cd", "/tmp", ";", "cd", "dotdot", ";", "ls"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(("/:%s\ndotdot\nfile00\nfile01\n" % self.testing_dir, ""), my)
+		self.valgrind(command)
+
 	def test_60_env_only(self):
 		command = ["env"]
 		self.valgrind(command)

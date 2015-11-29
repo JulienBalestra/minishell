@@ -63,7 +63,8 @@ format_path.c \
 cd_opt.c \
 misc_prompt2.c \
 cd_is_valid.c \
-misc_cd2.c
+misc_cd2.c \
+chdir_var.c
 
 
 MAIN = srcs/main.c
