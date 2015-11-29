@@ -62,7 +62,8 @@ manage_fork.c \
 format_path.c \
 cd_opt.c \
 misc_prompt2.c \
-cd_is_valid.c
+cd_is_valid.c \
+misc_cd2.c
 
 
 MAIN = srcs/main.c

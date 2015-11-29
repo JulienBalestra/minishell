@@ -3,7 +3,9 @@
 # define READ      128
 # define CWD       2048
 
+
 # define PROMPT "minishell> "
+# define USE_CWD	0
 
 # include <string.h>
 
@@ -124,5 +126,6 @@ int		is_physical(char *str);
 int		is_logical(char *str);
 int		is_minus(char *str);
 
+char	*create_cwd(t_sh *shell);
 
 #endif

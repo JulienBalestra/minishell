@@ -7,7 +7,16 @@
 
 void display_prompt(t_sh *shell)
 {
-	write(1, shell->ps1, shell->len_ps1);
+	char *pwd;
+
+	if (USE_CWD && (pwd = create_cwd(shell)))
+	{
+		ft_putstr(pwd);
+		ft_strdel(&pwd);
+		write(1, "> ", 2);
+	}
+	else
+		write(1, shell->ps1, shell->len_ps1);
 }
 
 void display_command_not_found(char *command)

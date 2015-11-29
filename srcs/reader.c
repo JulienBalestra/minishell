@@ -36,8 +36,17 @@ char *move_and_clean(char *buf)
 void signal_callback_handler(int sig_num)
 {
 	(void) sig_num;
+	char *wd;
+
 	ft_putchar('\n');
-	ft_putstr(PROMPT);
+	if (USE_CWD && (wd = create_cwd(NULL)))
+	{
+		ft_putstr(wd);
+		ft_strdel(&wd);
+		write(1, "> ", 2);
+	}
+	else
+		ft_putstr(PROMPT);
 }
 
 char *get_line(t_sh *shell)
