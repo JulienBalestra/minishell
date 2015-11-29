@@ -16,7 +16,6 @@ void cd_symblink(char *path, t_sh *shell)
 	old_pwd = get_env_value("PWD", shell->env);
 	full = NULL;
 	// TODO if parent is LINK and command .. : troncate
-	// TODO maybe create a struct entry ?
 	if (ft_strstr(path, "..") || ft_strstr(path, "./"))
 	{
 		full = triple_join(old_pwd, "/", path);
@@ -70,11 +69,27 @@ void cd_physical(char *path, t_sh *shell)
 			ft_setenv("PWD", getcwd(buf_wd, CWD), shell);
 		}
 		else
-		{
-			display_not_such("cd", path); // TODO Maybe here to get the access rights
-		}
+			display_cd_permission(path);
 		free(buf_wd);
 	}
+}
+
+int is_diff_cwd(t_sh *shell)
+{
+	char *sys;
+	char *var;
+	int ret;
+
+	ret = 1;
+	if ((sys = malloc(sizeof(char) * CWD)))
+	{
+		sys = getcwd(sys, CWD);
+		var = get_env_value("PWD", shell->env);
+		if (sys && var && ft_strcmp(sys, var) == 0)
+			ret = 0;
+		ft_strdel(&sys);
+	}
+	return (ret);
 }
 
 void change_dir(char *path, t_sh *shell, int p)
@@ -87,7 +102,7 @@ void change_dir(char *path, t_sh *shell, int p)
 		path = create_chdir_path(path, shell);
 		if (lstat(path, st) == 0)
 		{
-			if (S_ISLNK(st->st_mode) && p == 0)
+			if (p == 0 && (S_ISLNK(st->st_mode)))
 			{
 				if (ft_strlen(path) > 2)
 					ft_remove_endchar(path, '/');
@@ -99,7 +114,7 @@ void change_dir(char *path, t_sh *shell, int p)
 				cd_physical(path, shell);
 		}
 		else
-			display_not_such("cd", path); // TODO manage access rights
+			display_not_such("cd", path);
 		free(st);
 		ft_strdel(&path);
 	}
@@ -127,27 +142,15 @@ void builtin_cd(char **command, t_sh *shell)
 	if (is_legal_options(command, shell) == 0)
 		return;
 	if (is_goto_home(command))
-	{
 		go_to_home_directory(shell);
-	}
 	else if (is_logical_goto_oldpwd(command))
-	{
 		go_to_old_pwd(shell, 0);
-	}
 	else if (is_physical_goto_oldpwd(command))
-	{
 		go_to_old_pwd(shell, 1);
-	}
 	else if (ft_strcmp(command[1], "-P") == 0)
-	{
 		change_dir(command[2], shell, 1);
-	}
 	else if (ft_strcmp(command[1], "-L") == 0)
-	{
 		change_dir(command[2], shell, 0);
-	}
 	else
-	{
 		change_dir(command[1], shell, 0);
-	}
 }

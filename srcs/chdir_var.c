@@ -2,7 +2,6 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-
 char *concat_chdir(char *path, t_sh *shell)
 {
 	char *dirs;

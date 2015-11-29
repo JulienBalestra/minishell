@@ -31,10 +31,12 @@ class TestMinishell(unittest.TestCase):
 				cls.valgrind_binary = True
 		except OSError:
 			os.write(2, "VALGRIND NOT AVAILABLE")
+		os.chmod("%s/norights" % cls.testing_dir, 000)
 
 	@classmethod
 	def tearDownClass(cls):
 		cls.dev_null.close()
+		os.chmod("%s/norights" % cls.testing_dir, 0755)
 
 	def execute_my_shell(self, command):
 		"""
@@ -379,12 +381,14 @@ class TestMinishell(unittest.TestCase):
 		self.valgrind(command)
 
 	def test_51_cd_slashs(self):
-		command = ["cd", "%s" % self.testing_dir.replace("/", "//"), ";", "cd", "///bin/", ";", "cd", "-"]
+		command = ["cd", "%s" % self.testing_dir.replace("/", "//"), ";",
+				   "cd", "///bin/", ";", "cd", "-"]
 		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
 		self.valgrind(command)
 
 	def test_52_cd_slashs(self):
-		command = ["cd", "%s" % self.testing_dir.replace("/", "//////"), ";", "cd", "///bin/", ";", "cd", "-"]
+		command = ["cd", "%s" % self.testing_dir.replace("/", "//////"), ";",
+				   "cd", "///bin/", ";", "cd", "-"]
 		self.assertEqual("%s\n" % self.testing_dir[:-1], self.execute_my_shell(command)[0])
 		self.valgrind(command)
 
@@ -585,14 +589,19 @@ class TestMinishell(unittest.TestCase):
 		command = ["setenv", "CHDIR", "%s" % self.testing_dir, ";",
 				   "echo", "$CHDIR", ";", "cd", "/tmp", ";", "cd", "dotdot", ";", "ls"]
 		my = self.execute_my_shell(command)
-		self.assertEqual(("%s\ndotdot\nfile00\nfile01\n" % self.testing_dir, ""), my)
+		self.assertEqual(("%s\ndotdot\nfile00\nfile01\nnorights\n" % self.testing_dir, ""), my)
 		self.valgrind(command)
 
 	def test_133_cd_chdir(self):
 		command = ["setenv", "CHDIR", "/:%s" % self.testing_dir, ";",
 				   "echo", "$CHDIR", ";", "cd", "/tmp", ";", "cd", "dotdot", ";", "ls"]
 		my = self.execute_my_shell(command)
-		self.assertEqual(("/:%s\ndotdot\nfile00\nfile01\n" % self.testing_dir, ""), my)
+		self.assertEqual(("/:%s\ndotdot\nfile00\nfile01\nnorights\n" % self.testing_dir, ""), my)
+		self.valgrind(command)
+
+	def test_134_cd_permission(self):
+		command = ["cd", "%snorights" % self.testing_dir]
+		self.compare_shells(command)
 		self.valgrind(command)
 
 	def test_60_env_only(self):
@@ -718,7 +727,7 @@ class TestMinishell(unittest.TestCase):
 	def test_81_run_env(self):
 		command = ["env", "-i", "PATH=/bin", "ls"]
 		self.compare_shells(command)
-		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\nnorights\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_82_run_env(self):
@@ -759,13 +768,13 @@ class TestMinishell(unittest.TestCase):
 	def test_89_ignore_env_no_dup(self):
 		command = ["env", "-i", "NEW=", "NEW=OK", "NEW=", "NEW=OK", "PATH=/bin", "ls"]
 		self.compare_shells(command)
-		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\nnorights\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_90_env(self):
 		command = ["env", "ls"]
 		self.compare_shells(command)
-		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\nnorights\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_91_env(self):
@@ -782,7 +791,7 @@ class TestMinishell(unittest.TestCase):
 
 	def test_93_env(self):
 		command = ["env", "PATH=", "PATH=/bin", "ls"]
-		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\nnorights\n', ''), self.execute_my_shell(command))
 		self.compare_shells(command)
 		self.valgrind(command)
 
@@ -798,12 +807,12 @@ class TestMinishell(unittest.TestCase):
 
 	def test_96_unsetenv(self):
 		command = ["env", "-u", "PATH", "-u", "LC_ALL", "/bin/ls"]
-		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\nnorights\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_97_unsetenv(self):
 		command = ["env", "-u", "PATH", "-u", "LC_ALL", "PATH=/bin", "/bin/ls"]
-		self.assertEqual(('dotdot\nfile00\nfile01\n', ''), self.execute_my_shell(command))
+		self.assertEqual(('dotdot\nfile00\nfile01\nnorights\n', ''), self.execute_my_shell(command))
 		self.valgrind(command)
 
 	def test_98_unsetenv_display(self):
