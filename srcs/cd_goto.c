@@ -16,7 +16,7 @@ void go_to_home_directory(t_sh *shell)
 	}
 }
 
-void go_to_old_pwd(t_sh *shell)
+void go_to_old_pwd(t_sh *shell, int p)
 {
 	char *old_pwd;
 
@@ -24,7 +24,7 @@ void go_to_old_pwd(t_sh *shell)
 	{
 		if ((old_pwd = ft_strdup(get_env_value("OLDPWD", shell->env))))
 		{
-			change_dir(old_pwd, shell, 0);
+			change_dir(old_pwd, shell, p);
 			if (shell->l_ret == 0 && ft_strcmp(old_pwd, get_env_value("PWD", shell->env)) == 0)
 			{
 				ft_putendl(old_pwd);

@@ -122,17 +122,23 @@ void builtin_cd(char **command, t_sh *shell)
 {
 	ensure_pwd(shell);
 	transform_tilde(command, shell);
+	if (is_legal_options(command, shell) == 0)
+		return;
 	if (is_goto_home(command))
 	{
 		go_to_home_directory(shell);
 	}
-	else if (ft_strcmp(command[1], "-") == 0)
+	else if (is_logical_goto_oldpwd(command))
 	{
-		go_to_old_pwd(shell);
+		go_to_old_pwd(shell, 0);
+	}
+	else if (is_physical_goto_oldpwd(command))
+	{
+		go_to_old_pwd(shell, 1);
 	}
 	else if (ft_strcmp(command[1], "-P") == 0)
 	{
-		change_dir(command[2], shell, 1); // <TODO cd -P -> != <cd ->
+		change_dir(command[2], shell, 1);
 	}
 	else if (ft_strcmp(command[1], "-L") == 0)
 	{

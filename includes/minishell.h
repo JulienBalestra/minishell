@@ -98,7 +98,7 @@ int		is_real_line(char *buf);
 char	***build_command(t_sh *shell);
 char	*get_line(t_sh *shell);
 int		existing_line(t_sh *shell);
-void	go_to_old_pwd(t_sh *shell);
+void	go_to_old_pwd(t_sh *shell, int p);
 void	go_to_home_directory(t_sh *shell);
 void	change_dir(char *path, t_sh *shell, int p);
 int		is_enter(char *buf);
@@ -115,5 +115,14 @@ void	transform_tilde(char **command, t_sh *shell);
 int		is_tilde_transform(char *str, char c);
 
 char	*troncate_dots(char *path);
+
+int		is_logical_goto_oldpwd(char **str);
+int		is_physical_goto_oldpwd(char **str);
+int		is_legal_options(char **str, t_sh *shell);
+void	display_cd_invalid_option(char *opt);
+int		is_physical(char *str);
+int		is_logical(char *str);
+int		is_minus(char *str);
+
 
 #endif

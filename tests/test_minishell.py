@@ -510,6 +510,77 @@ class TestMinishell(unittest.TestCase):
 		self.compare_shells(command)
 		self.valgrind(command)
 
+	def test_120_cd_symb(self):
+		command = ["cd", "-P", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_121_cd_symb(self):
+		command = ["cd", "-L", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_122_cd_symb(self):
+		command = ["cd", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_123_cd_opts(self):
+		command = ["cd", ";", "cd", "%s" % self.testing_dir, ";",
+				   "echo", "$PWD", ";", "cd", "-P", "-", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_124_cd_opts(self):
+		command = ["cd", ";", "cd", "%s" % self.testing_dir, ";",
+				   "echo", "$PWD", ";", "cd", "-L", "-", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_125_cd_opts(self):
+		command = ["cd", ";", "cd", "%s" % self.testing_dir, ";",
+				   "echo", "$PWD", ";", "cd", "-L", "dotdot", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_126_cd_opts(self):
+		command = ["cd", ";", "cd", "%s" % self.testing_dir, ";",
+				   "echo", "$PWD", ";", "cd", "-P", "dotdot", ";", "echo", "$PWD"]
+		self.compare_shells(command)
+		self.valgrind(command)
+
+	def test_127_cd_opts(self):
+		command = ["cd", "-Q", ";", "echo", "$?"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(('2\n', 'cd: -Q: invalid option\ncd: usage: cd [-L OR -P] [dir]\n'), my)
+		self.valgrind(command)
+
+	def test_128_cd_opts(self):
+		command = ["cd", "-P", "-L", ";", "echo", "$?"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(('1\n', 'cd: usage: cd [-L OR -P] [dir]\n'), my)
+		self.valgrind(command)
+
+	def test_129_cd_opts(self):
+		command = ["cd", "-L", "-P", ";", "echo", "$?"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(('1\n', 'cd: usage: cd [-L OR -P] [dir]\n'), my)
+		self.valgrind(command)
+
+	def test_130_cd_opts(self):
+		command = ["cd", "-L", "%s" % self.testing_dir, ";", "echo", "$?", ";",
+				   "cd", "-L", "%s/dotdot" % self.testing_dir, ";", "cd", "-L", "-", ";"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(("0\n%s\n" % self.testing_dir[:-1], ""), my)
+		self.valgrind(command)
+
+	def test_131_cd_opts(self):
+		command = ["cd", "-P", "%s" % self.testing_dir, ";", "echo", "$?", ";",
+				   "cd", "-P", "%s/dotdot" % self.testing_dir, ";", "cd", "-P", "-", ";"]
+		my = self.execute_my_shell(command)
+		self.assertEqual(("0\n%s\n" % self.testing_dir[:-1], ""), my)
+		self.valgrind(command)
+
 	def test_60_env_only(self):
 		command = ["env"]
 		self.valgrind(command)
