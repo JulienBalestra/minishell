@@ -6,53 +6,6 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-void cd_symblink(char *path, t_sh *shell)
-{
-	int ret;
-	char *wd;
-	char *old_pwd;
-	char *full;
-
-	old_pwd = get_env_value("PWD", shell->env);
-	full = NULL;
-	// TODO if parent is LINK and command .. : troncate
-	if (ft_strstr(path, "..") || ft_strstr(path, "./"))
-	{
-		full = triple_join(old_pwd, "/", path);
-		full = troncate_dots(full);
-	}
-	if (path[0] == '/' && ! full)
-	{
-		if ((ret = chdir(path)) == 0)
-		{
-			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->l_ret = ret;
-			ft_setenv("PWD", path, shell);
-		}
-	}
-	else if (full)
-	{
-		if ((ret = chdir(path)) == 0)
-		{
-			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->l_ret = ret;
-			ft_setenv("PWD", full, shell);
-		}
-		free(full);
-	}
-	else
-	{
-		if ((ret = chdir(path)) == 0)
-		{
-			ft_setenv("OLDPWD", old_pwd, shell);
-			shell->l_ret = ret;
-			wd = triple_join(old_pwd, "/", path);
-			ft_setenv("PWD", wd, shell);
-			free(wd);
-		}
-	}
-}
-
 void cd_physical(char *path, t_sh *shell)
 {
 	int ret;

@@ -64,7 +64,8 @@ cd_opt.c \
 misc_prompt2.c \
 cd_is_valid.c \
 misc_cd2.c \
-chdir_var.c
+chdir_var.c \
+cd_symbolic.c
 
 
 MAIN = srcs/main.c

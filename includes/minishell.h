@@ -131,4 +131,6 @@ char	*create_cwd(t_sh *shell);
 char	*create_chdir_path(char *path, t_sh *shell);
 void	display_cd_permission(char *path);
 
+void	cd_symblink(char *path, t_sh *shell);
+
 #endif
