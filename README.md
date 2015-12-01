@@ -25,6 +25,7 @@ Recode of a /bin/bash like
 * $$
 * $VAR
 * ${VAR}
+* cd
 
 # How to test
 
