@@ -17,6 +17,10 @@ Recode of a /bin/bash like
 # Which features are done
 
 * env binary as builtin based on Linux kernel (differ from Darwin: check the testing steps)
+    * -i
+    * -0
+    * -u
+    * VAR=VALUE
 * setenv from csh builtin
 * unsetenv from csh builtin
 * exit
@@ -26,6 +30,10 @@ Recode of a /bin/bash like
 * $VAR
 * ${VAR}
 * cd
+    * CHDIR
+    * -L
+    * -P
+    * resolve PWD under Symbolic links
 
 # How to test
 
