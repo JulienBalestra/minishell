@@ -1,32 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_link.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:43:33 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:43:34 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 #include <stdlib.h>
 
-t_env *get_start(t_env *env)
+t_env	*get_start(t_env *env)
 {
 	while (env)
 	{
 		if (env->prev)
 			env = env->prev;
 		else
-			break;
+			break ;
 	}
 	return (env);
 }
 
-t_env *get_end(t_env *env)
+t_env	*get_end(t_env *env)
 {
 	while (env)
 	{
 		if (env->next)
 			env = env->next;
 		else
-			break;
+			break ;
 	}
 	return (env);
 }
 
-t_env *get_env_by_value(char *name, t_env *env)
+t_env	*get_env_by_value(char *name, t_env *env)
 {
 	env = get_start(env);
 	while (env)
@@ -40,14 +52,14 @@ t_env *get_env_by_value(char *name, t_env *env)
 	return (NULL);
 }
 
-t_env *upsert_link(t_env *env, char *environ_entry)
+t_env	*upsert_link(t_env *env, char *environ_entry)
 {
-	t_env *link;
-	int len_until;
-	char *name;
+	t_env	*link;
+	int		len_until;
+	char	*name;
 
 	len_until = len_to_char(environ_entry, '=');
-	name = ft_strndup(environ_entry, (size_t) len_until);
+	name = ft_strndup(environ_entry, (size_t)len_until);
 	if ((link = get_env_by_value(name, env)))
 	{
 		if (link->value)

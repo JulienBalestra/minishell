@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   merge_environ.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:43:55 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:43:58 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
-t_env *upsert_from_tab(t_env *uenv, char **tab)
+t_env	*upsert_from_tab(t_env *uenv, char **tab)
 {
 	while (*tab)
 	{
@@ -12,14 +24,13 @@ t_env *upsert_from_tab(t_env *uenv, char **tab)
 	return (uenv);
 }
 
-t_env *cut_list(t_env *env)
+t_env	*cut_list(t_env *env)
 {
-	t_env *previous;
-	t_env *next_one;
+	t_env	*previous;
+	t_env	*next_one;
 
 	previous = NULL;
 	next_one = NULL;
-
 	if (env->prev)
 	{
 		previous = env->prev;
@@ -42,7 +53,7 @@ t_env *cut_list(t_env *env)
 	return (previous ? previous : next_one);
 }
 
-t_env *find_and_cut(t_env *env, char *name)
+t_env	*find_and_cut(t_env *env, char *name)
 {
 	while (env)
 	{
@@ -53,14 +64,14 @@ t_env *find_and_cut(t_env *env, char *name)
 		if (env->next)
 			env = env->next;
 		else
-			break;
+			break ;
 	}
 	return (get_start(env));
 }
 
-t_env *unset_elem(t_env *env, char **unset)
+t_env	*unset_elem(t_env *env, char **unset)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (unset[i])
@@ -76,10 +87,10 @@ t_env *unset_elem(t_env *env, char **unset)
 	return (env);
 }
 
-char **merge_both_environ(char **first, char **unset, char **second)
+char	**merge_both_environ(char **first, char **unset, char **second)
 {
-	char **merge;
-	t_env *menv;
+	char	**merge;
+	t_env	*menv;
 
 	menv = NULL;
 	menv = upsert_from_tab(menv, first);
