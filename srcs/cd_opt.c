@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_opt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:41:30 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:41:31 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
-int operate_legal_opts(char **str)
+int		operate_legal_opts(char **str)
 {
-	size_t i;
-	int o;
+	size_t	i;
+	int		o;
 
 	i = 1;
 	o = 0;
 	while (str[i])
 	{
-		if (str[i][0] == '-' && ! is_minus(str[i]))
+		if (str[i][0] == '-' && !is_minus(str[i]))
 		{
 			if ((is_physical(str[i]) || is_logical(str[i])) && o == 0)
 				o++;
@@ -29,9 +41,9 @@ int operate_legal_opts(char **str)
 	return (1);
 }
 
-int is_legal_options(char **str, t_sh *shell)
+int		is_legal_options(char **str, t_sh *shell)
 {
-	int ret;
+	int		ret;
 
 	ret = operate_legal_opts(str);
 	if (ret == 0)
@@ -48,9 +60,9 @@ int is_legal_options(char **str, t_sh *shell)
 	return (1);
 }
 
-int is_logical_goto_oldpwd(char **str)
+int		is_logical_goto_oldpwd(char **str)
 {
-	size_t len;
+	size_t	len;
 
 	len = ft_str2len(str);
 	if (len == 1)
@@ -64,9 +76,9 @@ int is_logical_goto_oldpwd(char **str)
 	return (0);
 }
 
-int is_physical_goto_oldpwd(char **str)
+int		is_physical_goto_oldpwd(char **str)
 {
-	size_t len;
+	size_t	len;
 
 	len = ft_str2len(str);
 	if (len == 1)

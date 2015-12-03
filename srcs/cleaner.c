@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleaner.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:42:02 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:42:03 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "minishell.h"
 #include "libft.h"
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-void remove_link(t_env *link)
+void	remove_link(t_env *link)
 {
 	if (link)
 	{
@@ -16,7 +28,7 @@ void remove_link(t_env *link)
 	}
 }
 
-void delete_list(t_env **env)
+void	delete_list(t_env **env)
 {
 	t_env *current;
 
@@ -28,7 +40,7 @@ void delete_list(t_env **env)
 	}
 }
 
-void ft_str3del(char ***str)
+void	ft_str3del(char ***str)
 {
 	int i;
 
@@ -41,7 +53,7 @@ void ft_str3del(char ***str)
 	free(str);
 }
 
-void clean_program(t_sh *shell)
+void	clean_program(t_sh *shell)
 {
 	delete_list(&(shell->env));
 	ft_str2del(shell->l_env);
