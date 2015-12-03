@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   misc_string.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:45:19 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:45:20 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "libft.h"
 #include "../libft/includes/libft.h"
 
-int is_tilde_transform(char *str, char c)
+int		is_tilde_transform(char *str, char c)
 {
-	int i;
-	int n;
+	int	i;
+	int	n;
 
 	i = 0;
 	n = 0;
@@ -20,15 +32,14 @@ int is_tilde_transform(char *str, char c)
 	return (n == 1 ? 1 : 0);
 }
 
-char *triple_join(char *s1, char *s2, char *s3)
+char	*triple_join(char *s1, char *s2, char *s3)
 {
-	char *final;
-	size_t total_len;
-	int i;
+	char	*final;
+	int		i;
 
-	total_len = ft_nstrlen(s1) + ft_nstrlen(s2) + ft_nstrlen(s3) + 1;
 	i = 0;
-	if ((final = (char *) malloc(sizeof(char) * total_len)))
+	if ((final = (char *)malloc(sizeof(char) * ft_nstrlen(s1) +
+										ft_nstrlen(s2) + ft_nstrlen(s3) + 1)))
 	{
 		while (*s1)
 		{
@@ -50,19 +61,20 @@ char *triple_join(char *s1, char *s2, char *s3)
 	return (final);
 }
 
-void convert_chars(char *str)
+void	convert_chars(char *str)
 {
 	while (*str)
 	{
-		if (*str == '\t' || *str == '\b' || *str == '\n' || *str == '\r' || *str == '\f')
+		if (*str == '\t' || *str == '\b' || *str == '\n' ||
+				*str == '\r' || *str == '\f')
 			*str = ' ';
 		str++;
 	}
 }
 
-static int	ft_converter(const char *nptr, int sign)
+int		ft_converter(const char *nptr, int sign)
 {
-	int		result;
+	int	result;
 
 	result = 0;
 	while (*nptr != '\0' && *nptr > 47 && *nptr < 58)
@@ -77,13 +89,13 @@ static int	ft_converter(const char *nptr, int sign)
 	return (result);
 }
 
-int			cust_atoi(const char *nptr)
+int		cust_atoi(const char *nptr)
 {
-	int		sign;
+	int	sign;
 
 	sign = 0;
 	while (*nptr != '\0' && sign == 0 &&
-		   (*nptr == ' ' || *nptr == '\t' || *nptr == '\n' || *nptr == '\r'
+		(*nptr == ' ' || *nptr == '\t' || *nptr == '\n' || *nptr == '\r'
 			|| *nptr == '\f' || *nptr == '\v'
 			|| *nptr == '+' || *nptr == '-'))
 	{

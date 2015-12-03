@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_env.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:45:32 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:45:33 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int have_null(char **command)
+int		have_null(char **command)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (command[i])
@@ -12,16 +24,17 @@ int have_null(char **command)
 			return (1);
 		else if (is_setenv(command[i]))
 			return (0);
-		else if (ft_strcmp("-u", command[i - 1]) != 0 && is_null_arg(command[i]))
+		else if (ft_strcmp("-u", command[i - 1]) != 0 &&
+				is_null_arg(command[i]))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int have_ignore(char **command)
+int		have_ignore(char **command)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (command[i])
@@ -30,16 +43,17 @@ int have_ignore(char **command)
 			return (1);
 		else if (is_setenv(command[i]))
 			return (0);
-		else if (ft_strcmp("-u", command[i - 1]) != 0 && is_ignore_arg(command[i]))
+		else if (ft_strcmp("-u", command[i - 1]) != 0 &&
+				is_ignore_arg(command[i]))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int have_setenv(char **command)
+int		have_setenv(char **command)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (command[i])
@@ -53,7 +67,7 @@ int have_setenv(char **command)
 	return (0);
 }
 
-int have_unsets(char **command)
+int		have_unsets(char **command)
 {
 	int i;
 	int u;
@@ -74,15 +88,15 @@ int have_unsets(char **command)
 		else if (is_ignore_arg(command[i]) || is_null_arg(command[i]))
 			i++;
 		else
-			break;
+			break ;
 	}
 	return (u);
 }
 
-int have_command(char **command)
+int		have_command(char **command)
 {
-	int i;
-	int set;
+	int	i;
+	int	set;
 
 	i = 1;
 	set = 0;
@@ -92,7 +106,8 @@ int have_command(char **command)
 		{
 			i = i + 2;
 		}
-		else if (set == 0 && (is_ignore_arg(command[i]) || is_null_arg(command[i])))
+		else if (set == 0 && (is_ignore_arg(command[i]) ||
+				is_null_arg(command[i])))
 			i++;
 		else if (is_setenv(command[i]))
 		{
