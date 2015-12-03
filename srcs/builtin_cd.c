@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:33:28 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:33:32 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -6,13 +18,13 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-void cd_physical(char *path, t_sh *shell)
+void		cd_physical(char *path, t_sh *shell)
 {
-	int ret;
-	char *buf_wd;
-	char *old_pwd;
+	int		ret;
+	char	*buf_wd;
+	char	*old_pwd;
 
-	if ((buf_wd = (char *) malloc(sizeof(char) * CWD)))
+	if ((buf_wd = (char *)malloc(sizeof(char) * CWD)))
 	{
 		old_pwd = get_env_value("PWD", shell->env);
 		if ((ret = chdir(path)) == 0)
@@ -27,11 +39,11 @@ void cd_physical(char *path, t_sh *shell)
 	}
 }
 
-int is_diff_cwd(t_sh *shell)
+int			is_diff_cwd(t_sh *shell)
 {
-	char *sys;
-	char *var;
-	int ret;
+	char	*sys;
+	char	*var;
+	int		ret;
 
 	ret = 1;
 	if ((sys = malloc(sizeof(char) * CWD)))
@@ -45,12 +57,12 @@ int is_diff_cwd(t_sh *shell)
 	return (ret);
 }
 
-void change_dir(char *path, t_sh *shell, int p)
+void		change_dir(char *path, t_sh *shell, int p)
 {
-	struct stat *st;
-	char *ready;
+	struct stat	*st;
+	char		*ready;
 
-	if (path && (st = (struct stat *) malloc(sizeof(struct stat))))
+	if (path && (st = (struct stat *)malloc(sizeof(struct stat))))
 	{
 		path = create_chdir_path(path, shell);
 		if (lstat(path, st) == 0)
@@ -73,27 +85,27 @@ void change_dir(char *path, t_sh *shell, int p)
 	}
 }
 
-void ensure_pwd(t_sh *shell)
+void		ensure_pwd(t_sh *shell)
 {
-	char *buf_wd;
+	char	*buf_wd;
 
 	if (get_env_value("PWD", shell->env))
 	{
-		return;
+		return ;
 	}
-	if ((buf_wd = (char *) malloc(sizeof(char) * CWD)))
+	if ((buf_wd = (char *)malloc(sizeof(char) * CWD)))
 	{
 		ft_setenv("PWD", getcwd(buf_wd, CWD), shell);
 		free(buf_wd);
 	}
 }
 
-void builtin_cd(char **command, t_sh *shell)
+void		builtin_cd(char **command, t_sh *shell)
 {
 	ensure_pwd(shell);
 	transform_tilde(command, shell);
 	if (is_legal_options(command, shell) == 0)
-		return;
+		return ;
 	if (is_goto_home(command))
 		go_to_home_directory(shell);
 	else if (is_logical_goto_oldpwd(command))
