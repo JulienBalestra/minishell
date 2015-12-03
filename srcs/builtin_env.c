@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:35:58 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:35:59 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "../includes/minishell.h"
 
-t_be *build_builtin_env(char **command)
+t_be		*build_builtin_env(char **command)
 {
-	t_be *benv;
+	t_be	*benv;
 
-	if ((benv = (t_be *) malloc(sizeof(t_be))))
+	if ((benv = (t_be *)malloc(sizeof(t_be))))
 	{
 		benv->ignore = have_ignore(command);
 		benv->unet = have_unsets(command);
@@ -16,9 +28,9 @@ t_be *build_builtin_env(char **command)
 	return (benv);
 }
 
-void builtin_env(char **command, t_sh *shell)
+void		builtin_env(char **command, t_sh *shell)
 {
-	t_be *benv;
+	t_be	*benv;
 
 	if (is_only_env(command))
 		display_environ(shell->l_env, 1);
@@ -34,7 +46,6 @@ void builtin_env(char **command, t_sh *shell)
 			run_under_alter_environ(command, shell);
 		else if (benv->cmd == 0)
 			alter_environ_and_display(command, shell, benv->null ? 0 : 1);
-
 		free(benv);
 	}
 }
