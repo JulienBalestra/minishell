@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_builtins.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:43:03 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:43:04 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int part_one(char **command, t_sh *shell)
+int		part_one(char **command, t_sh *shell)
 {
 	if (ft_strcmp(command[0], "env") == 0)
 	{
@@ -28,7 +40,7 @@ int part_one(char **command, t_sh *shell)
 	return (0);
 }
 
-int part_two(char **command, t_sh *shell)
+int		part_two(char **command, t_sh *shell)
 {
 	if (ft_strcmp(command[0], "getenv") == 0)
 	{
@@ -43,7 +55,7 @@ int part_two(char **command, t_sh *shell)
 	return (0);
 }
 
-int manage_builtins(char **command, t_sh *shell)
+int		manage_builtins(char **command, t_sh *shell)
 {
 	if (part_one(command, shell))
 		return (1);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_fork.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:43:13 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:43:14 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
@@ -6,14 +18,13 @@
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int is_exec(const char *command)
+int		is_exec(const char *command)
 {
-	struct stat *st;
-
+	struct stat	*st;
 
 	if (access(command, X_OK) == 0)
 	{
-		if (command && (st = (struct stat *) malloc(sizeof(struct stat))))
+		if (command && (st = (struct stat *)malloc(sizeof(struct stat))))
 		{
 			if (stat(command, st) == 0)
 			{
@@ -32,16 +43,16 @@ int is_exec(const char *command)
 	return (0);
 }
 
-int do_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
+int		do_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
 {
-	int status;
-	char **ptr;
-	int pid;
+	int		status;
+	char	**ptr;
+	int		pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		ptr = (char **) str;
+		ptr = (char **)str;
 		if (mock == 0)
 			mock_environ = shell->l_env;
 		execve(str[0], ptr, mock_environ);
@@ -58,7 +69,7 @@ int do_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
 	return (-1);
 }
 
-int do_fork(const char **str, t_sh *shell, char **mock_environ, int mock)
+int		do_fork(const char **str, t_sh *shell, char **mock_environ, int mock)
 {
 	if (is_exec(str[0]) == 0)
 		return (0);

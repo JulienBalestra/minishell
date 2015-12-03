@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_errors.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:42:28 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:42:29 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-int is_benv_errors(t_be *benv)
+int		is_benv_errors(t_be *benv)
 {
 	if (benv->unet == -1)
 	{
@@ -16,7 +28,7 @@ int is_benv_errors(t_be *benv)
 	return (0);
 }
 
-int is_benv_do_nothing(t_be *benv)
+int		is_benv_do_nothing(t_be *benv)
 {
 	if (benv->ignore == 1 && benv->cmd == 0 && benv->set == 0)
 		return (1);

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:42:10 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:42:11 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
-void display_environ(char **to_display, int end_line)
+void	display_environ(char **to_display, int end_line)
 {
 	if (!to_display)
-		return;
+		return ;
 	while (*to_display)
 	{
 		ft_putstr(*to_display);
@@ -14,10 +26,10 @@ void display_environ(char **to_display, int end_line)
 	}
 }
 
-void display_only_setenv(char **command, int end_line)
+void	display_only_setenv(char **command, int end_line)
 {
-	char **mock;
-	int i;
+	char	**mock;
+	int		i;
 
 	mock = get_mock_environ(command);
 	i = 0;

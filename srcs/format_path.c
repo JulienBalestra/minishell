@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format_path.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:42:36 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:42:37 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "../libft/includes/libft.h"
 #include "../includes/minishell.h"
 
-char **defrag(char **s, size_t len)
+char	**defrag(char **s, size_t len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
 	{
 		if (ft_strcmp("..", s[i]) == 0 && i > 0)
 		{
-			ft_strdel(&s[i -1]);
+			ft_strdel(&s[i - 1]);
 			ft_str2defrag(s, len);
-			ft_strdel(&s[i -1]);
+			ft_strdel(&s[i - 1]);
 			ft_str2defrag(s, len);
 			i = 0;
 		}
@@ -30,11 +42,11 @@ char **defrag(char **s, size_t len)
 	return (s);
 }
 
-char *join_slash(char **s)
+char	*join_slash(char **s)
 {
-	int i;
-	char *tmp;
-	char *str;
+	int		i;
+	char	*tmp;
+	char	*str;
 
 	str = ft_strjoin("/", s[0]);
 	i = 1;
@@ -49,10 +61,10 @@ char *join_slash(char **s)
 	return (str);
 }
 
-char *troncate_dots(char *path)
+char	*troncate_dots(char *path)
 {
-	char **s;
-	char *str;
+	char	**s;
+	char	*str;
 
 	if (path[0] == '/')
 	{
