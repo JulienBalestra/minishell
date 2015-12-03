@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unsetenv.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:41:07 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:41:08 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "minishell.h"
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-void destroy_env_link(t_env *env)
+void	destroy_env_link(t_env *env)
 {
 	if (env)
 	{
@@ -14,9 +26,9 @@ void destroy_env_link(t_env *env)
 	}
 }
 
-void remove_env_link(t_sh *shell, t_env *env)
+void	remove_env_link(t_sh *shell, t_env *env)
 {
-	t_env *previous;
+	t_env	*previous;
 
 	if (env)
 	{
@@ -40,9 +52,9 @@ void remove_env_link(t_sh *shell, t_env *env)
 	}
 }
 
-void find_and_destroy(char *name, t_sh *shell)
+void	find_and_destroy(char *name, t_sh *shell)
 {
-	t_env *browse;
+	t_env	*browse;
 
 	browse = shell->env;
 	while (browse)
@@ -51,16 +63,16 @@ void find_and_destroy(char *name, t_sh *shell)
 		{
 			remove_env_link(shell, browse);
 			shell->l_env = override_last_environ(shell);
-			return;
+			return ;
 		}
 		browse = browse->next;
 	}
 }
 
-void builtin_unsetenv(char **command, t_sh *shell)
+void	builtin_unsetenv(char **command, t_sh *shell)
 {
 	if (ft_str2len(command) == 1)
-		return;
+		return ;
 	command++;
 	while (*command)
 	{
