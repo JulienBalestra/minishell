@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_getenv.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jubalest <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 15:38:23 by jubalest          #+#    #+#             */
+/*   Updated: 2015/12/03 15:38:24 by jubalest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
 
-char *get_env_value(char *name, t_env *env)
+char		*get_env_value(char *name, t_env *env)
 {
 	while (env)
 	{
@@ -16,9 +28,9 @@ char *get_env_value(char *name, t_env *env)
 	return (NULL);
 }
 
-void builtin_getenv(char **command, t_sh *shell)
+void		builtin_getenv(char **command, t_sh *shell)
 {
-	char *value;
+	char	*value;
 
 	if (ft_str2len(command) < 2)
 		return ;
