@@ -15,7 +15,7 @@
 # define READ      128
 # define CWD       2048
 # define PROMPT "minishell> "
-# define USE_CWD	0
+# define USE_CWD	1
 # include <string.h>
 
 typedef struct		s_env

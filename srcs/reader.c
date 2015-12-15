@@ -31,7 +31,8 @@ char	*compile(char *left, char *buf)
 
 void	again(char *buf, t_sh *shell)
 {
-	display_prompt(shell);
+	if (isatty(0))
+		display_prompt(shell);
 	ft_strclr(buf);
 }
 
@@ -66,7 +67,8 @@ char	*get_line(t_sh *shell)
 	char	*left;
 	ssize_t	ret;
 
-	display_prompt(shell);
+	if (isatty(0))
+		display_prompt(shell);
 	buf = ft_strnew(READ);
 	left = NULL;
 	signal(SIGINT, signal_callback_handler);

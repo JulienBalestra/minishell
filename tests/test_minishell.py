@@ -9,7 +9,6 @@ class TestMinishell(unittest.TestCase):
 	minishell = "%s/minishell" % context
 	testing_dir = "%s/tests/test_resources/" % context
 	dotdot = "%sdotdot" % testing_dir
-	minishell_prompt = "minishell> "
 	valgrind_binary = False
 	dev_null = open(os.devnull, 'w')
 	queue = QueueProcess
@@ -51,7 +50,7 @@ class TestMinishell(unittest.TestCase):
 			[self.minishell], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		p_command.stdout.close()
 		stdout, stderr = p_minishell.communicate()
-		return stdout.replace(self.minishell_prompt, ""), stderr
+		return stdout, stderr
 
 	def execute_real_shell(self, command):
 		"""
