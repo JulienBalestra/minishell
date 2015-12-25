@@ -14,6 +14,9 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "../includes/minishell.h"
 #include "../libft/includes/libft.h"
@@ -43,20 +46,53 @@ int		is_exec(const char *command)
 	return (0);
 }
 
+int 	make_pipe(const char **str, t_sh *shell, char **mock_environ, int mock)
+{
+	int		p[2];
+	int		status;
+	pid_t	pid;
+	char	**ptr;
+	char	*cmd[3];
+
+	cmd[0] = "/bin/cat";
+	cmd[1] = "-e";
+	cmd[2] = NULL;
+	pipe(p);
+	pid = fork();
+	if ((int)pid == 0)
+	{
+		dup2(p[1], 1);
+		close(p[0]);
+		ptr = (char **)str;
+		execve(str[0], ptr, mock_environ);
+		return (0);
+	}
+	else if ((int)pid > 0)
+	{
+		dup2(p[0], 0);
+		close(p[1]);
+		waitpid(-1, &status, 0);
+		if (mock == 0)
+			mock_environ = shell->l_env;
+		//fd = open("redir", O_WRONLY | O_TRUNC | O_CREAT,
+		//	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		//close(fd);
+		execve(cmd[0], cmd, mock_environ);
+		return (1);
+	}
+	ft_putstr("error\n");
+	return (-1);
+}
+
 int		do_exec(const char **str, t_sh *shell, char **mock_environ, int mock)
 {
 	int		status;
-	char	**ptr;
-	int		pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		ptr = (char **)str;
-		if (mock == 0)
-			mock_environ = shell->l_env;
-		execve(str[0], ptr, mock_environ);
-		return (1);
+		return (make_pipe(str, shell, mock_environ, mock));
 	}
 	else if (pid > 0)
 	{
