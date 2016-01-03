@@ -66,7 +66,9 @@ cd_is_valid.c \
 misc_cd2.c \
 chdir_var.c \
 cd_symbolic.c \
-21ast.c
+\
+21ast.c \
+21ast_clean.c
 
 
 MAIN = srcs/main.c

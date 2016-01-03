@@ -75,6 +75,7 @@ t_ast *build_ast(char *input)
 		{
 			clean = ft_remove_useless(input, ' ');
 			ast->cmd = ft_lz_strsplit(clean, ' ');
+			free(clean);
 			ast->left = NULL;
 			ast->right = NULL;
 		}
@@ -84,8 +85,9 @@ t_ast *build_ast(char *input)
 			cut = cut_input(input, tuple);
 			ast->left = build_ast(cut[0]);
 			ast->right = build_ast(cut[1]);
-			//ft_str2del(cut);
+			free(cut);
 		}
 	}
+	free(input);
 	return (ast);
 }
