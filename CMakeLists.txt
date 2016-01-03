@@ -84,7 +84,7 @@ set(SOURCE_FILES
         libft/srcs/ft_toupper.c
 
         srcs/input_format.c
-        srcs/main.c
+        srcs/minishell_main.c
         srcs/manage_path.c
         srcs/misc_prompt.c
         srcs/misc_string.c
@@ -114,6 +114,14 @@ set(SOURCE_FILES
         srcs/cd_goto.c
         srcs/misc_cd.c
         srcs/manage_fork.c
-        srcs/format_path.c srcs/cd_opt.c srcs/misc_prompt2.c srcs/cd_is_valid.c srcs/misc_cd2.c srcs/chdir_var.c srcs/cd_symbolic.c)
+        srcs/format_path.c
+        srcs/cd_opt.c
+        srcs/misc_prompt2.c
+        srcs/cd_is_valid.c
+        srcs/misc_cd2.c
+        srcs/chdir_var.c
+        srcs/cd_symbolic.c
+        srcs/21ast.c
+        includes/21ast.h)
 
 add_executable(sh1 ${SOURCE_FILES})
