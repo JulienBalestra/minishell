@@ -67,8 +67,9 @@ misc_cd2.c \
 chdir_var.c \
 cd_symbolic.c \
 \
-21ast.c \
-21ast_clean.c
+21ast_build.c \
+21ast_clean.c \
+21ast_read.c
 
 
 MAIN = srcs/main.c

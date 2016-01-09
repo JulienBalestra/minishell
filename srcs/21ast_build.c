@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include "21ast.h"
 #include "../libft/includes/libft.h"
 #include "../includes/21ast.h"
+
 
 int is_operand(char *s, int i)
 {
@@ -49,7 +49,7 @@ char **cut_input(char *input, int *tuple)
 
 	if ((cut = (char **)malloc(sizeof(char *) * 3)))
 	{
-		ft_putendl(input);
+		//ft_putendl(input);
 		if (tuple[0] == 2 || tuple[0] == 4)
 			cut[0] = ft_strndup(input, (size_t)tuple[1]-1);
 		else
