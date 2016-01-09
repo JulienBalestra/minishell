@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "../libft/includes/libft.h"
 #include "../includes/21ast.h"
 

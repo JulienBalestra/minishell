@@ -69,7 +69,8 @@ cd_symbolic.c \
 \
 21ast_build.c \
 21ast_clean.c \
-21ast_read.c
+21ast_read.c \
+21ast_exec.c
 
 
 MAIN = srcs/main.c
