@@ -121,8 +121,9 @@ set(SOURCE_FILES
         srcs/misc_cd2.c
         srcs/chdir_var.c
         srcs/cd_symbolic.c
-        srcs/21ast.c
+        srcs/21ast_build.c
         srcs/21ast_clean.c
+        srcs/21ast_read.c
         includes/21ast.h)
 
 add_executable(sh1 ${SOURCE_FILES})
