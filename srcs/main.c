@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "../libft/includes/libft.h"
 #include "../includes/21ast.h"
 #include "minishell.h"
@@ -36,6 +37,19 @@ int main(void)
 	}
 	clean_ast(ast);
 
-	ft_putstr("ok");
+	char four[] = "/bin/cat -e << hello world";
+	ast = build_ast(ft_strdup(four));
+	ast_read(ast);
+	ft_putstr("\n");
+	if (ast_exec(ast))
+	{
+		//do_something;
+	}
+	clean_ast(ast);
+
+
+	ft_putstr("\none_process: ");
+	ft_putnbr(getpid());
+	ft_putstr("\n");
 	return (0);
 }

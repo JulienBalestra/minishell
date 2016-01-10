@@ -3,7 +3,6 @@
 
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 
 #include <fcntl.h>
 
@@ -36,6 +35,37 @@ void manage_pipe(t_ast *ast)
 	}
 }
 
+
+void manage_double_read(t_ast *ast)
+{
+	int		p[2];
+	pid_t	pid;
+	int		status;
+	char	**cmd;
+
+	pipe(p);
+	pid = fork();
+	if (pid == 0)
+	{
+		cmd = ast->right->cmd;
+		dup2(p[1], ast->stdout);
+		close(p[0]);
+		/*while (*cmd)
+		{
+			ft_putstr_fd(*cmd, ast->stdout);
+			cmd++;
+		}*/
+		execve("/bin/echo", cmd, NULL);
+	}
+	else
+	{
+		dup2(p[0], ast->stdin);
+		close(p[1]);
+		waitpid(-1, &status, 0);
+		do_ast_exec_recurse(ast->left);
+	}
+}
+
 void manage_write(t_ast *ast)
 {
 	int		fd;
@@ -62,13 +92,12 @@ void manage_write(t_ast *ast)
 	}
 }
 
-void manage_read(t_ast *ast)
+void manage_simple_read(t_ast *ast)
 {
 	int		fd;
 	pid_t	pid;
 	int		status;
 
-	//if (ast->op == 5)
 	fd = open(ast->right->cmd[0], O_RDONLY);
 	pid = fork();
 	if (pid == 0)
@@ -91,6 +120,7 @@ void do_ast_exec_recurse(t_ast *ast)
 	{
 		ptr = ast->cmd;
 		execve(ast->cmd[0], ptr, NULL);
+		ft_putstr_fd("error in execve\n", 2);
 	}
 	else if (ast->op == 1)
 	{
@@ -100,9 +130,13 @@ void do_ast_exec_recurse(t_ast *ast)
 	{
 		manage_write(ast);
 	}
+	else if (ast->op == 4)
+	{
+		manage_double_read(ast);
+	}
 	else if (ast->op == 5)
 	{
-		manage_read(ast);
+		manage_simple_read(ast);
 	}
 }
 
@@ -112,7 +146,7 @@ int ast_exec(t_ast *ast)
 	int		status;
 
 	pid = 0;
-	if (ast->op == 1)
+	if (ast->op == 1 || ast->op == 4)
 		pid = fork();
 
 	if (pid == 0)
