@@ -2,6 +2,12 @@
 #include "../libft/includes/libft.h"
 #include "../includes/21ast.h"
 
+int is_std_redirect(char *s, int i)
+{
+	if (s[i] == '>' && (s[i - 1] == '2' && s[i - 2] == ' '))
+		return (2);
+	return (0);
+}
 
 int is_operand(char *s, int i)
 {
@@ -49,7 +55,6 @@ char **cut_input(char *input, int *tuple)
 
 	if ((cut = (char **)malloc(sizeof(char *) * 3)))
 	{
-		//ft_putendl(input);
 		if (tuple[0] == 2 || tuple[0] == 4)
 			cut[0] = ft_strndup(input, (size_t)tuple[1]-1);
 		else
@@ -71,6 +76,8 @@ t_ast *build_ast(char *input)
 	{
 		find_operand(input, tuple);
 		ast->op = tuple[0];
+		ast->stdin = 0;
+		ast->stdout = 1;
 		if (ast->op == -1)
 		{
 			clean = ft_remove_useless(input, ' ');

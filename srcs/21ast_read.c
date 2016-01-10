@@ -12,7 +12,7 @@ void display_op(int op)
 	else if (op == 4)
 		ft_putstr("<<");
 	else if (op == 5)
-		ft_putstr("<<");
+		ft_putstr("<");
 	ft_putstr(" ");
 }
 

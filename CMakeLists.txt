@@ -124,6 +124,7 @@ set(SOURCE_FILES
         srcs/21ast_build.c
         srcs/21ast_clean.c
         srcs/21ast_read.c
+        srcs/21ast_exec.c
         srcs/main.c
         includes/21ast.h)
 

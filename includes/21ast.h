@@ -1,14 +1,12 @@
-//
-// Created by jynlee on 03/01/16.
-//
-
-#ifndef AST_MAIN_H
-#define AST_MAIN_H
+#ifndef AST_H
+#define AST_H
 
 typedef struct	s_ast
 {
-	int 			op; // "|"
-	char 			**cmd; // { "cat", "-e", "NULL"}
+	int 			op;
+	int 			stdin;
+	int 			stdout;
+	char 			**cmd;
 	struct s_ast	*left;
 	struct s_ast	*right;
 
@@ -19,4 +17,4 @@ void clean_ast(t_ast *ast);
 void ast_read(t_ast *ast);
 int ast_exec(t_ast *ast);
 
-#endif // AST_MAIN_H
+#endif // AST_H
