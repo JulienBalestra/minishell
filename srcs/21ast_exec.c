@@ -50,12 +50,12 @@ void manage_double_read(t_ast *ast)
 		cmd = ast->right->cmd;
 		dup2(p[1], ast->stdout);
 		close(p[0]);
-		/*while (*cmd)
+		while (*cmd)
 		{
 			ft_putstr_fd(*cmd, ast->stdout);
 			cmd++;
-		}*/
-		execve("/bin/echo", cmd, NULL);
+		}
+		exit(0);
 	}
 	else
 	{
